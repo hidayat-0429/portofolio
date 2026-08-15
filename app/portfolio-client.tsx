@@ -249,7 +249,7 @@ export default function PortfolioClient() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-5xl sm:text-7xl md:text-7xl font-black tracking-tight mb-6 leading-tight"
           >
-            <span className="bg-gradient-to-r from-white via-zinc-48 to-[#f0c674] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-zinc-50 to-[#f0c674] bg-clip-text text-transparent">
               Mukhammad Nur Hidayat
             </span>
           </motion.h1>
@@ -288,7 +288,7 @@ export default function PortfolioClient() {
           >
             <a
               href="#projects"
-              className="px-8 py-4 bg-[#f0c674] hover:bg-white text-zinc-950 text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2 shadow-xl shadow-[#f0c674]/20"
+              className="px-8 py-4 bg-[#f0c674] hover:bg-white text-zinc-950 text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2"
             >
               Eksplorasi Proyek
             </a>
@@ -489,7 +489,7 @@ export default function PortfolioClient() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-6 right-6 p-3 rounded-full bg-[#f0c674] hover:bg-white text-zinc-950 shadow-lg shadow-[#f0c674]/20 transition-colors z-50"
+            className="fixed bottom-6 right-6 p-3 rounded-full bg-[#f0c674] hover:bg-white text-zinc-950"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
