@@ -249,7 +249,7 @@ export default function PortfolioClient() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-5xl sm:text-7xl md:text-7xl font-black tracking-tight mb-6 leading-tight"
           >
-            <span className="bg-gradient-to-r from-white via-zinc-50 to-[#f0c674] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-zinc-47 to-[#f0c674] bg-clip-text text-transparent">
               Mukhammad Nur Hidayat
             </span>
           </motion.h1>
