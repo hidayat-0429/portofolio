@@ -305,77 +305,78 @@ export default function PortfolioClient() {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#09090b]/40 via-[#09090b]/80 to-[#09090b]" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-  {/* Status Badge */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, ease: "easeOut" }}
-    className="px-4 py-1.5 rounded-full border border-[#f0c674]/30 bg-[#f0c674]/10 backdrop-blur-sm mb-6 flex items-center gap-2"
-  >
-    <span className="relative flex h-2 w-2">
-      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f0c674] opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f0c674]"></span>
-    </span>
-    <p className="text-[10px] sm:text-xs font-semibold tracking-wider text-[#f0c674] uppercase">
-      Available for Internship & Freelance
-    </p>
-  </motion.div>
+          {/* Status Badge Warna Emas */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="px-4 py-1.5 rounded-full border border-[#f0c674]/30 bg-[#f0c674]/10 backdrop-blur-sm mb-8 flex items-center gap-2"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f0c674] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f0c674]"></span>
+            </span>
+            <p className="text-[10px] sm:text-xs font-semibold tracking-wider text-[#f0c674] uppercase">
+              Available for Internship & Freelance
+            </p>
+          </motion.div>
 
-  {/* Peran Utama (Header Kecil Berwarna Emas) */}
-  <motion.p
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-    className="text-xs sm:text-sm font-mono tracking-widest text-[#f0c674] uppercase mb-3"
-  >
-    Full-Stack & Mobile Developer
-  </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 leading-tight"
+          >
+            <span className="bg-gradient-to-r from-white via-zinc-200 to-[#f0c674] bg-clip-text text-transparent">
+              Mukhammad Nur Hidayat
+            </span>
+          </motion.h1>
 
-  {/* Nama Utama (Besar & Elegan) */}
-  <motion.h1
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-    className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 leading-tight"
-  >
-    <span className="bg-gradient-to-r from-white via-zinc-200 to-[#f0c674] bg-clip-text text-transparent">
-      Mukhammad Nur Hidayat
-    </span>
-  </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto mb-10"
+          >
+            Membangun arsitektur digital dan pengalaman pengguna tanpa kompromi. 
+            Karya eksklusif dalam bentuk aplikasi web dan mobile modern.
+          </motion.p>
 
-  {/* About Me Ringkas & Padat */}
-  <motion.p
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-    className="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto mb-10"
-  >
-    Mahasiswa Teknik Informatika yang berfokus membangun arsitektur web responsif dan aplikasi mobile performa tinggi. Berpengalaman menggunakan stack <span className="text-zinc-200 font-medium">Next.js, Laravel, dan Flutter</span>.
-  </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs sm:text-sm text-[#f0c674]/80 font-medium tracking-wide mb-14"
+          >
+            <span>Full-Stack Development</span>
+            <span className="hidden sm:inline">|</span>
+            <span>UI/UX Enthusiast</span>
+            <span className="hidden sm:inline">|</span>
+            <span>Informatics Student</span>
+          </motion.div>
 
-  {/* Tombol Aksi (CTA) */}
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-    className="flex flex-wrap justify-center gap-4"
-  >
-    <a
-      href="#projects"
-      className="px-8 py-4 bg-[#f0c674] hover:bg-white text-zinc-950 text-xs sm:text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2 shadow-lg hover:shadow-[#f0c674]/20"
-    >
-      Lihat Proyek
-    </a>
-    <a
-      href="/CV_Mukhammad_Nur_Hidayat.pdf"
-      download
-      className="px-8 py-4 border border-white/20 hover:border-[#f0c674] text-white hover:text-[#f0c674] bg-black/20 backdrop-blur-md text-xs sm:text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2"
-    >
-      <Download className="w-4 h-4" />
-      Unduh CV
-    </a>
-  </motion.div>
-</div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <a
+              href="#projects"
+              className="px-8 py-4 bg-[#f0c674] hover:bg-white text-zinc-950 text-xs sm:text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2 shadow-lg hover:shadow-[#f0c674]/20"
+            >
+              Eksplorasi Proyek
+            </a>
+            <a
+              href="/CV_Mukhammad_Nur_Hidayat.pdf"
+              download
+              className="px-8 py-4 border border-white/20 hover:border-[#f0c674] text-white hover:text-[#f0c674] bg-black/20 backdrop-blur-md text-xs sm:text-sm font-bold tracking-wide uppercase transition-all rounded-full flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Unduh CV
+            </a>
+          </motion.div>
+        </div>
       </section>
 
       {/* ── Projects Section ── */}
