@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -32,6 +32,10 @@ import {
   SiFirebase,
   SiGit,
   SiAndroidstudio,
+  SiTypescript,
+  SiPostgresql,
+  SiPrisma,
+  SiLivewire,
 } from "react-icons/si";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -70,13 +74,11 @@ const projects: Project[] = [
     title: "Car Rental App",
     subtitle: "Aplikasi Rental Mobil",
     category: "WEB",
-    tech: ["Next.js", "React", "Tailwind CSS"],
+    tech: ["Next.js", "Prisma", "NextAuth", "PostgreSQL"],
     description:
       "Aplikasi web rental mobil dengan sistem pemesanan, pengelolaan kendaraan, dan antarmuka responsif untuk memudahkan pengguna melakukan reservasi.",
     github:
       "https://github.com/hidayat-0429/car-rental",
-    demo:
-      "https://car-rental-demo.vercel.app",
     image: "/project-car-rental.png",
   },
 
@@ -98,12 +100,51 @@ const projects: Project[] = [
     title: "Desa Information Portal",
     subtitle: "Portal Web Desa",
     category: "WEB",
-    tech: ["Laravel", "MySQL", "Tailwind CSS"],
+    tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
       "Portal informasi desa yang mengelola profil, berita, aparatur, UMKM, dan wisata melalui sistem CMS untuk memudahkan pengelolaan konten.",
     github:
       "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
+  },
+
+  {
+    number: "04",
+    title: "Weather App",
+    subtitle: "Aplikasi Cuaca",
+    category: "MOBILE",
+    tech: ["Flutter", "Firebase FCM", "REST API"],
+    description:
+      "Aplikasi cuaca mobile yang menampilkan kondisi cuaca terkini, prakiraan harian, dan informasi lokasi secara real-time dengan tampilan yang bersih dan intuitif.",
+    github:
+      "https://github.com/hidayat-0429/aplikasi_cuaca",
+    image: "/project-weather.png",
+  },
+
+  {
+    number: "05",
+    title: "Finance Notes App",
+    subtitle: "Aplikasi Catatan Keuangan",
+    category: "MOBILE",
+    tech: ["React Native", "Expo", "TypeScript"],
+    description:
+      "Aplikasi mobile catatan keuangan untuk mencatat dan memantau pemasukan serta pengeluaran yang terintegrasi dengan REST API backend.",
+    github:
+      "https://github.com/hidayat-0429/catatan-keuangan",
+    image: "/project-finance-app.png",
+  },
+
+  {
+    number: "06",
+    title: "Finance Notes API",
+    subtitle: "REST API Catatan Keuangan",
+    category: "WEB",
+    tech: ["PHP", "Laravel", "Sanctum", "MySQL"],
+    description:
+      "REST API backend untuk aplikasi catatan keuangan pribadi dengan fitur autentikasi, manajemen transaksi, dan pelaporan yang aman.",
+    github:
+      "https://github.com/hidayat-0429/catatan-keuangan-api",
+    image: "/project-finance-api.png",
   },
 ];
 
@@ -127,6 +168,11 @@ const skillCategories = [
         name: "JavaScript",
         icon: SiJavascript,
         color: "text-yellow-400",
+      },
+      {
+        name: "TypeScript",
+        icon: SiTypescript,
+        color: "text-blue-500",
       },
       {
         name: "PHP",
@@ -164,6 +210,11 @@ const skillCategories = [
         color: "text-red-600",
       },
       {
+        name: "Livewire",
+        icon: SiLivewire,
+        color: "text-pink-400",
+      },
+      {
         name: "Flutter",
         icon: SiFlutter,
         color: "text-blue-400",
@@ -172,6 +223,11 @@ const skillCategories = [
         name: "Tailwind CSS",
         icon: SiTailwindcss,
         color: "text-teal-400",
+      },
+      {
+        name: "Prisma",
+        icon: SiPrisma,
+        color: "text-white",
       },
     ],
   },
@@ -182,6 +238,11 @@ const skillCategories = [
         name: "MySQL",
         icon: SiMysql,
         color: "text-blue-400",
+      },
+      {
+        name: "PostgreSQL",
+        icon: SiPostgresql,
+        color: "text-blue-300",
       },
       {
         name: "Supabase",
@@ -1142,37 +1203,37 @@ export default function PortfolioClient() {
 
                       {/* Content */}
 
-                  <div className="p-6">
+                      <div className="p-6">
 
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <div>
-                        <h3
-                          className="
-                            text-lg
-                            font-bold
-                            text-zinc-100
-                            group-hover:text-blue-300
-                            transition-colors
-                          "
-                        >
-                          {project.title}
-                        </h3>
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <div>
+                            <h3
+                              className="
+                                text-lg
+                                font-bold
+                                text-zinc-100
+                                group-hover:text-blue-300
+                                transition-colors
+                              "
+                            >
+                              {project.title}
+                            </h3>
 
-                        <p className="text-xs text-zinc-600 mt-1">
-                          {project.subtitle}
+                            <p className="text-xs text-zinc-600 mt-1">
+                              {project.subtitle}
+                            </p>
+                          </div>
+
+                          <span className="text-[10px] font-mono text-zinc-700">
+                            {project.number}
+                          </span>
+                        </div>
+
+                        <p className="text-sm text-zinc-500 leading-relaxed">
+                          {project.description}
                         </p>
+
                       </div>
-
-                      <span className="text-[10px] font-mono text-zinc-700">
-                        {project.number}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-zinc-500 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                  </div>
                     </div>
 
                     {/* Bottom */}
@@ -1514,7 +1575,7 @@ export default function PortfolioClient() {
             </h2>
 
             <p className="text-zinc-500 text-sm max-w-lg mx-auto leading-relaxed">
-              Terbuka untuk kesempatan magang, Junior Web &amp;
+              Terbuka untuk kesempatan magang, Junior Web &
               Mobile Developer, freelance, maupun project
               kolaboratif.
             </p>
