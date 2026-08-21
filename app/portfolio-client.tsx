@@ -45,9 +45,16 @@ interface Project {
   title: string;
   subtitle: string;
   category: "WEB" | "MOBILE";
+  /** Label shown on featured card, e.g. "MOBILE / FULL-STACK" */
+  type?: string;
+  featured?: boolean;
+  /** Developer role / contribution */
+  role?: string;
   tech: string[];
   description: string;
   github: string;
+  /** Second repo link — used for featured full-stack project */
+  secondaryGithub?: string;
   demo?: string;
   image: string;
 }
@@ -69,83 +76,92 @@ interface Project {
 // ─── Data Proyek ─────────────────────────────────────────────────────────────
 
 const projects: Project[] = [
+
+  // ── Featured ──────────────────────────────────────────────────────────────
+
   {
     number: "01",
+    title: "Finance Notes",
+    subtitle: "Mobile Application + Backend API",
+    category: "MOBILE",
+    type: "MOBILE / FULL-STACK",
+    featured: true,
+    role: "Full-Stack Developer",
+    tech: [
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "Laravel",
+      "Sanctum",
+      "MySQL",
+    ],
+    description:
+      "Aplikasi catatan keuangan full-stack — mobile app untuk mencatat pemasukan dan pengeluaran harian, didukung REST API backend yang aman dengan autentikasi Sanctum dan manajemen transaksi lengkap.",
+    github:
+      "https://github.com/hidayat-0429/catatan-keuangan",
+    secondaryGithub:
+      "https://github.com/hidayat-0429/catatan-keuangan-api",
+    image: "/project-finance-app.png",
+  },
+
+  // ── Regular ───────────────────────────────────────────────────────────────
+
+  {
+    number: "02",
     title: "Car Rental App",
     subtitle: "Aplikasi Rental Mobil",
     category: "WEB",
+    role: "Full-Stack Developer",
     tech: ["Next.js", "Prisma", "NextAuth", "PostgreSQL"],
     description:
-      "Aplikasi web rental mobil dengan sistem pemesanan, pengelolaan kendaraan, dan antarmuka responsif untuk memudahkan pengguna melakukan reservasi.",
+      "Aplikasi web rental mobil dengan sistem pemesanan, pengelolaan kendaraan, dan autentikasi user berbasis NextAuth.",
     github:
       "https://github.com/hidayat-0429/car-rental",
     image: "/project-car-rental.png",
   },
 
   {
-    number: "02",
+    number: "03",
     title: "Task Reminder App",
     subtitle: "Pengingat Tugas Kuliah",
     category: "MOBILE",
+    role: "Mobile Developer",
     tech: ["Flutter", "Supabase", "Firebase FCM"],
     description:
-      "Aplikasi mobile untuk mengelola tugas kuliah dengan sinkronisasi data dan push notification sehingga pengguna dapat menerima pengingat secara real-time.",
+      "Aplikasi mobile pengingat tugas kuliah dengan sinkronisasi data real-time dan push notification.",
     github:
       "https://github.com/hidayat-0429/pengingat_kuliah",
     image: "/project-task-reminder.png",
   },
 
   {
-    number: "03",
+    number: "04",
     title: "Desa Information Portal",
     subtitle: "Portal Web Desa",
     category: "WEB",
+    role: "Full-Stack Developer",
     tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
-      "Portal informasi desa yang mengelola profil, berita, aparatur, UMKM, dan wisata melalui sistem CMS untuk memudahkan pengelolaan konten.",
+      "Portal informasi desa berbasis CMS untuk mengelola profil, berita, UMKM, dan wisata daerah.",
     github:
       "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
   },
 
   {
-    number: "04",
+    number: "05",
     title: "Weather App",
     subtitle: "Aplikasi Cuaca",
     category: "MOBILE",
+    role: "Mobile Developer",
     tech: ["Flutter", "Firebase FCM", "REST API"],
     description:
-      "Aplikasi cuaca mobile yang menampilkan kondisi cuaca terkini, prakiraan harian, dan informasi lokasi secara real-time dengan tampilan yang bersih dan intuitif.",
+      "Aplikasi cuaca mobile dengan prakiraan harian real-time, informasi lokasi, dan push notification.",
     github:
       "https://github.com/hidayat-0429/aplikasi_cuaca",
     image: "/project-weather.png",
   },
 
-  {
-    number: "05",
-    title: "Finance Notes App",
-    subtitle: "Aplikasi Catatan Keuangan",
-    category: "MOBILE",
-    tech: ["React Native", "Expo", "TypeScript"],
-    description:
-      "Aplikasi mobile catatan keuangan untuk mencatat dan memantau pemasukan serta pengeluaran yang terintegrasi dengan REST API backend.",
-    github:
-      "https://github.com/hidayat-0429/catatan-keuangan",
-    image: "/project-finance-app.png",
-  },
-
-  {
-    number: "06",
-    title: "Finance Notes API",
-    subtitle: "REST API Catatan Keuangan",
-    category: "WEB",
-    tech: ["PHP", "Laravel", "Sanctum", "MySQL"],
-    description:
-      "REST API backend untuk aplikasi catatan keuangan pribadi dengan fitur autentikasi, manajemen transaksi, dan pelaporan yang aman.",
-    github:
-      "https://github.com/hidayat-0429/catatan-keuangan-api",
-    image: "/project-finance-api.png",
-  },
 ];
 
 // ─── Data Skill ──────────────────────────────────────────────────────────────
@@ -337,6 +353,249 @@ function ProjectCardImage({
         />
       </div>
     </div>
+  );
+}
+
+// ─── Featured Project Card ───────────────────────────────────────────────────
+
+function FeaturedProjectCard({ project }: { project: Project }) {
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6 }}
+      className="
+        group
+        relative
+        border border-white/[0.08]
+        bg-[#0f1115]/80
+        hover:border-blue-400/25
+        rounded-2xl
+        overflow-hidden
+        shadow-2xl shadow-black/20
+        transition-all duration-500
+      "
+    >
+      {/* Featured badge */}
+      <div
+        className="
+          absolute top-4 right-4 z-20
+          px-3 py-1 rounded-full
+          bg-blue-400/10 border border-blue-400/20
+          text-[10px] font-mono text-blue-300
+          tracking-wider uppercase
+        "
+      >
+        Featured
+      </div>
+
+      <div className="flex flex-col lg:flex-row">
+
+        {/* ── Image Side — 55% ── */}
+        <div
+          className="
+            relative lg:w-[55%]
+            h-64 sm:h-80 lg:h-auto min-h-[360px]
+            bg-[#08090c]
+            border-b lg:border-b-0 lg:border-r border-white/[0.06]
+            flex items-center justify-center
+            p-6 sm:p-10
+            overflow-hidden
+          "
+        >
+          {/* Subtle glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.04] via-transparent to-transparent pointer-events-none" />
+
+          {!hasError ? (
+            <div
+              className="
+                relative h-full w-full
+                flex items-center justify-center
+                group-hover:scale-[1.02]
+                transition-transform duration-700 ease-out
+              "
+            >
+              {/* Phone frame */}
+              <div
+                className="
+                  relative h-full
+                  max-h-72 sm:max-h-96
+                  aspect-[9/19.5]
+                  border-[4px] border-zinc-700/80
+                  rounded-[1.5rem]
+                  overflow-hidden
+                  shadow-2xl shadow-black/50
+                  bg-black
+                "
+              >
+                <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-700 rounded-b-md z-10" />
+                <img
+                  src={project.image}
+                  alt={`Screenshot aplikasi ${project.title}`}
+                  className="w-full h-full object-cover object-top"
+                  onError={() => setHasError(true)}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-zinc-600">
+              <div className="w-16 h-16 rounded-2xl border border-blue-400/10 bg-blue-400/5 flex items-center justify-center mb-4">
+                <Code2 className="w-8 h-8 text-blue-400/50" />
+              </div>
+              <span className="text-xs font-mono text-zinc-500">{project.title}</span>
+              <span className="text-[10px] text-zinc-600 mt-1">Preview unavailable</span>
+            </div>
+          )}
+        </div>
+
+        {/* ── Info Side — 45% ── */}
+        <div className="lg:w-[45%] p-7 sm:p-9 flex flex-col justify-between gap-6">
+
+          <div className="flex flex-col gap-5">
+
+            {/* Number + Type badge */}
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono text-zinc-600">{project.number}</span>
+              <div className="h-px w-5 bg-zinc-800" />
+              <div
+                className="
+                  flex items-center gap-1.5
+                  px-2.5 py-1 rounded-md
+                  bg-white/[0.03] border border-white/[0.06]
+                "
+              >
+                <Smartphone className="w-3 h-3 text-blue-400" />
+                <span className="text-[10px] font-mono text-blue-300 tracking-wider uppercase">
+                  {project.type ?? project.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Title + Subtitle */}
+            <div>
+              <h3
+                className="
+                  text-2xl sm:text-3xl
+                  font-bold
+                  text-zinc-100
+                  group-hover:text-blue-200
+                  transition-colors duration-300
+                  mb-1
+                "
+              >
+                {project.title}
+              </h3>
+              <p className="text-sm text-zinc-500">{project.subtitle}</p>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              {project.description}
+            </p>
+
+            {/* Role */}
+            {project.role && (
+              <div className="flex items-center gap-2.5">
+                <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
+                  Role
+                </span>
+                <div className="h-px w-4 bg-zinc-800" />
+                <span className="text-[11px] font-mono text-zinc-400">
+                  {project.role}
+                </span>
+              </div>
+            )}
+
+            {/* Tech stack */}
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((tech) => (
+                <span
+                  key={tech}
+                  className="
+                    text-[11px] font-mono
+                    border border-white/[0.07]
+                    text-zinc-400
+                    px-2.5 py-1
+                    bg-white/[0.02]
+                    rounded-md
+                  "
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-wrap gap-2.5 pt-1">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Buka repository Mobile App — ${project.title}`}
+              className="
+                flex items-center gap-2
+                text-xs font-medium
+                text-zinc-300 hover:text-white
+                bg-white/[0.04] hover:bg-white/[0.07]
+                border border-white/[0.08]
+                px-4 py-2.5 rounded-lg
+                transition-all
+              "
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+              Mobile App
+            </a>
+
+            {project.secondaryGithub && (
+              <a
+                href={project.secondaryGithub}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Buka repository API — ${project.title}`}
+                className="
+                  flex items-center gap-2
+                  text-xs font-medium
+                  text-zinc-300 hover:text-white
+                  bg-white/[0.04] hover:bg-white/[0.07]
+                  border border-white/[0.08]
+                  px-4 py-2.5 rounded-lg
+                  transition-all
+                "
+              >
+                <GithubIcon className="w-3.5 h-3.5" />
+                API Repository
+              </a>
+            )}
+
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Buka Live Demo — ${project.title}`}
+                className="
+                  flex items-center gap-2
+                  text-xs font-semibold
+                  text-zinc-950
+                  bg-blue-400 hover:bg-blue-300
+                  px-4 py-2.5 rounded-lg
+                  transition-all
+                "
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Live Demo
+              </a>
+            )}
+          </div>
+
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -1025,74 +1284,55 @@ export default function PortfolioClient() {
 
       <section
         id="projects"
-        className="
-          py-24
-          px-6
-          border-t
-          border-white/[0.05]
-        "
+        className="py-24 px-6 border-t border-white/[0.05]"
       >
         <div className="max-w-6xl mx-auto">
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+          {/* ── Section Header ── */}
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6"
+          >
             <div>
-
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-[10px] font-mono text-blue-400">
                   01
                 </span>
-
                 <div className="h-px w-10 bg-blue-400/30" />
-
                 <p className="text-[10px] font-mono text-zinc-600 tracking-widest uppercase">
-                  Selected Work
+                  Selected Works
                 </p>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
                 Proyek Pilihan
               </h2>
 
-              <p className="text-sm text-zinc-500 mt-3 max-w-md">
-                Beberapa project yang merepresentasikan
-                pengalaman saya dalam web development
-                dan mobile development.
+              <p className="text-sm text-zinc-500 max-w-md leading-relaxed">
+                Koleksi project web, mobile, dan backend yang menunjukkan
+                kemampuan sebagai Full-Stack Developer.
               </p>
             </div>
 
-            {/* Filter */}
-
-            <div className="flex border border-white/[0.08] bg-white/[0.02] p-1 rounded-xl">
-              {(
-                ["ALL", "WEB", "MOBILE"] as const
-              ).map((tab) => (
+            {/* Filter Tabs */}
+            <div className="flex border border-white/[0.08] bg-white/[0.02] p-1 rounded-xl shrink-0">
+              {(["ALL", "WEB", "MOBILE"] as const).map((tab) => (
                 <button
                   key={tab}
-                  onClick={() =>
-                    setActiveTab(tab)
-                  }
+                  onClick={() => setActiveTab(tab)}
+                  aria-label={`Filter project: ${tab}`}
                   className={`
-                    text-xs
-                    uppercase
-                    tracking-wider
-                    px-4
-                    py-2
-                    transition-all
-                    font-medium
-                    rounded-lg
+                    text-xs uppercase tracking-wider
+                    px-4 py-2
+                    transition-all font-medium rounded-lg
                     ${
                       activeTab === tab
-                        ? `
-                          bg-blue-400/10
-                          text-blue-300
-                          border
-                          border-blue-400/20
-                        `
-                        : `
-                          text-zinc-500
-                          hover:text-zinc-200
-                        `
+                        ? "bg-blue-400/10 text-blue-300 border border-blue-400/20"
+                        : "text-zinc-500 hover:text-zinc-200"
                     }
                   `}
                 >
@@ -1100,201 +1340,133 @@ export default function PortfolioClient() {
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Projects */}
+          {/* ── Featured Project ── */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="wait">
+            {(activeTab === "ALL" || activeTab === "MOBILE") && (
+              <motion.div
+                key="featured-wrapper"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-8"
+              >
+                <FeaturedProjectCard project={projects[0]} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
+          {/* ── Regular Projects Grid (2-col) ── */}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <AnimatePresence mode="popLayout">
-
-              {filteredProjects.map(
-                (project) => (
-                  <motion.div
+              {filteredProjects
+                .filter((p) => !p.featured)
+                .map((project, index) => (
+                  <motion.article
                     layout
                     key={project.title}
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -20,
-                    }}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16 }}
                     transition={{
                       duration: 0.35,
+                      delay: index * 0.06,
                     }}
                     className="
                       group
                       relative
-                      border
-                      border-white/[0.07]
+                      border border-white/[0.07]
                       bg-[#0f1115]/80
                       hover:border-blue-400/30
-                      transition-all
+                      transition-all duration-300
                       rounded-2xl
                       overflow-hidden
-                      flex
-                      flex-col
-                      justify-between
-                      h-full
-                      shadow-xl
-                      shadow-black/10
+                      flex flex-col
+                      shadow-xl shadow-black/10
                     "
                   >
+                    {/* Image */}
+                    <div className="relative w-full h-48 overflow-hidden bg-[#08090c] border-b border-white/[0.06] shrink-0">
+                      <ProjectCardImage
+                        src={project.image}
+                        alt={`Screenshot ${project.title}`}
+                        category={project.category}
+                      />
 
-                    <div>
-
-                      {/* Image */}
-
-                      <div
-                        className="
-                          relative
-                          w-full
-                          h-52
-                          overflow-hidden
-                          bg-[#08090c]
-                          border-b
-                          border-white/[0.06]
-                        "
-                      >
-                        <ProjectCardImage
-                          src={project.image}
-                          alt={project.title}
-                          category={project.category}
-                        />
-
-                        {/* Category */}
-
-                        <div
-                          className="
-                            absolute
-                            top-3
-                            left-3
-                            px-3
-                            py-1.5
-                            rounded-lg
-                            bg-black/60
-                            backdrop-blur-md
-                            border
-                            border-white/[0.08]
-                            text-[10px]
-                            font-mono
-                            text-blue-300
-                            flex
-                            items-center
-                            gap-1.5
-                          "
-                        >
-                          {project.category ===
-                          "WEB" ? (
-                            <Globe className="w-3.5 h-3.5" />
-                          ) : (
-                            <Smartphone className="w-3.5 h-3.5" />
-                          )}
-
-                          {project.category}
-                        </div>
-                      </div>
-
-                      {/* Content */}
-
-                      <div className="p-6">
-
-                        <div className="flex items-start justify-between gap-4 mb-3">
-                          <div>
-                            <h3
-                              className="
-                                text-lg
-                                font-bold
-                                text-zinc-100
-                                group-hover:text-blue-300
-                                transition-colors
-                              "
-                            >
-                              {project.title}
-                            </h3>
-
-                            <p className="text-xs text-zinc-600 mt-1">
-                              {project.subtitle}
-                            </p>
-                          </div>
-
-                          <span className="text-[10px] font-mono text-zinc-700">
-                            {project.number}
-                          </span>
-                        </div>
-
-                        <p className="text-sm text-zinc-500 leading-relaxed">
-                          {project.description}
-                        </p>
-
+                      {/* Category badge */}
+                      <div className="absolute top-3 left-3 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-blue-300 flex items-center gap-1.5">
+                        {project.category === "WEB" ? (
+                          <Globe className="w-3 h-3" />
+                        ) : (
+                          <Smartphone className="w-3 h-3" />
+                        )}
+                        {project.category}
                       </div>
                     </div>
 
-                    {/* Bottom */}
+                    {/* Content */}
+                    <div className="p-5 flex flex-col flex-1">
 
-                    <div className="p-6 pt-0">
-
-                      {/* Tech */}
-
-                      <div className="flex flex-wrap gap-1.5 mb-6">
-                        {project.tech.map(
-                          (tech) => (
-                            <span
-                              key={tech}
-                              className="
-                                text-[10px]
-                                font-mono
-                                border
-                                border-white/[0.07]
-                                text-zinc-400
-                                px-2.5
-                                py-1
-                                bg-white/[0.02]
-                                rounded-md
-                              "
-                            >
-                              {tech}
-                            </span>
-                          )
-                        )}
+                      {/* Title row */}
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <div>
+                          <h3 className="text-base font-bold text-zinc-100 group-hover:text-blue-300 transition-colors">
+                            {project.title}
+                          </h3>
+                          <p className="text-xs text-zinc-600 mt-0.5">
+                            {project.subtitle}
+                          </p>
+                        </div>
+                        <span className="text-[10px] font-mono text-zinc-700 shrink-0 mt-0.5">
+                          {project.number}
+                        </span>
                       </div>
 
-                      {/* Buttons */}
+                      <p className="text-xs text-zinc-500 leading-relaxed mb-4 line-clamp-2">
+                        {project.description}
+                      </p>
 
-                      <div className="flex items-center gap-2">
+                      {/* Tech */}
+                      <div className="flex flex-wrap gap-1.5 mb-5">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="
+                              text-[10px] font-mono
+                              border border-white/[0.07]
+                              text-zinc-400
+                              px-2 py-0.5
+                              bg-white/[0.02]
+                              rounded-md
+                            "
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
 
+                      {/* Buttons — pushed to bottom */}
+                      <div className="mt-auto flex items-center gap-2">
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noreferrer"
+                          aria-label={`Buka repository — ${project.title}`}
                           className="
-                            w-full
-                            flex
-                            items-center
-                            justify-center
-                            gap-2
-                            text-xs
-                            font-medium
-                            text-zinc-300
-                            hover:text-white
-                            bg-white/[0.03]
-                            hover:bg-white/[0.06]
-                            border
-                            border-white/[0.06]
-                            px-3
-                            py-2.5
-                            rounded-lg
+                            flex-1 flex items-center justify-center gap-2
+                            text-xs font-medium
+                            text-zinc-300 hover:text-white
+                            bg-white/[0.03] hover:bg-white/[0.06]
+                            border border-white/[0.06]
+                            px-3 py-2.5 rounded-lg
                             transition-all
                           "
                         >
-                          <GithubIcon className="w-4 h-4" />
-
+                          <GithubIcon className="w-3.5 h-3.5" />
                           Repository
                         </a>
 
@@ -1303,36 +1475,28 @@ export default function PortfolioClient() {
                             href={project.demo}
                             target="_blank"
                             rel="noreferrer"
+                            aria-label={`Buka Live Demo — ${project.title}`}
                             className="
-                              flex-1
-                              flex
-                              items-center
-                              justify-center
-                              gap-2
-                              text-xs
-                              font-semibold
+                              flex-1 flex items-center justify-center gap-2
+                              text-xs font-semibold
                               text-zinc-950
-                              bg-blue-400
-                              hover:bg-blue-300
-                              px-3
-                              py-2.5
-                              rounded-lg
+                              bg-blue-400 hover:bg-blue-300
+                              px-3 py-2.5 rounded-lg
                               transition-all
                             "
                           >
+                            <ExternalLink className="w-3 h-3" />
                             Demo
-
-                            <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                         )}
                       </div>
-                    </div>
-                  </motion.div>
-                )
-              )}
 
+                    </div>
+                  </motion.article>
+                ))}
             </AnimatePresence>
           </div>
+
         </div>
       </section>
 
@@ -1353,21 +1517,25 @@ export default function PortfolioClient() {
 
         <style>{`
           @keyframes marquee {
-            0% {
-              transform: translateX(0%);
-            }
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-33.33%); }
+          }
 
-            100% {
-              transform: translateX(-33.33%);
-            }
+          @keyframes marquee-reverse {
+            0% { transform: translateX(-33.33%); }
+            100% { transform: translateX(0%); }
           }
 
           .animate-marquee {
-            animation: marquee 22s linear infinite;
+            animation: marquee 30s linear infinite;
           }
 
-          .pause-on-hover:hover
-          .animate-marquee {
+          .animate-marquee-reverse {
+            animation: marquee-reverse 30s linear infinite;
+          }
+
+          .pause-on-hover:hover .animate-marquee,
+          .pause-on-hover:hover .animate-marquee-reverse {
             animation-play-state: paused;
           }
         `}</style>
@@ -1467,7 +1635,7 @@ export default function PortfolioClient() {
                       "
                     />
 
-                    <div className="flex gap-4 px-4 min-w-max animate-marquee">
+                    <div className={`flex gap-4 px-4 min-w-max ${index % 2 === 1 ? "animate-marquee-reverse" : "animate-marquee"}`}>
 
                       {[
                         ...category.items,
