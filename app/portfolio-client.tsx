@@ -1282,7 +1282,7 @@ export default function PortfolioClient() {
 
       <section
         id="projects"
-        className="py-24 px-6 border-t border-white/[0.05]"
+        className="py-32 px-6 border-t border-white/[0.05]"
       >
         <div className="max-w-6xl mx-auto">
 
@@ -1293,7 +1293,7 @@ export default function PortfolioClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6"
+            className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6"
           >
             <div>
               <div className="flex items-center gap-3 mb-3">
@@ -1350,9 +1350,15 @@ export default function PortfolioClient() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-8"
+                className="relative mb-10"
               >
-                <FeaturedProjectCard project={projects[0]} />
+                {/* Ambient glow behind featured card */}
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-tl from-blue-600/8 via-transparent to-transparent blur-3xl pointer-events-none" />
+
+                <div className="relative">
+                  <FeaturedProjectCard project={projects[0]} />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1505,7 +1511,7 @@ export default function PortfolioClient() {
       <section
         id="skills"
         className="
-          py-24
+          py-32
           px-6
           border-t
           border-white/[0.05]
@@ -1714,7 +1720,7 @@ export default function PortfolioClient() {
       <section
         id="contact"
         className="
-          py-24
+          py-32
           px-6
           border-t
           border-white/[0.05]
