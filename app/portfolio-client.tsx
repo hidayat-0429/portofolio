@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -379,30 +379,17 @@ function FeaturedProjectCard({ project }: { project: Project }) {
         transition-all duration-500
       "
     >
-      {/* Featured badge */}
-      <div
-        className="
-          absolute top-4 right-4 z-20
-          px-3 py-1 rounded-full
-          bg-blue-400/10 border border-blue-400/20
-          text-[10px] font-mono text-blue-300
-          tracking-wider uppercase
-        "
-      >
-        Featured
-      </div>
-
       <div className="flex flex-col lg:flex-row">
 
         {/* ── Image Side — 55% ── */}
         <div
           className="
             relative lg:w-[55%]
-            h-64 sm:h-80 lg:h-auto min-h-[360px]
+            h-56 sm:h-72 lg:h-auto lg:min-h-[400px]
             bg-[#08090c]
             border-b lg:border-b-0 lg:border-r border-white/[0.06]
             flex items-center justify-center
-            p-6 sm:p-10
+            p-4 sm:p-8 lg:p-10
             overflow-hidden
           "
         >
@@ -422,7 +409,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <div
                 className="
                   relative h-full
-                  max-h-72 sm:max-h-96
+                  max-h-56 sm:max-h-72 lg:max-h-96
                   aspect-[9/19.5]
                   border-[4px] border-zinc-700/80
                   rounded-[1.5rem]
@@ -452,14 +439,14 @@ function FeaturedProjectCard({ project }: { project: Project }) {
         </div>
 
         {/* ── Info Side — 45% ── */}
-        <div className="lg:w-[45%] p-7 sm:p-9 flex flex-col justify-between gap-6">
+        <div className="lg:w-[45%] p-5 sm:p-7 lg:p-9 flex flex-col justify-between gap-5">
 
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
 
-            {/* Number + Type badge */}
-            <div className="flex items-center gap-3">
+            {/* Number + Type badge + Featured badge (same row) */}
+            <div className="flex items-center gap-3 flex-wrap">
               <span className="text-[10px] font-mono text-zinc-600">{project.number}</span>
-              <div className="h-px w-5 bg-zinc-800" />
+              <div className="h-px w-4 bg-zinc-800" />
               <div
                 className="
                   flex items-center gap-1.5
@@ -472,13 +459,24 @@ function FeaturedProjectCard({ project }: { project: Project }) {
                   {project.type ?? project.category}
                 </span>
               </div>
+              {/* Featured badge — inline, bukan absolute */}
+              <span
+                className="
+                  px-2.5 py-1 rounded-full
+                  bg-blue-400/10 border border-blue-400/20
+                  text-[10px] font-mono text-blue-300
+                  tracking-wider uppercase
+                "
+              >
+                Featured
+              </span>
             </div>
 
             {/* Title + Subtitle */}
             <div>
               <h3
                 className="
-                  text-2xl sm:text-3xl
+                  text-xl sm:text-2xl lg:text-3xl
                   font-bold
                   text-zinc-100
                   group-hover:text-blue-200
