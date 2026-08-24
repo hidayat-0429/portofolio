@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,8 +7,8 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const grotesk = Space_Grotesk({
+  variable: "--font-grotesk",
   subsets: ["latin"],
 });
 
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased scroll-smooth`}
+      className={`inter.variable{inter.variable}inter.variable{grotesk.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
