@@ -594,8 +594,8 @@ useEffect(() => {
           </div>
 
           <button aria-label="Toggle Menu"
-            className="md:hidden p-2 text-zinc-400 hover:text-violet-400 transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              className="md:hidden relative z-50 p-2 text-zinc-400 hover:text-violet-400 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
