@@ -56,7 +56,7 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["React Native", "Expo", "TypeScript", "Laravel", "Sanctum", "MySQL"],
     description:
-      "Aplikasi catatan keuangan full-stack — mobile app untuk mencatat pemasukan dan pengeluaran harian, didukung REST API backend yang aman dengan autentikasi Sanctum dan manajemen transaksi lengkap.",
+       "Aplikasi catatan keuangan full-stack. Mobile app untuk mencatat pemasukan dan pengeluaran harian, didukung REST API backend dengan autentikasi Sanctum dan manajemen transaksi lengkap.",
     github: "https://github.com/hidayat-0429/catatan-keuangan",
     secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
     image: "/project-finance-app.png",
@@ -70,7 +70,7 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Next.js", "Prisma", "NextAuth", "PostgreSQL"],
     description:
-      "Aplikasi web rental mobil dengan sistem pemesanan, pengelolaan kendaraan, dan autentikasi user berbasis NextAuth.",
+       "Aplikasi web buat rental mobil. Ada fitur pesan mobil, kelola armada, dan login user pakai NextAuth.",
     github: "https://github.com/hidayat-0429/car-rental",
     image: "/project-car-rental.png",
     metrics: ["Auth & Session", "Manajemen Armada"],
@@ -83,7 +83,7 @@ const projects: Project[] = [
     role: "Mobile Developer",
     tech: ["Flutter", "Supabase", "Firebase FCM"],
     description:
-      "Aplikasi mobile pengingat tugas kuliah dengan sinkronisasi data real-time dan push notification.",
+        "Aplikasi mobile pengingat tugas kuliah. Datanya tersinkron real-time dan ada push notification pengingat.",
     github: "https://github.com/hidayat-0429/pengingat_kuliah",
     image: "/project-task-reminder.png",
     metrics: ["Real-time Sync", "Push Notification"],
@@ -96,7 +96,7 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
-      "Portal informasi desa berbasis CMS untuk mengelola profil, berita, UMKM, dan wisata daerah.",
+       "Portal informasi desa berbasis CMS. Dipakai untuk mengelola profil desa, berita, UMKM, dan wisata daerah.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
     metrics: ["CMS Lengkap", "Multi-modul Konten"],
@@ -109,7 +109,7 @@ const projects: Project[] = [
     role: "Mobile Developer",
     tech: ["Flutter", "Firebase FCM", "REST API"],
     description:
-      "Aplikasi cuaca mobile dengan prakiraan harian real-time, informasi lokasi, dan push notification.",
+       "Aplikasi cuaca mobile dengan prakiraan harian real-time, info lokasi, dan push notification.",
     github: "https://github.com/hidayat-0429/aplikasi_cuaca",
     image: "/project-weather.png",
     metrics: ["Data Real-time", "Geolokasi"],
@@ -202,7 +202,7 @@ function SectionHeading({
   );
 }
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
+// ── Icons ───────────────────────────────────────────────────────────────────
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -259,7 +259,7 @@ function ProjectCardImage({
   }
 
   return (
-    <div className="w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
+    <div className="relative w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
       <div className="absolute w-32 h-56 rounded-full bg-violet-500/15 blur-[50px] pointer-events-none" />
       <div className="relative h-full aspect-[9/19.5] border-[4px] border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-2xl shadow-black/60 bg-black">
         <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
@@ -427,7 +427,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
           <div className="flex flex-wrap gap-2.5 pt-2 border-t border-white/[0.05]">
             <a
               href={project.github} target="_blank" rel="noreferrer"
-              aria-label={`Buka repository Mobile App — ${project.title}`}
+              aria-label={`Buka repository Mobile App ${project.title}`}
               className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] px-4 py-2.5 rounded-lg transition-all"
             >
               <GithubIcon className="w-3.5 h-3.5" /> Mobile App
@@ -435,7 +435,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             {project.secondaryGithub && (
               <a
                 href={project.secondaryGithub} target="_blank" rel="noreferrer"
-                aria-label={`Buka repository API — ${project.title}`}
+                aria-label={`Buka repository API ${project.title}`}
                 className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] px-4 py-2.5 rounded-lg transition-all"
               >
                 <GithubIcon className="w-3.5 h-3.5" /> API Repository
@@ -444,7 +444,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             {project.demo && (
               <a
                 href={project.demo} target="_blank" rel="noreferrer"
-                aria-label={`Buka Live Demo — ${project.title}`}
+                aria-label={`Buka Live Demo ${project.title}`}
                 className="flex items-center gap-2 text-xs font-semibold text-zinc-950 bg-violet-400 hover:bg-violet-300 px-4 py-2.5 rounded-lg transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Live Demo
