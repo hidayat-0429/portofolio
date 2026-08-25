@@ -684,17 +684,18 @@ useEffect(() => {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 mb-10"
+            className="flex flex-wrap justify-center items-center gap-2 mb-10"
           >
-            {["Next.js", "Laravel", "React", "Flutter"].map((tech, i) => (
-              <React.Fragment key={tech}>
-                <span className="text-xs sm:text-sm font-medium text-violet-300/90 px-3 py-1.5 rounded-full border border-violet-400/10 bg-violet-400/[0.04]">
-                  {tech}
-                </span>
-                {i < 3 && <span className="text-zinc-700 select-none">·</span>}
-              </React.Fragment>
+            {["Next.js", "Laravel", "React", "Flutter"].map((tech) => (
+              <span
+                key={tech}
+                className="text-xs sm:text-sm font-medium text-violet-300/90 px-3 py-1.5 rounded-full border border-violet-400/10 bg-violet-400/[0.04]"
+              >
+                {tech}
+              </span>
             ))}
           </motion.div>
+
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.65 }}
