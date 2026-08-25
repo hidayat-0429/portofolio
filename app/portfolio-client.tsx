@@ -601,25 +601,26 @@ useEffect(() => {
         </div>
 
         <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="md:hidden border-t border-white/[0.05] bg-[#09090b]/95 backdrop-blur-xl overflow-hidden"
-            >
-              <div className="flex flex-col px-6 py-4">
-                {navLinks.map((link) => (
-                  <a key={link.href} href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-sm uppercase tracking-widest text-zinc-500 hover:text-violet-400 transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden border-t border-white/[0.05] bg-[#09090b]/95 backdrop-blur-xl"
+          >
+            <div className="flex flex-col px-6 py-4">
+              {navLinks.map((link) => (
+                <a key={link.href} href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-sm uppercase tracking-widest text-zinc-500 hover:text-violet-400 transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       </nav>
 
       {/* ── Hero / About ── */}
