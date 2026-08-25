@@ -1,6 +1,5 @@
 ﻿"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -261,6 +260,7 @@ function ProjectCardImage({
 
   return (
     <div className="w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
+      <div className="absolute w-32 h-56 rounded-full bg-violet-500/15 blur-[50px] pointer-events-none" />
       <div className="relative h-full aspect-[9/19.5] border-[4px] border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-2xl shadow-black/60 bg-black">
         <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
         <img src={src} alt={alt} loading="lazy"
@@ -294,11 +294,12 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6 }}
-      className="
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-60px" }}
+  transition={{ duration: 0.6 }}
+  whileHover={{ y: -4 }}
+  className="
         group relative
         border border-white/[0.08]
         bg-gradient-to-b from-[#101218] to-[#0d0e12]
@@ -339,6 +340,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
           {!hasError ? (
             <>
               <div className="relative h-full w-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+                <div className="absolute w-56 h-[420px] rounded-full bg-violet-500/20 blur-[80px] pointer-events-none" />
                 <div className="relative h-full max-h-72 lg:max-h-[380px] aspect-[9/19.5] border-[4px] border-zinc-800 rounded-[1.75rem] overflow-hidden shadow-2xl shadow-black/60 bg-black">
                   <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
                   <img
@@ -463,7 +465,7 @@ export default function PortfolioClient() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: -400, y: -400 });
+  const spotlightRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -472,51 +474,70 @@ export default function PortfolioClient() {
       setShowBackToTop(window.scrollY > 400);
       setIsScrolled(window.scrollY > 10);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Spotlight cursor (desktop only)
-  useEffect(() => {
-    if (window.matchMedia("(pointer: fine)").matches) {
-      const handleMove = (e: MouseEvent) =>
-        setCursorPos({ x: e.clientX, y: e.clientY });
-      window.addEventListener("mousemove", handleMove);
-      return () => window.removeEventListener("mousemove", handleMove);
-    }
-  }, []);
+  // Spotlight cursor (desktop only) — tanpa re-render
+useEffect(() => {
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+
+  let rafId = 0;
+  const handleMove = (e: MouseEvent) => {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      if (spotlightRef.current) {
+                spotlightRef.current.style.background =
+           "radial-gradient(500px circle at " + e.clientX + "px " + e.clientY + "px, rgba(139,92,246,0.05), transparent 70%)";
+      }
+    });
+  };
+
+  window.addEventListener("mousemove", handleMove);
+  return () => {
+    window.removeEventListener("mousemove", handleMove);
+    cancelAnimationFrame(rafId);
+  };
+}, []);
 
   const filteredProjects =
     activeTab === "ALL"
       ? projects
       : projects.filter((p) => p.category === activeTab);
 
+  const MY_WA_NUMBER = "6285816172367";
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     const waText = [
-      `Halo Hidayat, saya ${formData.name}.`,
+      `Halo Hidayat, saya *${formData.name}*.`,
       "",
       `Email: ${formData.email}`,
       "",
       formData.message,
     ].join("\n");
-    window.open(
-      `https://wa.me/qr/Y7TS5AU4MVPMM1?text=${encodeURIComponent(waText)}`,
-      "_blank"
+
+       window.open(
+      "https://wa.me/" + MY_WA_NUMBER + "?text=" + encodeURIComponent(waText),
+      "_blank",
+      "noopener,noreferrer"
     );
+
     setTimeout(() => {
       setIsSubmitting(false);
       setFormData({ name: "", email: "", message: "" });
     }, 1000);
   };
 
-  const navLinks = [
-    { label: "Tentang", href: "#about" },
-    { label: "Proyek", href: "#projects" },
-    { label: "Keahlian", href: "#skills" },
-    { label: "Kontak", href: "#contact" },
-  ];
+    const navLinks = [
+      { label: "Tentang", href: "#about" },
+      { label: "Proyek", href: "#projects" },
+      { label: "Keahlian", href: "#skills" },
+      { label: "Kontak", href: "#contact" },
+    ];
 
   return (
     <main className="min-h-screen bg-[#09090b] text-zinc-100 antialiased overflow-x-hidden selection:bg-violet-400/30 selection:text-violet-200 scroll-smooth">
@@ -534,13 +555,13 @@ export default function PortfolioClient() {
       </div>
 
       {/* ── Cursor Spotlight ── */}
+      {/* ── Cursor Spotlight ── */}
       <div
+        ref={spotlightRef}
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 hidden md:block"
-        style={{
-          background: `radial-gradient(500px circle at cursorPos.xpx{cursorPos.x}pxcursorPos.xpx{cursorPos.y}px, rgba(139,92,246,0.05), transparent 70%)`,
-        }}
       />
+
 
       {/* ── Navbar ── */}
       <nav className={`fixed top-0 w-full z-50 bg-[#09090b]/70 backdrop-blur-xl transition-all duration-300 ${
@@ -646,7 +667,7 @@ export default function PortfolioClient() {
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
             className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.02] mb-6"
           >
-            <span className="bg-gradient-to-r from-white via-zinc-250 to-violet-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-zinc-200 to-violet-400 bg-clip-text text-transparent">
               Mukhammad Nur Hidayat
             </span>
           </motion.h1>
@@ -970,7 +991,8 @@ export default function PortfolioClient() {
               <div className="space-y-3">
                 {[
                   {
-                    href: "https://wa.me/qr/Y7TS5AU4MVPMM1",
+                    href: "https://wa.me/6285816172367", // ← sama, ganti dengan nomor kamu
+
                     label: "WhatsApp",
                     value: "Chat Langsung",
                     icon: <WhatsAppIcon className="w-5 h-5" />,
