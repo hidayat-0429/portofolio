@@ -261,7 +261,7 @@ function ProjectCardImage({
   return (
     <div className="relative w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
       <div className="absolute w-32 h-56 rounded-full bg-violet-500/15 blur-[50px] pointer-events-none" />
-      <div className="relative h-full aspect-[9/19.5] border-[4px] border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-2xl shadow-black/60 bg-black">
+      <div className="relative h-full max-h-60 lg:max-h-[380px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 bg-black">
         <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
         <img src={src} alt={alt} loading="lazy"
           className="w-full h-full object-cover object-top"
