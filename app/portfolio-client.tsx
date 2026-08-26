@@ -250,8 +250,9 @@ function ProjectCardImage({
         </div>
         <div className="relative flex-1 overflow-hidden bg-zinc-950">
           <img src={src} alt={alt} loading="lazy"
-            className="w-full h-full object-cover object-top"
-            onError={() => setHasError(true)} />
+              className="w-full h-auto"
+              onError={() => setHasError(true)} />
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
