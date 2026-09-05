@@ -14,6 +14,9 @@ import {
   Sparkles,
   MapPin,
   Send,
+  GraduationCap,
+  Briefcase,
+  Terminal,
 } from "lucide-react";
 
 import { FaJava, FaCss3Alt } from "react-icons/fa";
@@ -43,6 +46,14 @@ interface Project {
   metrics?: string[];
 }
 
+interface TimelineItem {
+  period: string;
+  title: string;
+  place: string;
+  description: string;
+  kind: "education" | "experience";
+}
+
 // ─── Data Proyek ─────────────────────────────────────────────────────────────
 
 const projects: Project[] = [
@@ -60,7 +71,7 @@ const projects: Project[] = [
     github: "https://github.com/hidayat-0429/catatan-keuangan",
     secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
     image: "/project-finance-app.png",
-    metrics: ["Token-based Auth", "CRUD Transaksi Lengkap", "REST API Aman"],
+    metrics: ["Autentikasi token via Sanctum", "CRUD transaksi harian penuh", "REST API terpisah dari mobile app"],
   },
   {
     number: "02",
@@ -73,7 +84,7 @@ const projects: Project[] = [
        "Aplikasi web buat rental mobil. Ada fitur pesan mobil, kelola armada, dan login user pakai NextAuth.",
     github: "https://github.com/hidayat-0429/car-rental",
     image: "/project-car-rental.png",
-    metrics: ["Auth & Session", "Manajemen Armada"],
+    metrics: ["Sesi login dengan NextAuth", "Manajemen armada & ketersediaan unit"],
   },
   {
     number: "03",
@@ -86,7 +97,7 @@ const projects: Project[] = [
         "Aplikasi mobile pengingat tugas kuliah. Datanya tersinkron real-time dan ada push notification pengingat.",
     github: "https://github.com/hidayat-0429/pengingat_kuliah",
     image: "/project-task-reminder.png",
-    metrics: ["Real-time Sync", "Push Notification"],
+    metrics: ["Sinkronisasi data real-time via Supabase", "Push notification via Firebase FCM"],
   },
   {
     number: "04",
@@ -96,10 +107,10 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
-       "Portal informasi desa berbasis CMS. Dipakai untuk mengelola profil desa, berita, UMKM, dan wisata daerah.",
+       "Portal informasi desa berbasis CMS, dibangun untuk program KKN. Dipakai untuk mengelola profil desa, berita, UMKM, dan wisata daerah.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
-    metrics: ["CMS Lengkap", "Multi-modul Konten"],
+    metrics: ["5 modul konten: profil, berita, UMKM, wisata, pengaduan", "Dipakai langsung oleh perangkat desa"],
   },
   {
     number: "05",
@@ -112,7 +123,34 @@ const projects: Project[] = [
        "Aplikasi cuaca mobile dengan prakiraan harian real-time, info lokasi, dan push notification.",
     github: "https://github.com/hidayat-0429/aplikasi_cuaca",
     image: "/project-weather.png",
-    metrics: ["Data Real-time", "Geolokasi"],
+    metrics: ["Data cuaca real-time berbasis lokasi", "Geolokasi otomatis"],
+  },
+];
+
+// ─── Data Timeline (Pendidikan & Pengalaman) ─────────────────────────────────
+// TODO: sesuaikan periode & detail di bawah ini dengan data asli kamu.
+
+const timelineItems: TimelineItem[] = [
+  {
+    period: "2023 — Sekarang",
+    title: "Teknik Informatika",
+    place: "Universitas Yudharta Pasuruan",
+    description: "Fokus di Mobile & Game Programming. Belajar dari dasar pemrograman sampai membangun aplikasi full-stack web dan mobile.",
+    kind: "education",
+  },
+  {
+    period: "2026",
+    title: "Kuliah Kerja Nyata (KKN)",
+    place: "Program Desa",
+    description: "Membangun portal informasi desa berbasis Laravel untuk mengelola profil desa, berita, UMKM, dan wisata — sekarang jadi salah satu project unggulan di portofolio ini.",
+    kind: "experience",
+  },
+  {
+    period: "Sekarang",
+    title: "Full-Stack & Mobile Developer",
+    place: "Freelance / Project Pribadi",
+    description: "Membangun aplikasi web dan mobile end-to-end, dari desain database sampai UI, menggunakan Next.js, Laravel, dan Flutter.",
+    kind: "experience",
   },
 ];
 
@@ -194,7 +232,7 @@ function SectionHeading({
         )}
       </h2>
       {description && (
-        <p className="mt-4 text-sm sm:text-base text-zinc-500 max-w-lg leading-relaxed">
+        <p className="mt-4 text-sm sm:text-base text-zinc-400 max-w-lg leading-relaxed">
           {description}
         </p>
       )}
@@ -387,10 +425,10 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-bold tracking-tight text-zinc-50 group-hover:text-violet-200 transition-colors duration-300">
                 {project.title}
               </h3>
-              <p className="mt-1 text-sm text-zinc-500">{project.subtitle}</p>
+              <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
             </div>
 
-            <p className="text-sm text-zinc-400 leading-relaxed">
+            <p className="text-sm text-zinc-300 leading-relaxed">
               {project.description}
             </p>
 
@@ -408,15 +446,15 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
             {project.role && (
               <div className="flex items-center gap-2.5">
-                <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">Role</span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Role</span>
                 <div className="h-px w-4 bg-zinc-800" />
-                <span className="text-[11px] font-mono text-zinc-400">{project.role}</span>
+                <span className="text-[11px] font-mono text-zinc-300">{project.role}</span>
               </div>
             )}
 
             <div className="flex flex-wrap gap-2">
               {project.tech.map((tech) => (
-                <span key={tech} className="text-[11px] font-mono border border-white/[0.07] text-zinc-400 px-2.5 py-1 bg-white/[0.02] rounded-md">
+                <span key={tech} className="text-[11px] font-mono border border-white/[0.07] text-zinc-300 px-2.5 py-1 bg-white/[0.02] rounded-md">
                   {tech}
                 </span>
               ))}
@@ -468,6 +506,7 @@ export default function PortfolioClient() {
   const spotlightRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -478,28 +517,36 @@ export default function PortfolioClient() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Spotlight cursor (desktop only)
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const handler = () => setPrefersReducedMotion(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   // Spotlight cursor (desktop only) — tanpa re-render
-useEffect(() => {
-  if (!window.matchMedia("(pointer: fine)").matches) return;
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (prefersReducedMotion) return;
 
-  let rafId = 0;
-  const handleMove = (e: MouseEvent) => {
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      if (spotlightRef.current) {
-                spotlightRef.current.style.background =
-           "radial-gradient(500px circle at " + e.clientX + "px " + e.clientY + "px, rgba(139,92,246,0.05), transparent 70%)";
-      }
-    });
-  };
+    let rafId = 0;
+    const handleMove = (e: MouseEvent) => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (spotlightRef.current) {
+          spotlightRef.current.style.background =
+            "radial-gradient(500px circle at " + e.clientX + "px " + e.clientY + "px, rgba(139,92,246,0.05), transparent 70%)";
+        }
+      });
+    };
 
-  window.addEventListener("mousemove", handleMove);
-  return () => {
-    window.removeEventListener("mousemove", handleMove);
-    cancelAnimationFrame(rafId);
-  };
-}, []);
+    window.addEventListener("mousemove", handleMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      cancelAnimationFrame(rafId);
+    };
+  }, [prefersReducedMotion]);
 
   const filteredProjects =
     activeTab === "ALL"
@@ -520,7 +567,7 @@ useEffect(() => {
       formData.message,
     ].join("\n");
 
-       window.open(
+    window.open(
       "https://wa.me/" + MY_WA_NUMBER + "?text=" + encodeURIComponent(waText),
       "_blank",
       "noopener,noreferrer"
@@ -532,15 +579,15 @@ useEffect(() => {
     }, 1000);
   };
 
-    const navLinks = [
-      { label: "Tentang", href: "#about" },
-      { label: "Proyek", href: "#projects" },
-      { label: "Keahlian", href: "#skills" },
-      { label: "Kontak", href: "#contact" },
-    ];
+  const navLinks = [
+    { label: "Tentang", href: "#about" },
+    { label: "Proyek", href: "#projects" },
+    { label: "Keahlian", href: "#skills" },
+    { label: "Kontak", href: "#contact" },
+  ];
 
   return (
-    <main className="min-h-screen bg-[#09090b] text-zinc-100 antialiased overflow-x-hidden selection:bg-violet-400/30 selection:text-violet-200 scroll-smooth">
+    <main className="min-h-screen bg-[#09090b] text-zinc-100 antialiased overflow-x-hidden selection:bg-violet-400/30 selection:text-violet-200 scroll-smooth motion-reduce:scroll-auto">
 
       {/* ── Global Background ── */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
@@ -555,13 +602,11 @@ useEffect(() => {
       </div>
 
       {/* ── Cursor Spotlight ── */}
-      {/* ── Cursor Spotlight ── */}
       <div
         ref={spotlightRef}
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 hidden md:block"
       />
-
 
       {/* ── Navbar ── */}
       <nav className={`fixed top-0 w-full z-50 bg-[#09090b]/70 backdrop-blur-xl transition-all duration-300 ${
@@ -574,7 +619,7 @@ useEffect(() => {
             </div>
             <div className="leading-none">
               <span className="block text-sm font-semibold tracking-wide">Hidayat</span>
-              <span className="block text-[9px] uppercase tracking-[0.25em] text-zinc-600 mt-0.5">
+              <span className="block text-[9px] uppercase tracking-[0.25em] text-zinc-500 mt-0.5">
                 Developer
               </span>
             </div>
@@ -583,7 +628,7 @@ useEffect(() => {
           <div className="hidden md:flex items-center gap-7">
             {navLinks.slice(0, 3).map((link) => (
               <a key={link.href} href={link.href}
-                className="text-xs uppercase tracking-widest text-zinc-500 hover:text-violet-400 transition-colors">
+                className="text-xs uppercase tracking-widest text-zinc-400 hover:text-violet-400 transition-colors">
                 {link.label}
               </a>
             ))}
@@ -613,7 +658,7 @@ useEffect(() => {
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm uppercase tracking-widest text-zinc-500 hover:text-violet-400 transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
+                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-violet-400 transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
                   {link.label}
                 </a>
               ))}
@@ -623,8 +668,8 @@ useEffect(() => {
       </AnimatePresence>
       </nav>
 
-      {/* ── Hero / About ── */}
-      <section id="about" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 px-6 text-center overflow-hidden">
+      {/* ── Hero ── */}
+      <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 px-6 text-center overflow-hidden">
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[#09090b]/60 to-[#09090b]" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
@@ -649,7 +694,7 @@ useEffect(() => {
             className="px-4 py-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.05] backdrop-blur-sm mb-8 flex items-center gap-2.5"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 motion-reduce:animate-none" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
             </span>
             <p className="text-[10px] sm:text-xs font-medium tracking-wider text-emerald-300 uppercase">
@@ -657,15 +702,8 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-xs sm:text-sm uppercase tracking-[0.35em] text-zinc-500 mb-6"
-          >
-            Full-Stack & Mobile Developer
-          </motion.p>
-
           <motion.h1
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}
             className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.02] mb-6"
           >
             <span className="bg-gradient-to-r from-white via-zinc-200 to-violet-400 bg-clip-text text-transparent">
@@ -674,31 +712,33 @@ useEffect(() => {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}
-            className="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto mb-8"
           >
-            Membangun aplikasi web dan mobile modern dengan fokus pada{" "}
-            <span className="text-zinc-200">performa</span>,{" "}
-            <span className="text-zinc-200">pengalaman pengguna</span>, dan solusi digital yang fungsional.
+            Membangun aplikasi web dan mobile dengan fokus pada performa, pengalaman pengguna, dan solusi yang benar-benar dipakai — bukan sekadar demo.
           </motion.p>
 
+          {/* Signature element: kartu identitas gaya "code object", ganti generic tech pills */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-wrap justify-center items-center gap-2 mb-10"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.45 }}
+            className="w-full max-w-md mb-10 text-left rounded-xl border border-white/[0.08] bg-[#0c0d11]/80 backdrop-blur-sm overflow-hidden shadow-xl shadow-black/30"
           >
-            {["Next.js", "Laravel", "React", "Flutter"].map((tech) => (
-              <span
-                key={tech}
-                className="text-xs sm:text-sm font-medium text-violet-300/90 px-3 py-1.5 rounded-full border border-violet-400/10 bg-violet-400/[0.04]"
-              >
-                {tech}
-              </span>
-            ))}
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06] bg-white/[0.02]">
+              <Terminal className="w-3.5 h-3.5 text-zinc-500" />
+              <span className="text-[11px] font-mono text-zinc-500">profile.ts</span>
+            </div>
+            <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
+              <p><span className="text-fuchsia-400">const</span> <span className="text-violet-300">developer</span> = {"{"}</p>
+              <p className="pl-4"><span className="text-sky-300">role</span>: <span className="text-emerald-300">"Full-Stack & Mobile Developer"</span>,</p>
+              <p className="pl-4"><span className="text-sky-300">stack</span>: [<span className="text-emerald-300">"Next.js"</span>, <span className="text-emerald-300">"Laravel"</span>, <span className="text-emerald-300">"Flutter"</span>],</p>
+              <p className="pl-4"><span className="text-sky-300">base</span>: <span className="text-emerald-300">"Pasuruan, Indonesia"</span>,</p>
+              <p className="pl-4"><span className="text-sky-300">status</span>: <span className="text-emerald-300">"open to internship"</span>,</p>
+              <p>{"}"}</p>
+            </div>
           </motion.div>
 
-
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.65 }}
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
             className="flex flex-wrap justify-center gap-3"
           >
             <a href="#projects"
@@ -714,10 +754,10 @@ useEffect(() => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.9 }}
-            className="mt-10 flex items-center gap-2 text-xs text-zinc-600"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.85 }}
+            className="mt-10 flex items-center gap-2 text-xs text-zinc-500"
           >
-            <MapPin className="w-3.5 h-3.5 text-zinc-700" />
+            <MapPin className="w-3.5 h-3.5 text-zinc-600" />
             Pasuruan, Indonesia
           </motion.div>
         </div>
@@ -727,13 +767,70 @@ useEffect(() => {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-700">Scroll</span>
+          <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-600">Scroll</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-px h-7 bg-gradient-to-b from-violet-400 to-transparent"
+            className="w-px h-7 bg-gradient-to-b from-violet-400 to-transparent motion-reduce:animate-none"
           />
         </motion.div>
+      </section>
+
+      {/* ── About / Tentang ── */}
+      <section id="about" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeading
+            index="01"
+            eyebrow="About"
+            title="Tentang"
+            highlight="Saya"
+            description="Sekilas tentang latar belakang, cara saya bekerja, dan perjalanan sampai ke titik ini."
+          />
+
+          <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
+            {/* Narasi */}
+            <div className="lg:col-span-2 space-y-5 text-sm sm:text-base text-zinc-300 leading-relaxed">
+              <p>
+                {/* TODO: ganti dengan cerita asli kamu — kenapa mulai belajar coding, apa yang bikin betah, dsb. */}
+                Saya mahasiswa Teknik Informatika yang lebih suka membangun aplikasi yang benar-benar dipakai daripada sekadar demo. Sebagian besar project di bawah ini lahir dari kebutuhan nyata dari mencatat keuangan harian sampai portal desa yang dipakai langsung oleh perangkat desa saat KKN.
+              </p>
+              <p>
+                Saya nyaman kerja end-to-end: merancang database dan API di backend, sampai memoles interaksi di frontend baik untuk web maupun mobile.
+              </p>
+            </div>
+
+            {/* Timeline */}
+            <div className="lg:col-span-3">
+              <ol className="relative border-l border-white/[0.08] ml-1">
+                {timelineItems.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: 16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className="mb-9 ml-6 last:mb-0"
+                  >
+                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[#09090b] border border-violet-400/40">
+                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+                    </span>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      {item.kind === "education" ? (
+                        <GraduationCap className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+                      ) : (
+                        <Briefcase className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+                      )}
+                      <span className="text-[11px] font-mono text-zinc-500">{item.period}</span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-zinc-100">{item.title}</h3>
+                    <p className="text-xs text-zinc-500 mb-1.5">{item.place}</p>
+                    <p className="text-sm text-zinc-400 leading-relaxed max-w-md">{item.description}</p>
+                  </motion.li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── Projects ── */}
@@ -743,7 +840,7 @@ useEffect(() => {
           {/* Header + Filter */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
             <SectionHeading
-              index="01"
+              index="02"
               eyebrow="Selected Works"
               title="Proyek"
               highlight="Pilihan"
@@ -762,10 +859,12 @@ useEffect(() => {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   aria-label={`Filter project: ${tab}`}
+                  aria-pressed={activeTab === tab}
                   className={`
                     relative text-xs uppercase tracking-wider font-medium
                     px-4 py-2 rounded-lg transition-all duration-300
-                    ${activeTab === tab ? "text-violet-300" : "text-zinc-500 hover:text-zinc-200"}
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2
+                    ${activeTab === tab ? "text-violet-300" : "text-zinc-400 hover:text-zinc-200"}
                   `}
                 >
                   {activeTab === tab && (
@@ -840,11 +939,11 @@ useEffect(() => {
                         <h3 className="font-display text-base font-semibold tracking-tight text-zinc-100 group-hover:text-violet-300 transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-xs text-zinc-600 mt-0.5">{project.subtitle}</p>
+                        <p className="text-xs text-zinc-500 mt-0.5">{project.subtitle}</p>
                       </div>
                     </div>
 
-                    <p className="text-xs text-zinc-500 leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-2">
                       {project.description}
                     </p>
 
@@ -852,7 +951,7 @@ useEffect(() => {
                     {project.metrics && (
                       <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
                         {project.metrics.map((m) => (
-                          <span key={m} className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+                          <span key={m} className="flex items-center gap-1.5 text-[11px] text-zinc-400">
                             <Sparkles className="w-3 h-3 text-violet-400/70 shrink-0" />{m}
                           </span>
                         ))}
@@ -861,7 +960,7 @@ useEffect(() => {
 
                     <div className="flex flex-wrap gap-1.5 mb-5">
                       {project.tech.map((tech) => (
-                        <span key={tech} className="text-[10px] font-mono border border-white/[0.07] text-zinc-400 px-2 py-0.5 bg-white/[0.02] rounded-md">
+                        <span key={tech} className="text-[10px] font-mono border border-white/[0.07] text-zinc-300 px-2 py-0.5 bg-white/[0.02] rounded-md">
                           {tech}
                         </span>
                       ))}
@@ -893,21 +992,12 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* ── Skills ── */}
-      <section id="skills" className="py-28 sm:py-32 px-6 border-t border-white/[0.05] overflow-hidden">
-        <style>{`
-          @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-33.33%); } }
-          @keyframes marquee-reverse { 0% { transform: translateX(-33.33%); } 100% { transform: translateX(0%); } }
-          .animate-marquee { animation: marquee 32s linear infinite; }
-          .animate-marquee-reverse { animation: marquee-reverse 32s linear infinite; }
-          .pause-on-hover:hover .animate-marquee,
-          .pause-on-hover:hover .animate-marquee-reverse { animation-play-state: paused; }
-        `}</style>
-
+          {/* ── Skills ── */}
+      <section id="skills" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
         <div className="max-w-6xl mx-auto">
 
           <SectionHeading
-            index="02"
+            index="03"
             eyebrow="Tech Stack"
             title="Keahlian"
             highlight="Teknis"
@@ -921,7 +1011,7 @@ useEffect(() => {
                 className="
                   relative flex flex-col py-7
                   border border-white/[0.07] bg-[#0f1115]/60
-                  rounded-2xl overflow-hidden pause-on-hover
+                  rounded-2xl overflow-hidden
                 "
               >
                 <div className="flex items-center gap-3 px-6 sm:px-8 mb-7">
@@ -931,32 +1021,27 @@ useEffect(() => {
                   </h3>
                 </div>
 
-                <div className="flex overflow-hidden relative w-full">
-                  <div className="absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-[#0f1115] to-transparent z-10 pointer-events-none" />
-                  <div className="absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0f1115] to-transparent z-10 pointer-events-none" />
-
-                  <div className={`flex gap-4 px-4 min-w-max ${index % 2 === 1 ? "animate-marquee-reverse" : "animate-marquee"}`}>
-                    {[...category.items, ...category.items, ...category.items].map((item, i) => {
-                      const IconComponent = item.icon;
-                      return (
-                        <div
-                          key={i}
-                          className="
-                            flex flex-col items-center justify-center p-4
-                            bg-[#111318]/90 border border-white/[0.06]
-                            hover:border-violet-400/30 hover:bg-violet-400/[0.04]
-                            rounded-xl transition-all duration-300
-                            w-[110px] sm:w-[130px] shrink-0 group
-                          "
-                        >
-                          <IconComponent className={`text-3xl sm:text-4xl ${item.color} mb-3 group-hover:scale-110 transition-transform duration-300`} />
-                          <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-200 text-center transition-colors">
-                            {item.name}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 px-6 sm:px-8">
+                  {category.items.map((item, i) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <div
+                        key={i}
+                        className="
+                          flex flex-col items-center justify-center p-4
+                          bg-[#111318]/90 border border-white/[0.06]
+                          hover:border-violet-400/30 hover:bg-violet-400/[0.04]
+                          rounded-xl transition-all duration-300
+                          group
+                        "
+                      >
+                        <IconComponent className={`text-3xl sm:text-4xl ${item.color} mb-3 group-hover:scale-110 transition-transform duration-300`} />
+                        <span className="text-xs font-medium text-zinc-300 group-hover:text-zinc-100 text-center transition-colors">
+                          {item.name}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -971,13 +1056,13 @@ useEffect(() => {
           <div className="text-center mb-14">
             <div className="flex justify-center items-center gap-3 mb-4">
               <div className="h-px w-10 bg-gradient-to-r from-transparent to-violet-400/40" />
-              <span className="font-mono text-[10px] text-violet-400 tracking-[0.25em] uppercase">03 / Contact</span>
+              <span className="font-mono text-[10px] text-violet-400 tracking-[0.25em] uppercase">04 / Contact</span>
               <div className="h-px w-10 bg-gradient-to-l from-transparent to-violet-400/40" />
             </div>
             <h2 className="font-display text-2xl sm:text-3xl md:text-[2.5rem] font-bold tracking-tight text-zinc-50 mb-4">
               Mari <em className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-400">Berkolaborasi</em>
             </h2>
-            <p className="text-sm sm:text-base text-zinc-500 max-w-lg mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-lg mx-auto leading-relaxed">
               Terbuka untuk kesempatan magang, Junior Web & Mobile Developer, freelance, maupun project kolaboratif.
             </p>
           </div>
@@ -986,15 +1071,14 @@ useEffect(() => {
 
             {/* Left — Direct contacts */}
             <div>
-              <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">
+              <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-4">
                 Kontak Langsung
               </h3>
 
               <div className="space-y-3">
                 {[
                   {
-                    href: "https://wa.me/6285816172367", // ← sama, ganti dengan nomor kamu
-
+                    href: "https://wa.me/6285816172367",
                     label: "WhatsApp",
                     value: "Chat Langsung",
                     icon: <WhatsAppIcon className="w-5 h-5" />,
@@ -1025,13 +1109,14 @@ useEffect(() => {
                       border border-white/[0.07] hover:border-violet-400/30
                       bg-[#0f1115]/70 hover:bg-violet-400/[0.03]
                       rounded-xl transition-all group
+                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2
                     "
                   >
                     <div className="p-3 rounded-lg bg-violet-400/[0.07] text-violet-400 group-hover:bg-violet-400 group-hover:text-zinc-950 transition-colors shrink-0">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">{item.label}</p>
+                      <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{item.label}</p>
                       <p className="text-sm font-medium text-zinc-200 truncate">{item.value}</p>
                     </div>
                   </a>
@@ -1046,7 +1131,7 @@ useEffect(() => {
             >
               <div>
                 <h3 className="font-display text-sm font-semibold text-zinc-200 uppercase tracking-wider">Kirim Pesan</h3>
-                <p className="text-xs text-zinc-600 mt-1">
+                <p className="text-xs text-zinc-500 mt-1">
                   Isi form dan lanjutkan percakapan melalui WhatsApp.
                 </p>
               </div>
@@ -1056,7 +1141,7 @@ useEffect(() => {
                 { id: "email", label: "Email", type: "email", placeholder: "nama@email.com" },
               ].map((field) => (
                 <div key={field.id}>
-                  <label htmlFor={field.id} className="block text-xs font-mono text-zinc-500 mb-2">
+                  <label htmlFor={field.id} className="block text-xs font-mono text-zinc-400 mb-2">
                     {field.label}
                   </label>
                   <input
@@ -1069,7 +1154,7 @@ useEffect(() => {
                     className="
                       w-full bg-[#08090c] border border-white/[0.07]
                       focus:border-violet-400/40 focus:bg-violet-400/[0.02]
-                      text-sm text-zinc-100 placeholder:text-zinc-700
+                      text-sm text-zinc-100 placeholder:text-zinc-600
                       rounded-lg p-3.5 outline-none transition-all
                     "
                   />
@@ -1077,7 +1162,7 @@ useEffect(() => {
               ))}
 
               <div>
-                <label htmlFor="message" className="block text-xs font-mono text-zinc-500 mb-2">Pesan</label>
+                <label htmlFor="message" className="block text-xs font-mono text-zinc-400 mb-2">Pesan</label>
                 <textarea
                   id="message"
                   rows={5}
@@ -1088,7 +1173,7 @@ useEffect(() => {
                   className="
                     w-full bg-[#08090c] border border-white/[0.07]
                     focus:border-violet-400/40 focus:bg-violet-400/[0.02]
-                    text-sm text-zinc-100 placeholder:text-zinc-700
+                    text-sm text-zinc-100 placeholder:text-zinc-600
                     rounded-lg p-3.5 outline-none transition-all resize-none
                   "
                 />
@@ -1102,11 +1187,12 @@ useEffect(() => {
                   text-zinc-950 font-semibold text-xs uppercase tracking-wider
                   rounded-lg transition-all flex items-center justify-center gap-2
                   shadow-lg shadow-violet-500/20
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-200 focus-visible:outline-offset-2
                 "
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-zinc-900/30 border-t-zinc-900 rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-zinc-900/30 border-t-zinc-900 rounded-full animate-spin motion-reduce:animate-none" />
                     Membuka WhatsApp...
                   </>
                 ) : (
@@ -1124,10 +1210,10 @@ useEffect(() => {
       {/* ── Footer ── */}
       <footer className="border-t border-white/[0.05] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-zinc-600">
+          <p className="text-xs text-zinc-500">
             © {new Date().getFullYear()} Mukhammad Nur Hidayat
           </p>
-          <div className="flex items-center gap-2 text-xs text-zinc-700">
+          <div className="flex items-center gap-2 text-xs text-zinc-600">
             <span>Built with</span>
             <span className="text-violet-400">Next.js</span>
             <span>×</span>
@@ -1145,7 +1231,7 @@ useEffect(() => {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Kembali ke atas"
-            className="fixed bottom-6 right-6 p-3 rounded-xl bg-violet-400 hover:bg-violet-300 text-zinc-950 transition-colors shadow-lg shadow-violet-500/20 z-40"
+            className="fixed bottom-6 right-6 p-3 rounded-xl bg-violet-400 hover:bg-violet-300 text-zinc-950 transition-colors shadow-lg shadow-violet-500/20 z-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-200 focus-visible:outline-offset-2"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
