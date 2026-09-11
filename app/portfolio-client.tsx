@@ -142,7 +142,7 @@ const timelineItems: TimelineItem[] = [
     period: "2026",
     title: "Kuliah Kerja Nyata (KKN)",
     place: "Program Desa",
-    description: "Membangun portal informasi desa berbasis Laravel untuk mengelola profil desa, berita, UMKM, dan wisata — sekarang jadi salah satu project unggulan di portofolio ini.",
+    description: "Membangun portal informasi desa berbasis Laravel untuk mengelola profil desa, berita, UMKM, dan wisata, sekarang jadi salah satu project unggulan di portofolio ini.",
     kind: "experience",
   },
   {
@@ -715,7 +715,7 @@ export default function PortfolioClient() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
             className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto mb-8"
           >
-            Membangun aplikasi web dan mobile dengan fokus pada performa, pengalaman pengguna, dan solusi yang benar-benar dipakai — bukan sekadar demo.
+            Membangun aplikasi web dan mobile dengan fokus pada performa, pengalaman pengguna, dan solusi yang benar-benar dipakai bukan sekadar demo.
           </motion.p>
 
           {/* Signature element: kartu identitas gaya "code object", ganti generic tech pills */}
@@ -792,10 +792,10 @@ export default function PortfolioClient() {
             <div className="lg:col-span-2 space-y-5 text-sm sm:text-base text-zinc-300 leading-relaxed">
               <p>
                 {/* TODO: ganti dengan cerita asli kamu — kenapa mulai belajar coding, apa yang bikin betah, dsb. */}
-                Saya mahasiswa Teknik Informatika yang lebih suka membangun aplikasi yang benar-benar dipakai daripada sekadar demo. Sebagian besar project di bawah ini lahir dari kebutuhan nyata dari mencatat keuangan harian sampai portal desa yang dipakai langsung oleh perangkat desa saat KKN.
+                Saya adalah mahasiswa Teknik Informatika yang senang membangun aplikasi yang tidak hanya berjalan, tetapi juga benar-benar memberikan manfaat. Sebagian besar project yang saya kerjakan berangkat dari kebutuhan nyata, mulai dari aplikasi pencatatan keuangan harian hingga portal desa.
               </p>
               <p>
-                Saya nyaman kerja end-to-end: merancang database dan API di backend, sampai memoles interaksi di frontend baik untuk web maupun mobile.
+                Saya terbiasa mengerjakan proses pengembangan secara end-to-end, mulai dari merancang database dan membangun API di sisi backend hingga mengembangkan frontend dengan fokus pada pengalaman dan interaksi pengguna, baik untuk platform web maupun mobile.
               </p>
             </div>
 
