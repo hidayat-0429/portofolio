@@ -110,7 +110,7 @@ const projects: Project[] = [
        "Portal informasi desa berbasis CMS, dibangun untuk program KKN. Dipakai untuk mengelola profil desa, berita, UMKM, dan wisata daerah.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
-    metrics: ["5 modul konten: profil, berita, UMKM, wisata, pengaduan", "Dipakai langsung oleh perangkat desa"],
+    metrics: ["5 modul konten: profil, berita, UMKM, wisata, pengaduan"],
   },
   {
     number: "05",
