@@ -1,5 +1,5 @@
 ﻿"use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -60,18 +60,18 @@ const projects: Project[] = [
   {
     number: "01",
     title: "Finance Notes",
-    subtitle: "Mobile Application + Backend API",
+    subtitle: "Mobile App + Backend API",
     category: "MOBILE",
     type: "MOBILE / FULL-STACK",
     featured: true,
     role: "Full-Stack Developer",
     tech: ["React Native", "Expo", "TypeScript", "Laravel", "Sanctum", "MySQL"],
     description:
-       "Aplikasi catatan keuangan full-stack. Mobile app untuk mencatat pemasukan dan pengeluaran harian, didukung REST API backend dengan autentikasi Sanctum dan manajemen transaksi lengkap.",
+       "Aplikasi catatan keuangan pribadi. Awalnya bikin buat sendiri karena males nyatet di notes. Ada autentikasi, CRUD transaksi lengkap, backend terpisah pakai Laravel + Sanctum.",
     github: "https://github.com/hidayat-0429/catatan-keuangan",
     secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
     image: "/project-finance-app.png",
-    metrics: ["Autentikasi token via Sanctum", "CRUD transaksi harian penuh", "REST API terpisah dari mobile app"],
+    metrics: ["Autentikasi pakai Sanctum", "CRUD transaksi lengkap", "Backend API terpisah"],
   },
   {
     number: "02",
@@ -81,10 +81,10 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Next.js", "Prisma", "NextAuth", "PostgreSQL"],
     description:
-       "Aplikasi web buat rental mobil. Ada fitur pesan mobil, kelola armada, dan login user pakai NextAuth.",
+       "Web app rental mobil. Fiturnya standar: pesan mobil, kelola armada, login user. Pakai Next.js sama Prisma biar cepet development-nya.",
     github: "https://github.com/hidayat-0429/car-rental",
     image: "/project-car-rental.png",
-    metrics: ["Sesi login dengan NextAuth", "Manajemen armada & ketersediaan unit"],
+    metrics: ["Login pakai NextAuth", "Kelola armada mobil"],
   },
   {
     number: "03",
@@ -94,10 +94,10 @@ const projects: Project[] = [
     role: "Mobile Developer",
     tech: ["Flutter", "Supabase", "Firebase FCM"],
     description:
-        "Aplikasi mobile pengingat tugas kuliah. Datanya tersinkron real-time dan ada push notification pengingat.",
+        "App pengingat tugas kuliah. Data sinkron real-time pakai Supabase, ada push notification biar gak lupa deadline. Lumayan membantu waktu tugas lagi numpuk.",
     github: "https://github.com/hidayat-0429/pengingat_kuliah",
     image: "/project-task-reminder.png",
-    metrics: ["Sinkronisasi data real-time via Supabase", "Push notification via Firebase FCM"],
+    metrics: ["Sinkronisasi real-time", "Push notification"],
   },
   {
     number: "04",
@@ -107,10 +107,10 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
-       "Portal informasi desa berbasis CMS, dibangun untuk program KKN. Dipakai untuk mengelola profil desa, berita, UMKM, dan wisata daerah.",
+       "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, wisata. Sekarang masih dipake sama desanya.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
-    metrics: ["5 modul konten: profil, berita, UMKM, wisata, pengaduan"],
+    metrics: ["5 modul: profil, berita, UMKM, wisata, pengaduan"],
   },
   {
     number: "05",
@@ -120,10 +120,10 @@ const projects: Project[] = [
     role: "Mobile Developer",
     tech: ["Flutter", "Firebase FCM", "REST API"],
     description:
-       "Aplikasi cuaca mobile dengan prakiraan harian real-time, info lokasi, dan push notification.",
+       "Aplikasi cuaca simple. Ngambil data dari API, deteksi lokasi otomatis, ada push notification juga. Project latihan awal pas belajar Flutter.",
     github: "https://github.com/hidayat-0429/aplikasi_cuaca",
     image: "/project-weather.png",
-    metrics: ["Data cuaca real-time berbasis lokasi", "Geolokasi otomatis"],
+    metrics: ["Data cuaca real-time", "Geolokasi otomatis"],
   },
 ];
 
@@ -135,21 +135,21 @@ const timelineItems: TimelineItem[] = [
     period: "2023 — Sekarang",
     title: "Teknik Informatika",
     place: "Universitas Yudharta Pasuruan",
-    description: "Fokus di Mobile & Game Programming. Belajar dari dasar pemrograman sampai membangun aplikasi full-stack web dan mobile.",
+    description: "Fokus di Mobile & Game Programming. Lebih banyak belajar dari project sendiri daripada teori di kelas.",
     kind: "education",
   },
   {
     period: "2026",
     title: "Kuliah Kerja Nyata (KKN)",
     place: "Program Desa",
-    description: "Membangun portal informasi desa berbasis Laravel untuk mengelola profil desa, berita, UMKM, dan wisata, sekarang jadi salah satu project unggulan di portofolio ini.",
+    description: "Bikin portal informasi desa pakai Laravel. Projectnya masih jalan sampai sekarang.",
     kind: "experience",
   },
   {
     period: "Sekarang",
     title: "Full-Stack & Mobile Developer",
     place: "Freelance / Project Pribadi",
-    description: "Membangun aplikasi web dan mobile end-to-end, dari desain database sampai UI, menggunakan Next.js, Laravel, dan Flutter.",
+    description: "Ngerjain project web & mobile dari nol. Kadang freelance, kadang project iseng sendiri.",
     kind: "experience",
   },
 ];
@@ -350,11 +350,11 @@ function FeaturedProjectCard({ project }: { project: Project }) {
       {/* Top accent line */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
 
-      {/* Watermark nomor besar */}
+      {/* Watermark nomor */}
       <span aria-hidden className="
         pointer-events-none select-none absolute -top-6 right-4 lg:right-8 z-0
-        font-display text-[9rem] lg:text-[13rem] font-bold leading-none
-        text-white/[0.025]
+        font-display text-[7rem] lg:text-[10rem] font-bold leading-none
+        text-white/[0.015]
       ">
         {project.number}
       </span>
@@ -503,10 +503,8 @@ export default function PortfolioClient() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const spotlightRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -516,37 +514,6 @@ export default function PortfolioClient() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    const handler = () => setPrefersReducedMotion(mq.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  // Spotlight cursor (desktop only) — tanpa re-render
-  useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    if (prefersReducedMotion) return;
-
-    let rafId = 0;
-    const handleMove = (e: MouseEvent) => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        if (spotlightRef.current) {
-          spotlightRef.current.style.background =
-            "radial-gradient(500px circle at " + e.clientX + "px " + e.clientY + "px, rgba(139,92,246,0.05), transparent 70%)";
-        }
-      });
-    };
-
-    window.addEventListener("mousemove", handleMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      cancelAnimationFrame(rafId);
-    };
-  }, [prefersReducedMotion]);
 
   const filteredProjects =
     activeTab === "ALL"
@@ -591,22 +558,8 @@ export default function PortfolioClient() {
 
       {/* ── Global Background ── */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.03]
-            bg-[linear-gradient(rgba(255,255,255,0.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.7)_1px,transparent_1px)]
-            bg-[size:56px_56px]"
-        />
-        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-violet-500/[0.08] blur-[140px]" />
-        <div className="absolute top-[35%] right-[-250px] w-[500px] h-[500px] rounded-full bg-fuchsia-500/[0.04] blur-[130px]" />
-        <div className="absolute bottom-[-200px] left-[-200px] w-[500px] h-[500px] rounded-full bg-indigo-600/[0.04] blur-[140px]" />
+        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-violet-500/[0.05] blur-[140px]" />
       </div>
-
-      {/* ── Cursor Spotlight ── */}
-      <div
-        ref={spotlightRef}
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 hidden md:block"
-      />
 
       {/* ── Navbar ── */}
       <nav className={`fixed top-0 w-full z-50 bg-[#09090b]/70 backdrop-blur-xl transition-all duration-300 ${
@@ -670,33 +623,29 @@ export default function PortfolioClient() {
 
       {/* ── Hero ── */}
       <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[#09090b]/60 to-[#09090b]" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-[#09090b]" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
 
-          {/* Foto profil + status online */}
+          {/* Foto profil */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="mb-6 relative"
+            className="mb-6"
           >
             <img
               src="/profile.jpg"
               alt="Foto Mukhammad Nur Hidayat"
-              className="w-20 h-20 rounded-full object-cover border-2 border-violet-400/30 shadow-lg shadow-violet-500/10"
+              className="w-20 h-20 rounded-full object-cover border-2 border-violet-400/30"
             />
-            <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-[3px] border-[#09090b]" />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-            className="px-4 py-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.05] backdrop-blur-sm mb-8 flex items-center gap-2.5"
+            className="px-4 py-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.05] mb-8 flex items-center gap-2.5"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 motion-reduce:animate-none" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
             <p className="text-[10px] sm:text-xs font-medium tracking-wider text-emerald-300 uppercase">
               Available for Internship & Freelance
             </p>
@@ -715,13 +664,13 @@ export default function PortfolioClient() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
             className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto mb-8"
           >
-            Membangun aplikasi web dan mobile dengan fokus pada performa, pengalaman pengguna, dan solusi yang benar-benar dipakai bukan sekadar demo.
+            Bikin aplikasi web & mobile. Suka ngoding dari backend sampai frontend. Saat ini lagi fokus di Next.js, Laravel, sama Flutter.
           </motion.p>
 
           {/* Signature element: kartu identitas gaya "code object", ganti generic tech pills */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.45 }}
-            className="w-full max-w-md mb-10 text-left rounded-xl border border-white/[0.08] bg-[#0c0d11]/80 backdrop-blur-sm overflow-hidden shadow-xl shadow-black/30"
+            className="w-full max-w-md mb-10 text-left rounded-xl border border-white/[0.08] bg-[#0c0d11]/80 backdrop-blur-sm overflow-hidden"
           >
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06] bg-white/[0.02]">
               <Terminal className="w-3.5 h-3.5 text-zinc-500" />
@@ -768,11 +717,7 @@ export default function PortfolioClient() {
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-600">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-px h-7 bg-gradient-to-b from-violet-400 to-transparent motion-reduce:animate-none"
-          />
+          <div className="w-px h-7 bg-gradient-to-b from-violet-400/50 to-transparent" />
         </motion.div>
       </section>
 
@@ -784,18 +729,17 @@ export default function PortfolioClient() {
             eyebrow="About"
             title="Tentang"
             highlight="Saya"
-            description="Sekilas tentang latar belakang, cara saya bekerja, dan perjalanan sampai ke titik ini."
+            description="Siapa saya, ngapain aja, dan gimana saya sampai di sini."
           />
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
             {/* Narasi */}
             <div className="lg:col-span-2 space-y-5 text-sm sm:text-base text-zinc-300 leading-relaxed">
               <p>
-                {/* TODO: ganti dengan cerita asli kamu — kenapa mulai belajar coding, apa yang bikin betah, dsb. */}
-                Saya adalah mahasiswa Teknik Informatika yang senang membangun aplikasi yang tidak hanya berjalan, tetapi juga benar-benar memberikan manfaat. Sebagian besar project yang saya kerjakan berangkat dari kebutuhan nyata, mulai dari aplikasi pencatatan keuangan harian hingga portal desa.
+                Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata — mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
               </p>
               <p>
-                Saya terbiasa mengerjakan proses pengembangan secara end-to-end, mulai dari merancang database dan membangun API di sisi backend hingga mengembangkan frontend dengan fokus pada pengalaman dan interaksi pengguna, baik untuk platform web maupun mobile.
+                Biasanya ngerjain project dari A-Z: bikin database, API, sampai tampilan UI-nya. Stack favorit sekarang Next.js, Laravel, sama Flutter. Masih belajar banyak hal, tapi udah cukup nyaman bikin aplikasi dari nol sampai jadi.
               </p>
             </div>
 
@@ -844,7 +788,7 @@ export default function PortfolioClient() {
               eyebrow="Selected Works"
               title="Proyek"
               highlight="Pilihan"
-              description="Koleksi project web, mobile, dan backend yang menunjukkan kemampuan sebagai Full-Stack Developer."
+              description="Beberapa project web & mobile yang udah saya kerjain."
             />
 
             <motion.div
@@ -887,12 +831,9 @@ export default function PortfolioClient() {
                 key="featured-wrapper"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="relative mb-8"
+                className="mb-8"
               >
-                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-violet-500/[0.07] via-fuchsia-500/[0.03] to-transparent blur-2xl pointer-events-none" />
-                <div className="relative">
-                  <FeaturedProjectCard project={projects[0]} />
-                </div>
+                <FeaturedProjectCard project={projects[0]} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -923,7 +864,7 @@ export default function PortfolioClient() {
                     <ProjectCardImage src={project.image} alt={`Screenshot ${project.title}`} category={project.category} />
                     <HoverOverlay label="Lihat Repository" />
                     {/* Watermark nomor */}
-                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-4 z-10 font-display text-6xl font-bold leading-none text-white/[0.05]">
+                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-4 z-10 font-display text-5xl font-bold leading-none text-white/[0.03]">
                       {project.number}
                     </span>
                     <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-violet-300 flex items-center gap-1.5">
@@ -1001,7 +942,7 @@ export default function PortfolioClient() {
             eyebrow="Tech Stack"
             title="Keahlian"
             highlight="Teknis"
-            description="Teknologi yang saya gunakan untuk membangun aplikasi web dan mobile."
+            description="Tools & teknologi yang biasa saya pakai."
           />
 
           <div className="mt-12 space-y-6">
@@ -1063,7 +1004,7 @@ export default function PortfolioClient() {
               Mari <em className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-400">Berkolaborasi</em>
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 max-w-lg mx-auto leading-relaxed">
-              Terbuka untuk kesempatan magang, Junior Web & Mobile Developer, freelance, maupun project kolaboratif.
+              Lagi cari kesempatan magang atau posisi Junior Developer. Terbuka juga untuk freelance atau kolaborasi project.
             </p>
           </div>
 
@@ -1132,7 +1073,7 @@ export default function PortfolioClient() {
               <div>
                 <h3 className="font-display text-sm font-semibold text-zinc-200 uppercase tracking-wider">Kirim Pesan</h3>
                 <p className="text-xs text-zinc-500 mt-1">
-                  Isi form dan lanjutkan percakapan melalui WhatsApp.
+                  Isi form ini, nanti lanjut chat lewat WhatsApp.
                 </p>
               </div>
 
