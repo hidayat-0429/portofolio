@@ -217,8 +217,8 @@ function SectionHeading({
       transition={{ duration: 0.6 }}
     >
       <div className="flex items-center gap-3 mb-4">
-        <span className="font-mono text-[11px] text-violet-400">{index}</span>
-        <div className="h-px w-12 bg-gradient-to-r from-violet-400/50 to-transparent" />
+        <span className="font-mono text-[11px] text-zinc-500">{index}</span>
+        <div className="h-px w-12 bg-gradient-to-r from-zinc-700 to-transparent" />
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-500">
           {eyebrow}
         </p>
@@ -226,9 +226,9 @@ function SectionHeading({
       <h2 className="font-display text-2xl sm:text-3xl md:text-[2.5rem] font-bold tracking-tight text-zinc-50 leading-tight">
         {title}{" "}
         {highlight && (
-          <em className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-400">
+          <span className="text-zinc-300">
             {highlight}
-          </em>
+          </span>
         )}
       </h2>
       {description && (
@@ -268,8 +268,8 @@ function ProjectCardImage({
   if (hasError) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#0f1115] to-[#08090c]">
-        <div className="w-14 h-14 rounded-2xl border border-violet-400/10 bg-violet-400/5 flex items-center justify-center mb-4">
-          <Code2 className="w-7 h-7 text-violet-400/50" />
+        <div className="w-14 h-14 rounded-2xl border border-zinc-700 bg-zinc-800 flex items-center justify-center mb-4">
+          <Code2 className="w-7 h-7 text-zinc-500" />
         </div>
         <span className="text-xs font-mono text-zinc-500">{alt}</span>
         <span className="text-[10px] text-zinc-600 mt-1">Preview unavailable</span>
@@ -299,7 +299,7 @@ function ProjectCardImage({
 
   return (
     <div className="relative w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
-      <div className="absolute w-32 h-56 rounded-full bg-violet-500/15 blur-[50px] pointer-events-none" />
+      <div className="absolute w-32 h-56 rounded-full bg-white/[0.03] blur-[50px] pointer-events-none" />
       <div className="relative h-full max-h-60 lg:max-h-[380px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-lg overflow-hidden shadow-2xl shadow-black/60 bg-black">
         <img src={src} alt={alt} loading="lazy"
           className="w-full h-full object-cover object-top"
@@ -318,7 +318,7 @@ function HoverOverlay({ label = "Lihat Proyek" }: { label?: string }) {
       bg-gradient-to-t from-black/80 via-black/40 to-black/30 backdrop-blur-[2px]
       opacity-0 group-hover:opacity-100 transition-opacity duration-300
     ">
-      <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-400 text-zinc-950 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-violet-500/30 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+      <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-black text-xs font-semibold uppercase tracking-wider translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
         {label} <ExternalLink className="w-3.5 h-3.5" />
       </span>
     </div>
@@ -341,14 +341,14 @@ function FeaturedProjectCard({ project }: { project: Project }) {
         group relative
         border border-white/[0.08]
         bg-gradient-to-b from-[#101218] to-[#0d0e12]
-        hover:border-violet-400/25
+        hover:border-zinc-700
         rounded-2xl overflow-hidden
         shadow-2xl shadow-black/30
         transition-colors duration-500
       "
     >
       {/* Top accent line */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
 
       {/* Watermark nomor */}
       <span aria-hidden className="
@@ -378,7 +378,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
           {!hasError ? (
             <>
               <div className="relative h-full w-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-[1.02]">
-                <div className="absolute w-56 h-[420px] rounded-full bg-violet-500/20 blur-[80px] pointer-events-none" />
+                <div className="absolute w-56 h-[420px] rounded-full bg-white/[0.015] blur-[80px] pointer-events-none" />
                 <div className="relative h-full max-h-60 lg:max-h-[380px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-lg overflow-hidden shadow-2xl shadow-black/60 bg-black">
                   <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
                   <img
@@ -393,8 +393,8 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center text-zinc-600">
-              <div className="w-16 h-16 rounded-2xl border border-violet-400/10 bg-violet-400/5 flex items-center justify-center mb-4">
-                <Code2 className="w-8 h-8 text-violet-400/50" />
+              <div className="w-16 h-16 rounded-2xl border border-zinc-700 bg-zinc-800 flex items-center justify-center mb-4">
+                <Code2 className="w-8 h-8 text-zinc-500" />
               </div>
               <span className="text-xs font-mono">{project.title}</span>
               <span className="text-[10px] mt-1">Preview unavailable</span>
@@ -411,18 +411,18 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <span className="font-mono text-[11px] text-zinc-600">{project.number}</span>
               <div className="h-px w-5 bg-zinc-800" />
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06]">
-                <Smartphone className="w-3 h-3 text-violet-400" />
-                <span className="text-[10px] font-mono text-violet-300 tracking-wider uppercase">
+                <Smartphone className="w-3 h-3 text-zinc-400" />
+                <span className="text-[10px] font-mono text-zinc-400 tracking-wider uppercase">
                   {project.type ?? project.category}
                 </span>
               </span>
-              <span className="px-2.5 py-1 rounded-full bg-violet-400/10 border border-violet-400/20 text-[10px] font-mono text-violet-300 tracking-wider uppercase">
+              <span className="px-2.5 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tracking-wider uppercase">
                 Featured
               </span>
             </div>
 
             <div>
-              <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-bold tracking-tight text-zinc-50 group-hover:text-violet-200 transition-colors duration-300">
+              <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-bold tracking-tight text-zinc-50 group-hover:text-white transition-colors duration-300">
                 {project.title}
               </h3>
               <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
@@ -437,7 +437,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <div className="grid grid-cols-1 gap-2">
                 {project.metrics.map((m) => (
                   <div key={m} className="flex items-center gap-2.5">
-                    <Sparkles className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+                    <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                     <span className="text-xs text-zinc-300">{m}</span>
                   </div>
                 ))}
@@ -483,7 +483,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <a
                 href={project.demo} target="_blank" rel="noreferrer"
                 aria-label={`Buka Live Demo ${project.title}`}
-                className="flex items-center gap-2 text-xs font-semibold text-zinc-950 bg-violet-400 hover:bg-violet-300 px-4 py-2.5 rounded-lg transition-all"
+                className="flex items-center gap-2 text-xs font-semibold text-black bg-zinc-100 hover:bg-white px-4 py-2.5 rounded-lg transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Live Demo
               </a>
@@ -554,20 +554,18 @@ export default function PortfolioClient() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#09090b] text-zinc-100 antialiased overflow-x-hidden selection:bg-violet-400/30 selection:text-violet-200 scroll-smooth motion-reduce:scroll-auto">
+    <main className="min-h-screen bg-[#0a0a0a] text-zinc-100 antialiased overflow-x-hidden selection:bg-white/20 selection:text-white scroll-smooth motion-reduce:scroll-auto">
 
       {/* ── Global Background ── */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-violet-500/[0.05] blur-[140px]" />
-      </div>
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-[#0a0a0a]" />
 
       {/* ── Navbar ── */}
-      <nav className={`fixed top-0 w-full z-50 bg-[#09090b]/70 backdrop-blur-xl transition-all duration-300 ${
-        isScrolled ? "border-b border-white/[0.08] shadow-lg shadow-black/20" : "border-b border-transparent"
+      <nav className={`fixed top-0 w-full z-50 bg-[#0a0a0a]/90 backdrop-blur-sm transition-all duration-300 ${
+        isScrolled ? "border-b border-white/[0.08]" : "border-b border-transparent"
       }`}>
         <div className="max-w-6xl mx-auto px-6 py-3.5 flex justify-between items-center">
           <a href="#" className="group flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg border border-violet-400/20 bg-violet-400/5 flex items-center justify-center text-violet-400 group-hover:border-violet-400/40 group-hover:bg-violet-400/10 transition-all">
+            <div className="w-8 h-8 rounded-lg border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-300 group-hover:border-zinc-600 group-hover:bg-zinc-700 transition-all">
               <Code2 className="w-4 h-4" />
             </div>
             <div className="leading-none">
@@ -581,18 +579,18 @@ export default function PortfolioClient() {
           <div className="hidden md:flex items-center gap-7">
             {navLinks.slice(0, 3).map((link) => (
               <a key={link.href} href={link.href}
-                className="text-xs uppercase tracking-widest text-zinc-400 hover:text-violet-400 transition-colors">
+                className="text-xs uppercase tracking-widest text-zinc-400 hover:text-zinc-100 transition-colors">
                 {link.label}
               </a>
             ))}
             <a href="#contact"
-              className="text-xs uppercase tracking-widest border border-violet-400/25 text-violet-400 hover:border-violet-400/50 hover:bg-violet-400/10 px-4 py-2 rounded-lg transition-all">
+              className="text-xs uppercase tracking-widest border border-zinc-700 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-800 px-4 py-2 rounded-lg transition-all">
               Kontak
             </a>
           </div>
 
           <button aria-label="Toggle Menu"
-              className="md:hidden relative z-50 p-2 text-zinc-400 hover:text-violet-400 transition-colors"
+              className="md:hidden relative z-50 p-2 text-zinc-400 hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -605,13 +603,13 @@ export default function PortfolioClient() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-white/[0.05] bg-[#09090b]/95 backdrop-blur-xl"
+            className="md:hidden border-t border-white/[0.05] bg-[#0a0a0a]/95 backdrop-blur-sm"
           >
             <div className="flex flex-col px-6 py-4">
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-violet-400 transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
+                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-white transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
                   {link.label}
                 </a>
               ))}
@@ -623,7 +621,7 @@ export default function PortfolioClient() {
 
       {/* ── Hero ── */}
       <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-[#09090b]" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-[#0a0a0a]" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
 
@@ -637,27 +635,25 @@ export default function PortfolioClient() {
             <img
               src="/profile.jpg"
               alt="Foto Mukhammad Nur Hidayat"
-              className="w-20 h-20 rounded-full object-cover border-2 border-violet-400/30"
+              className="w-20 h-20 rounded-full object-cover border-2 border-zinc-700 hover:border-zinc-600 transition-all duration-300"
             />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-            className="px-4 py-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.05] mb-8 flex items-center gap-2.5"
+            className="px-4 py-2 rounded-full border border-zinc-700 bg-zinc-800/50 mb-8 flex items-center gap-2.5"
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <p className="text-[10px] sm:text-xs font-medium tracking-wider text-emerald-300 uppercase">
+            <span className="w-2 h-2 rounded-full bg-zinc-400" />
+            <p className="text-[10px] sm:text-xs font-medium tracking-wider text-zinc-300 uppercase">
               Available for Internship & Freelance
             </p>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}
-            className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.02] mb-6"
+            className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.02] mb-6 text-white"
           >
-            <span className="bg-gradient-to-r from-white via-zinc-200 to-violet-400 bg-clip-text text-transparent">
-              Mukhammad Nur Hidayat
-            </span>
+            Mukhammad Nur Hidayat
           </motion.h1>
 
           <motion.p
@@ -677,11 +673,11 @@ export default function PortfolioClient() {
               <span className="text-[11px] font-mono text-zinc-500">profile.ts</span>
             </div>
             <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
-              <p><span className="text-fuchsia-400">const</span> <span className="text-violet-300">developer</span> = {"{"}</p>
-              <p className="pl-4"><span className="text-sky-300">role</span>: <span className="text-emerald-300">"Full-Stack & Mobile Developer"</span>,</p>
-              <p className="pl-4"><span className="text-sky-300">stack</span>: [<span className="text-emerald-300">"Next.js"</span>, <span className="text-emerald-300">"Laravel"</span>, <span className="text-emerald-300">"Flutter"</span>],</p>
-              <p className="pl-4"><span className="text-sky-300">base</span>: <span className="text-emerald-300">"Pasuruan, Indonesia"</span>,</p>
-              <p className="pl-4"><span className="text-sky-300">status</span>: <span className="text-emerald-300">"open to internship"</span>,</p>
+              <p><span className="text-white">const</span> <span className="text-zinc-300">developer</span> = {"{"}</p>
+              <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">"Full-Stack & Mobile Developer"</span>,</p>
+              <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">"Next.js"</span>, <span className="text-zinc-200">"Laravel"</span>, <span className="text-zinc-200">"Flutter"</span>],</p>
+              <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">"Pasuruan, Indonesia"</span>,</p>
+              <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-zinc-200">"open to internship"</span>,</p>
               <p>{"}"}</p>
             </div>
           </motion.div>
@@ -691,12 +687,12 @@ export default function PortfolioClient() {
             className="flex flex-wrap justify-center gap-3"
           >
             <a href="#projects"
-              className="group px-7 py-3.5 bg-violet-400 hover:bg-violet-300 text-zinc-950 text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-violet-500/20">
+              className="group px-7 py-3.5 bg-zinc-100 hover:bg-white text-black text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
               Lihat Proyek
               <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
             <a href="/CV_M._Nur_Hidayat.pdf" download
-              className="px-7 py-3.5 border border-white/[0.12] hover:border-violet-400/30 text-white hover:text-violet-300 bg-white/[0.02] backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
+              className="px-7 py-3.5 border border-zinc-700 hover:border-zinc-600 text-zinc-100 hover:bg-zinc-900 bg-transparent text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
               <Download className="w-4 h-4" />
               Download CV
             </a>
@@ -717,7 +713,7 @@ export default function PortfolioClient() {
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-600">Scroll</span>
-          <div className="w-px h-7 bg-gradient-to-b from-violet-400/50 to-transparent" />
+          <div className="w-px h-7 bg-gradient-to-b from-white/30 to-transparent" />
         </motion.div>
       </section>
 
@@ -755,14 +751,14 @@ export default function PortfolioClient() {
                     transition={{ duration: 0.5, delay: i * 0.08 }}
                     className="mb-9 ml-6 last:mb-0"
                   >
-                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[#09090b] border border-violet-400/40">
-                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[#0a0a0a] border border-zinc-700">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
                     </span>
                     <div className="flex items-center gap-2 mb-1.5">
                       {item.kind === "education" ? (
-                        <GraduationCap className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+                        <GraduationCap className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                       ) : (
-                        <Briefcase className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+                        <Briefcase className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                       )}
                       <span className="text-[11px] font-mono text-zinc-500">{item.period}</span>
                     </div>
@@ -807,14 +803,14 @@ export default function PortfolioClient() {
                   className={`
                     relative text-xs uppercase tracking-wider font-medium
                     px-4 py-2 rounded-lg transition-all duration-300
-                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2
-                    ${activeTab === tab ? "text-violet-300" : "text-zinc-400 hover:text-zinc-200"}
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
+                    ${activeTab === tab ? "text-zinc-100" : "text-zinc-400 hover:text-zinc-200"}
                   `}
                 >
                   {activeTab === tab && (
                     <motion.span
                       layoutId="tab-pill"
-                      className="absolute inset-0 rounded-lg border border-violet-400/20 bg-violet-400/[0.08]"
+                      className="absolute inset-0 rounded-lg border border-zinc-700 bg-zinc-800"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
@@ -852,7 +848,7 @@ export default function PortfolioClient() {
                   className="
                     group relative flex flex-col
                     border border-white/[0.07]
-                    bg-[#0f1115]/80 hover:border-violet-400/30
+                    bg-[#0f1115]/80 hover:border-zinc-700
                     hover:-translate-y-1
                     transition-all duration-300
                     rounded-2xl overflow-hidden
@@ -867,7 +863,7 @@ export default function PortfolioClient() {
                     <span aria-hidden className="pointer-events-none select-none absolute top-2 right-4 z-10 font-display text-5xl font-bold leading-none text-white/[0.03]">
                       {project.number}
                     </span>
-                    <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-violet-300 flex items-center gap-1.5">
+                    <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-zinc-300 flex items-center gap-1.5">
                       {project.category === "WEB" ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
                       {project.category}
                     </div>
@@ -877,7 +873,7 @@ export default function PortfolioClient() {
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div>
-                        <h3 className="font-display text-base font-semibold tracking-tight text-zinc-100 group-hover:text-violet-300 transition-colors">
+                        <h3 className="font-display text-base font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors">
                           {project.title}
                         </h3>
                         <p className="text-xs text-zinc-500 mt-0.5">{project.subtitle}</p>
@@ -893,7 +889,7 @@ export default function PortfolioClient() {
                       <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
                         {project.metrics.map((m) => (
                           <span key={m} className="flex items-center gap-1.5 text-[11px] text-zinc-400">
-                            <Sparkles className="w-3 h-3 text-violet-400/70 shrink-0" />{m}
+                            <Sparkles className="w-3 h-3 text-zinc-500 shrink-0" />{m}
                           </span>
                         ))}
                       </div>
@@ -919,7 +915,7 @@ export default function PortfolioClient() {
                         <a
                           href={project.demo} target="_blank" rel="noreferrer"
                           aria-label={`Buka Live Demo — ${project.title}`}
-                          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-zinc-950 bg-violet-400 hover:bg-violet-300 px-3 py-2.5 rounded-lg transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-black bg-zinc-100 hover:bg-white px-3 py-2.5 rounded-lg transition-all"
                         >
                           <ExternalLink className="w-3.5 h-3.5" /> Demo
                         </a>
@@ -956,7 +952,7 @@ export default function PortfolioClient() {
                 "
               >
                 <div className="flex items-center gap-3 px-6 sm:px-8 mb-7">
-                  <Sparkles className="w-4 h-4 text-violet-400" />
+                  <Sparkles className="w-4 h-4 text-zinc-400" />
                   <h3 className="font-display text-xs font-semibold uppercase tracking-wider text-zinc-300">
                     {category.title}
                   </h3>
@@ -996,12 +992,12 @@ export default function PortfolioClient() {
 
           <div className="text-center mb-14">
             <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="h-px w-10 bg-gradient-to-r from-transparent to-violet-400/40" />
-              <span className="font-mono text-[10px] text-violet-400 tracking-[0.25em] uppercase">04 / Contact</span>
-              <div className="h-px w-10 bg-gradient-to-l from-transparent to-violet-400/40" />
+              <div className="h-px w-10 bg-gradient-to-r from-transparent to-zinc-700" />
+              <span className="font-mono text-[10px] text-zinc-500 tracking-[0.25em] uppercase">04 / Contact</span>
+              <div className="h-px w-10 bg-gradient-to-l from-transparent to-zinc-700" />
             </div>
             <h2 className="font-display text-2xl sm:text-3xl md:text-[2.5rem] font-bold tracking-tight text-zinc-50 mb-4">
-              Mari <em className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-400">Berkolaborasi</em>
+              Mari <span className="text-zinc-300">Berkolaborasi</span>
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 max-w-lg mx-auto leading-relaxed">
               Lagi cari kesempatan magang atau posisi Junior Developer. Terbuka juga untuk freelance atau kolaborasi project.
@@ -1047,13 +1043,13 @@ export default function PortfolioClient() {
                     rel={item.external ? "noreferrer" : undefined}
                     className="
                       flex items-center gap-4 p-4
-                      border border-white/[0.07] hover:border-violet-400/30
-                      bg-[#0f1115]/70 hover:bg-violet-400/[0.03]
+                      border border-white/[0.07] hover:border-zinc-700
+                      bg-[#0f1115]/70 hover:bg-zinc-900
                       rounded-xl transition-all group
-                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2
+                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
                     "
                   >
-                    <div className="p-3 rounded-lg bg-violet-400/[0.07] text-violet-400 group-hover:bg-violet-400 group-hover:text-zinc-950 transition-colors shrink-0">
+                    <div className="p-3 rounded-lg bg-zinc-800 text-zinc-400 group-hover:bg-zinc-100 group-hover:text-black transition-colors shrink-0">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
@@ -1094,7 +1090,7 @@ export default function PortfolioClient() {
                     placeholder={field.placeholder}
                     className="
                       w-full bg-[#08090c] border border-white/[0.07]
-                      focus:border-violet-400/40 focus:bg-violet-400/[0.02]
+                      focus:border-white/[0.2] focus:bg-white/[0.02]
                       text-sm text-zinc-100 placeholder:text-zinc-600
                       rounded-lg p-3.5 outline-none transition-all
                     "
@@ -1113,7 +1109,7 @@ export default function PortfolioClient() {
                   placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
                   className="
                     w-full bg-[#08090c] border border-white/[0.07]
-                    focus:border-violet-400/40 focus:bg-violet-400/[0.02]
+                    focus:border-white/[0.2] focus:bg-white/[0.02]
                     text-sm text-zinc-100 placeholder:text-zinc-600
                     rounded-lg p-3.5 outline-none transition-all resize-none
                   "
@@ -1124,16 +1120,15 @@ export default function PortfolioClient() {
                 type="submit"
                 disabled={isSubmitting}
                 className="
-                  w-full py-3.5 bg-violet-400 hover:bg-violet-300 disabled:opacity-60
-                  text-zinc-950 font-semibold text-xs uppercase tracking-wider
+                  w-full py-3.5 bg-zinc-100 hover:bg-white disabled:opacity-60
+                  text-black font-semibold text-xs uppercase tracking-wider
                   rounded-lg transition-all flex items-center justify-center gap-2
-                  shadow-lg shadow-violet-500/20
-                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-200 focus-visible:outline-offset-2
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
                 "
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-zinc-900/30 border-t-zinc-900 rounded-full animate-spin motion-reduce:animate-none" />
+                    <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin motion-reduce:animate-none" />
                     Membuka WhatsApp...
                   </>
                 ) : (
@@ -1156,9 +1151,9 @@ export default function PortfolioClient() {
           </p>
           <div className="flex items-center gap-2 text-xs text-zinc-600">
             <span>Built with</span>
-            <span className="text-violet-400">Next.js</span>
+            <span className="text-zinc-300">Next.js</span>
             <span>×</span>
-            <span className="text-violet-400">Tailwind</span>
+            <span className="text-zinc-300">Tailwind</span>
           </div>
         </div>
       </footer>
@@ -1172,7 +1167,7 @@ export default function PortfolioClient() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Kembali ke atas"
-            className="fixed bottom-6 right-6 p-3 rounded-xl bg-violet-400 hover:bg-violet-300 text-zinc-950 transition-colors shadow-lg shadow-violet-500/20 z-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-200 focus-visible:outline-offset-2"
+            className="fixed bottom-6 right-6 p-3 rounded-xl bg-zinc-100 hover:bg-white text-black transition-colors z-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
