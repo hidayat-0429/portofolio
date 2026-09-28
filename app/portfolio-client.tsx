@@ -107,7 +107,7 @@ const projects: Project[] = [
     role: "Full-Stack Developer",
     tech: ["Laravel", "Livewire", "Tailwind CSS"],
     description:
-       "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, wisata. Sekarang masih dipake sama desanya.",
+       "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, dan wisata di desa.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.png",
     metrics: ["5 modul: profil, berita, UMKM, wisata, pengaduan"],
@@ -142,7 +142,7 @@ const timelineItems: TimelineItem[] = [
     period: "2026",
     title: "Kuliah Kerja Nyata (KKN)",
     place: "Program Desa",
-    description: "Bikin portal informasi desa pakai Laravel. Projectnya masih jalan sampai sekarang.",
+    description: "Bikin portal informasi desa, umkm, wisata, dan berita pakai Laravel.",
     kind: "experience",
   },
   {
