@@ -19,11 +19,11 @@ export const metadata: Metadata = {
     template: "%s | Nur Hidayat",
   },
   description:
-    "Portofolio Mukhammad Nur Hidayat — Full-Stack & Mobile Developer. Membangun aplikasi web dan mobile dengan Next.js, Laravel, dan Flutter.",
+    "Portofolio Mukhammad Nur Hidayat, Full-Stack & Mobile Developer. Membangun aplikasi web dan mobile dengan Next.js, Laravel, dan Flutter.",
   keywords: ["Nur Hidayat", "Web Developer", "Mobile Developer", "Next.js", "Laravel", "Flutter", "Portofolio"],
   openGraph: {
     title: "Mukhammad Nur Hidayat | Web & Mobile Developer",
-    description: "Portofolio Full-Stack & Mobile Developer — Next.js, Laravel, Flutter.",
+    description: "Portofolio Full-Stack & Mobile Developer, Next.js, Laravel, Flutter.",
     url: "https://ganti-dengan-domainmu.com",
     siteName: "Nur Hidayat Portfolio",
     locale: "id_ID",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mukhammad Nur Hidayat | Web & Mobile Developer",
-    description: "Portofolio Full-Stack & Mobile Developer — Next.js, Laravel, Flutter.",
+    description: "Portofolio Full-Stack & Mobile Developer, Next.js, Laravel, Flutter.",
   },
   robots: {
     index: true,

@@ -132,7 +132,7 @@ const projects: Project[] = [
 
 const timelineItems: TimelineItem[] = [
   {
-    period: "2023 — Sekarang",
+    period: "2023 - Sekarang",
     title: "Teknik Informatika",
     place: "Universitas Yudharta Pasuruan",
     description: "Fokus di Mobile & Game Programming. Lebih banyak belajar dari project sendiri daripada teori di kelas.",
@@ -732,7 +732,7 @@ export default function PortfolioClient() {
             {/* Narasi */}
             <div className="lg:col-span-2 space-y-5 text-sm sm:text-base text-zinc-300 leading-relaxed">
               <p>
-                Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata — mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
+                Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
               </p>
               <p>
                 Biasanya ngerjain project dari A-Z: bikin database, API, sampai tampilan UI-nya. Stack favorit sekarang Next.js, Laravel, sama Flutter. Masih belajar banyak hal, tapi udah cukup nyaman bikin aplikasi dari nol sampai jadi.
@@ -906,7 +906,7 @@ export default function PortfolioClient() {
                     <div className="mt-auto flex items-center gap-2 pt-1 border-t border-white/[0.05]">
                       <a
                         href={project.github} target="_blank" rel="noreferrer"
-                        aria-label={`Buka repository — ${project.title}`}
+                        aria-label={`Buka repository ${project.title}`}
                         className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] px-3 py-2.5 rounded-lg transition-all"
                       >
                         <GithubIcon className="w-3.5 h-3.5" /> Repository
@@ -914,7 +914,7 @@ export default function PortfolioClient() {
                       {project.demo && (
                         <a
                           href={project.demo} target="_blank" rel="noreferrer"
-                          aria-label={`Buka Live Demo — ${project.title}`}
+                          aria-label={`Buka Live Demo ${project.title}`}
                           className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-black bg-zinc-100 hover:bg-white px-3 py-2.5 rounded-lg transition-all"
                         >
                           <ExternalLink className="w-3.5 h-3.5" /> Demo
@@ -1006,7 +1006,7 @@ export default function PortfolioClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
-            {/* Left — Direct contacts */}
+            {/* Left Direct contacts */}
             <div>
               <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-4">
                 Kontak Langsung
@@ -1061,7 +1061,7 @@ export default function PortfolioClient() {
               </div>
             </div>
 
-            {/* Right — Form */}
+            {/* Right Form */}
             <form
               onSubmit={handleSubmit}
               className="border border-white/[0.07] bg-[#0f1115]/70 p-6 sm:p-7 rounded-2xl space-y-5"
