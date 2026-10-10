@@ -672,7 +672,7 @@ export default function PortfolioClient() {
                 height={160}
                 loading="eager"
                 fetchPriority="high"
-                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line hover:border-accent transition-all duration-300"
+                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line grayscale hover:grayscale-0 hover:border-accent transition-all duration-500"
               />
             </div>
           </motion.div>
