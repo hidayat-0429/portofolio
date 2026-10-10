@@ -3,13 +3,35 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --accent: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+}
+
+@theme {
+  /* Permukaan: satu sumber kebenaran, bukan hex acak per komponen */
+  --color-base: #0a0a0a;
+  --color-raised: #101216;
+  --color-sunken: #08090c;
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.13);
+
+  /* Aksen tunggal: emerald. Dipakai hemat, bukan di mana-mana. */
+  --color-accent: #34d399;
+  --color-accent-fill: #10b981;
+  --color-accent-ink: #052e16;
+  --color-accent-soft: rgba(52, 211, 153, 0.1);
+  --color-accent-line: rgba(52, 211, 153, 0.28);
+
+  /* Skala fluid: satu nilai untuk semua breakpoint */
+  --text-hero: clamp(2.5rem, 7.2vw, 4.75rem);
+  --text-section: clamp(1.6rem, 3.4vw, 2.5rem);
+  --text-card-title: clamp(1.05rem, 1.6vw, 1.35rem);
+  --text-lead: clamp(0.95rem, 1.4vw, 1.1rem);
 }
 
 body {
@@ -26,11 +48,34 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Accent color for important elements */
-.accent-border {
-  border-color: rgba(255, 255, 255, 0.1);
+/* Navbar fixed: judul section jangan ketutup saat lompat lewat anchor */
+section[id] {
+  scroll-margin-top: 4.5rem;
 }
 
-.accent-text {
-  color: rgba(255, 255, 255, 0.9);
+::selection {
+  background: rgba(52, 211, 153, 0.25);
+  color: #ffffff;
+}
+
+/* Kerangka latar: garis tipis + satu glow emerald, dipakai di hero */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

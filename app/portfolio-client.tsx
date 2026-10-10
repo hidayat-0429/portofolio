@@ -1,5 +1,6 @@
 ﻿"use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -11,12 +12,12 @@ import {
   X,
   ArrowUp,
   Code2,
-  Sparkles,
   MapPin,
   Send,
   GraduationCap,
   Briefcase,
   Terminal,
+  Check,
 } from "lucide-react";
 
 import { FaJava, FaCss3Alt } from "react-icons/fa";
@@ -70,7 +71,7 @@ const projects: Project[] = [
        "Aplikasi catatan keuangan pribadi. Awalnya bikin buat sendiri karena males nyatet di notes. Ada autentikasi, CRUD transaksi lengkap, backend terpisah pakai Laravel + Sanctum.",
     github: "https://github.com/hidayat-0429/catatan-keuangan",
     secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
-    image: "/project-finance-app.png",
+    image: "/project-finance-app.webp",
     metrics: ["Autentikasi pakai Sanctum", "CRUD transaksi lengkap", "Backend API terpisah"],
   },
   {
@@ -83,7 +84,7 @@ const projects: Project[] = [
     description:
        "Web app rental mobil. Fiturnya standar: pesan mobil, kelola armada, login user. Pakai Next.js sama Prisma biar cepet development-nya.",
     github: "https://github.com/hidayat-0429/car-rental",
-    image: "/project-car-rental.png",
+    image: "/project-car-rental.webp",
     metrics: ["Login pakai NextAuth", "Kelola armada mobil"],
   },
   {
@@ -96,7 +97,7 @@ const projects: Project[] = [
     description:
         "App pengingat tugas kuliah. Data sinkron real-time pakai Supabase, ada push notification biar gak lupa deadline. Lumayan membantu waktu tugas lagi numpuk.",
     github: "https://github.com/hidayat-0429/pengingat_kuliah",
-    image: "/project-task-reminder.png",
+    image: "/project-task-reminder.webp",
     metrics: ["Sinkronisasi real-time", "Push notification"],
   },
   {
@@ -109,7 +110,7 @@ const projects: Project[] = [
     description:
        "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, dan wisata di desa.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
-    image: "/project-desa.png",
+    image: "/project-desa.webp",
     metrics: ["5 modul: profil, berita, UMKM, wisata, pengaduan"],
   },
   {
@@ -122,7 +123,7 @@ const projects: Project[] = [
     description:
        "Aplikasi cuaca simple. Ngambil data dari API, deteksi lokasi otomatis, ada push notification juga. Project latihan awal pas belajar Flutter.",
     github: "https://github.com/hidayat-0429/aplikasi_cuaca",
-    image: "/project-weather.png",
+    image: "/project-weather.webp",
     metrics: ["Data cuaca real-time", "Geolokasi otomatis"],
   },
 ];
@@ -160,36 +161,36 @@ const skillCategories = [
   {
     title: "Core Languages",
     items: [
-      { name: "HTML5", icon: SiHtml5, color: "text-orange-500" },
-      { name: "CSS3", icon: FaCss3Alt, color: "text-blue-500" },
-      { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
-      { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
-      { name: "PHP", icon: SiPhp, color: "text-indigo-400" },
-      { name: "Java", icon: FaJava, color: "text-red-500" },
-      { name: "Dart", icon: SiDart, color: "text-cyan-400" },
+      { name: "HTML5", icon: SiHtml5 },
+      { name: "CSS3", icon: FaCss3Alt },
+      { name: "JavaScript", icon: SiJavascript },
+      { name: "TypeScript", icon: SiTypescript },
+      { name: "PHP", icon: SiPhp },
+      { name: "Java", icon: FaJava },
+      { name: "Dart", icon: SiDart },
     ],
   },
   {
     title: "Frameworks & Libraries",
     items: [
-      { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
-      { name: "React.js", icon: SiReact, color: "text-cyan-400" },
-      { name: "Laravel", icon: SiLaravel, color: "text-red-600" },
-      { name: "Livewire", icon: SiLivewire, color: "text-pink-400" },
-      { name: "Flutter", icon: SiFlutter, color: "text-blue-400" },
-      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-teal-400" },
-      { name: "Prisma", icon: SiPrisma, color: "text-white" },
+      { name: "Next.js", icon: SiNextdotjs },
+      { name: "React.js", icon: SiReact },
+      { name: "Laravel", icon: SiLaravel },
+      { name: "Livewire", icon: SiLivewire },
+      { name: "Flutter", icon: SiFlutter },
+      { name: "Tailwind CSS", icon: SiTailwindcss },
+      { name: "Prisma", icon: SiPrisma },
     ],
   },
   {
     title: "Tools & Databases",
     items: [
-      { name: "MySQL", icon: SiMysql, color: "text-blue-400" },
-      { name: "PostgreSQL", icon: SiPostgresql, color: "text-blue-300" },
-      { name: "Supabase", icon: SiSupabase, color: "text-emerald-500" },
-      { name: "Firebase", icon: SiFirebase, color: "text-amber-500" },
-      { name: "Git & GitHub", icon: SiGit, color: "text-orange-600" },
-      { name: "Android Studio", icon: SiAndroidstudio, color: "text-green-500" },
+      { name: "MySQL", icon: SiMysql },
+      { name: "PostgreSQL", icon: SiPostgresql },
+      { name: "Supabase", icon: SiSupabase },
+      { name: "Firebase", icon: SiFirebase },
+      { name: "Git & GitHub", icon: SiGit },
+      { name: "Android Studio", icon: SiAndroidstudio },
     ],
   },
 ];
@@ -217,22 +218,22 @@ function SectionHeading({
       transition={{ duration: 0.6 }}
     >
       <div className="flex items-center gap-3 mb-4">
-        <span className="font-mono text-[11px] text-zinc-500">{index}</span>
-        <div className="h-px w-12 bg-gradient-to-r from-zinc-700 to-transparent" />
+        <span className="font-mono text-[11px] text-accent">{index}</span>
+        <div className="h-px w-12 bg-gradient-to-r from-accent-line to-transparent" />
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-500">
           {eyebrow}
         </p>
       </div>
-      <h2 className="font-display text-2xl sm:text-3xl md:text-[2.5rem] font-bold tracking-tight text-zinc-50 leading-tight">
+      <h2 className="font-display text-section font-bold tracking-tight text-zinc-50 leading-tight">
         {title}{" "}
         {highlight && (
-          <span className="text-zinc-300">
+          <span className="text-zinc-400">
             {highlight}
           </span>
         )}
       </h2>
       {description && (
-        <p className="mt-4 text-sm sm:text-base text-zinc-400 max-w-lg leading-relaxed">
+        <p className="mt-4 text-lead text-zinc-400 max-w-lg leading-relaxed">
           {description}
         </p>
       )}
@@ -267,8 +268,8 @@ function ProjectCardImage({
 
   if (hasError) {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#0f1115] to-[#08090c]">
-        <div className="w-14 h-14 rounded-2xl border border-zinc-700 bg-zinc-800 flex items-center justify-center mb-4">
+      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-raised to-sunken">
+        <div className="w-14 h-14 rounded-2xl border border-line-strong bg-white/[0.04] flex items-center justify-center mb-4">
           <Code2 className="w-7 h-7 text-zinc-500" />
         </div>
         <span className="text-xs font-mono text-zinc-500">{alt}</span>
@@ -279,16 +280,16 @@ function ProjectCardImage({
 
   if (category === "WEB") {
     return (
-      <div className="w-full h-full bg-[#08090c] flex flex-col group-hover:scale-[1.02] transition-transform duration-700 ease-out">
-        <div className="bg-[#111318] px-3 py-2.5 flex items-center gap-1.5 border-b border-white/[0.06]">
+      <div className="w-full h-full bg-sunken flex flex-col group-hover:scale-[1.02] transition-transform duration-700 ease-out">
+        <div className="bg-raised px-3 py-2.5 flex items-center gap-1.5 border-b border-line">
           <div className="w-2 h-2 rounded-full bg-red-500/70" />
           <div className="w-2 h-2 rounded-full bg-yellow-500/70" />
           <div className="w-2 h-2 rounded-full bg-green-500/70" />
           <div className="ml-3 h-4 flex-1 rounded-md bg-white/[0.03] border border-white/[0.04]" />
         </div>
-        <div className="relative flex-1 overflow-hidden bg-zinc-950">
-          <img src={src} alt={alt} loading="lazy"
-              className="w-full h-auto"
+        <div className="relative flex-1 overflow-hidden bg-sunken">
+          <Image src={src} alt={alt} loading="lazy" fill sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover object-top"
               onError={() => setHasError(true)} />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
@@ -298,11 +299,11 @@ function ProjectCardImage({
   }
 
   return (
-    <div className="relative w-full h-full bg-[#08090c] flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
-      <div className="absolute w-32 h-56 rounded-full bg-white/[0.03] blur-[50px] pointer-events-none" />
-      <div className="relative h-full max-h-60 lg:max-h-[380px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-lg overflow-hidden shadow-2xl shadow-black/60 bg-black">
-        <img src={src} alt={alt} loading="lazy"
-          className="w-full h-full object-cover object-top"
+    <div className="relative w-full h-full bg-sunken flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
+      <div className="absolute w-40 h-64 rounded-full bg-accent/[0.07] blur-[55px] pointer-events-none" />
+      <div className="relative h-full max-h-64 lg:max-h-[420px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 bg-black">
+        <Image src={src} alt={alt} loading="lazy" fill sizes="220px"
+          className="object-cover object-top"
           onError={() => setHasError(true)} />
       </div>
     </div>
@@ -318,7 +319,7 @@ function HoverOverlay({ label = "Lihat Proyek" }: { label?: string }) {
       bg-gradient-to-t from-black/80 via-black/40 to-black/30 backdrop-blur-[2px]
       opacity-0 group-hover:opacity-100 transition-opacity duration-300
     ">
-      <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-black text-xs font-semibold uppercase tracking-wider translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+      <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-fill hover:bg-accent text-accent-ink text-xs font-semibold uppercase tracking-wider translate-y-2 group-hover:translate-y-0 transition-all duration-300">
         {label} <ExternalLink className="w-3.5 h-3.5" />
       </span>
     </div>
@@ -339,16 +340,16 @@ function FeaturedProjectCard({ project }: { project: Project }) {
   whileHover={{ y: -4 }}
   className="
         group relative
-        border border-white/[0.08]
-        bg-gradient-to-b from-[#101218] to-[#0d0e12]
-        hover:border-zinc-700
+        border border-line
+        bg-gradient-to-b from-raised to-base
+        hover:border-accent-line
         rounded-2xl overflow-hidden
         shadow-2xl shadow-black/30
         transition-colors duration-500
       "
     >
       {/* Top accent line */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-line to-transparent" />
 
       {/* Watermark nomor */}
       <span aria-hidden className="
@@ -364,28 +365,30 @@ function FeaturedProjectCard({ project }: { project: Project }) {
         {/* Image Side */}
         <div
           className="
-            relative lg:w-[55%]
-            h-64 sm:h-80 lg:h-auto lg:min-h-[420px]
-            bg-[#08090c]
-            border-b lg:border-b-0 lg:border-r border-white/[0.06]
+            relative lg:w-[52%]
+            h-80 sm:h-96 lg:h-auto lg:min-h-[520px]
+            bg-sunken
+            border-b lg:border-b-0 lg:border-r border-line
             flex items-center justify-center
             p-6 sm:p-10
             overflow-hidden
           "
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.06),transparent_65%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.09),transparent_65%)] pointer-events-none" />
 
           {!hasError ? (
             <>
               <div className="relative h-full w-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-[1.02]">
-                <div className="absolute w-56 h-[420px] rounded-full bg-white/[0.015] blur-[80px] pointer-events-none" />
-                <div className="relative h-full max-h-60 lg:max-h-[380px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-lg overflow-hidden shadow-2xl shadow-black/60 bg-black">
+                <div className="absolute w-64 h-[460px] rounded-full bg-accent/[0.05] blur-[90px] pointer-events-none" />
+                <div className="relative h-full max-h-72 lg:max-h-[500px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-black/70 bg-black">
                   <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
-                  <img
+                  <Image
                     src={project.image}
                     alt={`Screenshot aplikasi ${project.title}`}
+                    fill
+                    sizes="(min-width: 1024px) 52vw, 100vw"
                     onError={() => setHasError(true)}
-                    className="w-full h-full object-cover object-top"
+                    className="object-cover object-top"
                   />
                 </div>
               </div>
@@ -403,32 +406,32 @@ function FeaturedProjectCard({ project }: { project: Project }) {
         </div>
 
         {/* Info Side */}
-        <div className="lg:w-[45%] p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
+        <div className="lg:w-[48%] p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
 
           <div className="space-y-5">
 
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="font-mono text-[11px] text-zinc-600">{project.number}</span>
+              <span className="font-mono text-[11px] text-accent">{project.number}</span>
               <div className="h-px w-5 bg-zinc-800" />
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06]">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.03] border border-line">
                 <Smartphone className="w-3 h-3 text-zinc-400" />
                 <span className="text-[10px] font-mono text-zinc-400 tracking-wider uppercase">
                   {project.type ?? project.category}
                 </span>
               </span>
-              <span className="px-2.5 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tracking-wider uppercase">
+              <span className="px-2.5 py-1 rounded-full bg-accent-soft border border-accent-line text-[10px] font-mono text-accent tracking-wider uppercase">
                 Featured
               </span>
             </div>
 
             <div>
-              <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-bold tracking-tight text-zinc-50 group-hover:text-white transition-colors duration-300">
+              <h3 className="font-display text-[1.6rem] sm:text-[1.9rem] font-bold tracking-tight text-zinc-50 group-hover:text-white transition-colors duration-300">
                 {project.title}
               </h3>
-              <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
+              <p className="mt-1.5 text-sm text-zinc-400">{project.subtitle}</p>
             </div>
 
-            <p className="text-sm text-zinc-300 leading-relaxed">
+            <p className="text-[15px] text-zinc-300 leading-relaxed">
               {project.description}
             </p>
 
@@ -437,8 +440,8 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <div className="grid grid-cols-1 gap-2">
                 {project.metrics.map((m) => (
                   <div key={m} className="flex items-center gap-2.5">
-                    <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                    <span className="text-xs text-zinc-300">{m}</span>
+                    <Check className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <span className="text-[13px] text-zinc-300">{m}</span>
                   </div>
                 ))}
               </div>
@@ -454,7 +457,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
             <div className="flex flex-wrap gap-2">
               {project.tech.map((tech) => (
-                <span key={tech} className="text-[11px] font-mono border border-white/[0.07] text-zinc-300 px-2.5 py-1 bg-white/[0.02] rounded-md">
+                <span key={tech} className="text-[11px] font-mono border border-line text-zinc-300 px-2.5 py-1 bg-white/[0.02] rounded-md">
                   {tech}
                 </span>
               ))}
@@ -462,11 +465,11 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
           </div>
 
-          <div className="flex flex-wrap gap-2.5 pt-2 border-t border-white/[0.05]">
+          <div className="flex flex-wrap gap-2.5 pt-2 border-t border-line">
             <a
               href={project.github} target="_blank" rel="noreferrer"
               aria-label={`Buka repository Mobile App ${project.title}`}
-              className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] px-4 py-2.5 rounded-lg transition-all"
+              className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-line px-4 py-2.5 rounded-lg transition-all"
             >
               <GithubIcon className="w-3.5 h-3.5" /> Mobile App
             </a>
@@ -474,7 +477,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <a
                 href={project.secondaryGithub} target="_blank" rel="noreferrer"
                 aria-label={`Buka repository API ${project.title}`}
-                className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] px-4 py-2.5 rounded-lg transition-all"
+                className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-line px-4 py-2.5 rounded-lg transition-all"
               >
                 <GithubIcon className="w-3.5 h-3.5" /> API Repository
               </a>
@@ -483,7 +486,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <a
                 href={project.demo} target="_blank" rel="noreferrer"
                 aria-label={`Buka Live Demo ${project.title}`}
-                className="flex items-center gap-2 text-xs font-semibold text-black bg-zinc-100 hover:bg-white px-4 py-2.5 rounded-lg transition-all"
+                className="flex items-center gap-2 text-xs font-semibold text-accent-ink bg-accent-fill hover:bg-accent px-4 py-2.5 rounded-lg transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Live Demo
               </a>
@@ -505,6 +508,7 @@ export default function PortfolioClient() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -513,6 +517,23 @@ export default function PortfolioClient() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (mostVisible) setActiveSection(mostVisible.target.id);
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+    for (const id of ["about", "projects", "skills", "contact"]) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
   }, []);
 
   const filteredProjects =
@@ -554,18 +575,18 @@ export default function PortfolioClient() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-zinc-100 antialiased overflow-x-hidden selection:bg-white/20 selection:text-white scroll-smooth motion-reduce:scroll-auto">
+    <main className="min-h-screen bg-base text-zinc-100 antialiased overflow-x-hidden scroll-smooth motion-reduce:scroll-auto">
 
       {/* ── Global Background ── */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-[#0a0a0a]" />
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-base" />
 
       {/* ── Navbar ── */}
-      <nav className={`fixed top-0 w-full z-50 bg-[#0a0a0a]/90 backdrop-blur-sm transition-all duration-300 ${
-        isScrolled ? "border-b border-white/[0.08]" : "border-b border-transparent"
+      <nav className={`fixed top-0 w-full z-50 bg-base/85 backdrop-blur-md transition-all duration-300 ${
+        isScrolled ? "border-b border-line" : "border-b border-transparent"
       }`}>
         <div className="max-w-6xl mx-auto px-6 py-3.5 flex justify-between items-center">
-          <a href="#" className="group flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-300 group-hover:border-zinc-600 group-hover:bg-zinc-700 transition-all">
+          <a href="#hero" className="group flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg border border-accent-line bg-accent-soft flex items-center justify-center text-accent group-hover:bg-accent-fill group-hover:text-accent-ink transition-all">
               <Code2 className="w-4 h-4" />
             </div>
             <div className="leading-none">
@@ -577,19 +598,27 @@ export default function PortfolioClient() {
           </a>
 
           <div className="hidden md:flex items-center gap-7">
-            {navLinks.slice(0, 3).map((link) => (
-              <a key={link.href} href={link.href}
-                className="text-xs uppercase tracking-widest text-zinc-400 hover:text-zinc-100 transition-colors">
-                {link.label}
-              </a>
-            ))}
+            {navLinks.slice(0, 3).map((link) => {
+              const active = activeSection === link.href.slice(1);
+              return (
+                <a key={link.href} href={link.href} aria-current={active ? "true" : undefined}
+                  className={`relative text-xs uppercase tracking-widest transition-colors ${
+                    active ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"
+                  }`}>
+                  {link.label}
+                  <span className={`absolute -bottom-[6px] left-1/2 -translate-x-1/2 h-[3px] w-[3px] rounded-full bg-accent transition-opacity duration-300 ${
+                    active ? "opacity-100" : "opacity-0"
+                  }`} />
+                </a>
+              );
+            })}
             <a href="#contact"
-              className="text-xs uppercase tracking-widest border border-zinc-700 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-800 px-4 py-2 rounded-lg transition-all">
+              className="text-xs uppercase tracking-widest border border-line-strong text-zinc-200 hover:border-accent-line hover:bg-accent-soft hover:text-accent px-4 py-2 rounded-lg transition-all">
               Kontak
             </a>
           </div>
 
-          <button aria-label="Toggle Menu"
+          <button aria-label="Toggle Menu" aria-expanded={isMobileMenuOpen}
               className="md:hidden relative z-50 p-2 text-zinc-400 hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -603,13 +632,13 @@ export default function PortfolioClient() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-white/[0.05] bg-[#0a0a0a]/95 backdrop-blur-sm"
+            className="md:hidden border-t border-line bg-base/95 backdrop-blur-md"
           >
             <div className="flex flex-col px-6 py-4">
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-white transition-colors py-3.5 border-b border-white/[0.04] last:border-0">
+                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-accent transition-colors py-3.5 border-b border-line last:border-0">
                   {link.label}
                 </a>
               ))}
@@ -620,8 +649,10 @@ export default function PortfolioClient() {
       </nav>
 
       {/* ── Hero ── */}
-      <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-[#0a0a0a]" />
+      <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-24 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-grid pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-base" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
 
@@ -630,35 +661,45 @@ export default function PortfolioClient() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="mb-6"
+            className="mb-7"
           >
-            <img
-              src="/profile.jpg"
-              alt="Foto Mukhammad Nur Hidayat"
-              className="w-20 h-20 rounded-full object-cover border-2 border-zinc-700 hover:border-zinc-600 transition-all duration-300"
-            />
+            <div className="relative">
+              <div className="absolute -inset-1.5 rounded-full bg-accent/20 blur-lg pointer-events-none" />
+              <Image
+                src="/profile.jpg"
+                alt="Foto Mukhammad Nur Hidayat"
+                width={160}
+                height={160}
+                loading="eager"
+                fetchPriority="high"
+                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line hover:border-accent transition-all duration-300"
+              />
+            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-            className="px-4 py-2 rounded-full border border-zinc-700 bg-zinc-800/50 mb-8 flex items-center gap-2.5"
+            className="px-4 py-2 rounded-full border border-accent-line bg-accent-soft mb-8 flex items-center gap-2.5"
           >
-            <span className="w-2 h-2 rounded-full bg-zinc-400" />
-            <p className="text-[10px] sm:text-xs font-medium tracking-wider text-zinc-300 uppercase">
+            <span className="relative flex w-2 h-2">
+              <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping motion-reduce:hidden" />
+              <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
+            </span>
+            <p className="text-[10px] sm:text-xs font-medium tracking-wider text-accent uppercase">
               Available for Internship & Freelance
             </p>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}
-            className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.02] mb-6 text-white"
+            className="font-display text-hero font-extrabold tracking-tight leading-[1.05] mb-6 text-white"
           >
             Mukhammad Nur Hidayat
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto mb-8"
+            className="text-lead text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto mb-9"
           >
             Bikin aplikasi web & mobile. Suka ngoding dari backend sampai frontend. Saat ini lagi fokus di Next.js, Laravel, sama Flutter.
           </motion.p>
@@ -666,18 +707,18 @@ export default function PortfolioClient() {
           {/* Signature element: kartu identitas gaya "code object", ganti generic tech pills */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.45 }}
-            className="w-full max-w-md mb-10 text-left rounded-xl border border-white/[0.08] bg-[#0c0d11]/80 backdrop-blur-sm overflow-hidden"
+            className="w-full max-w-md mb-10 text-left rounded-xl border border-line bg-sunken/80 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/40"
           >
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06] bg-white/[0.02]">
-              <Terminal className="w-3.5 h-3.5 text-zinc-500" />
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-line bg-white/[0.02]">
+              <Terminal className="w-3.5 h-3.5 text-accent" />
               <span className="text-[11px] font-mono text-zinc-500">profile.ts</span>
             </div>
             <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
               <p><span className="text-white">const</span> <span className="text-zinc-300">developer</span> = {"{"}</p>
-              <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">"Full-Stack & Mobile Developer"</span>,</p>
-              <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">"Next.js"</span>, <span className="text-zinc-200">"Laravel"</span>, <span className="text-zinc-200">"Flutter"</span>],</p>
-              <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">"Pasuruan, Indonesia"</span>,</p>
-              <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-zinc-200">"open to internship"</span>,</p>
+              <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">{'"Full-Stack & Mobile Developer"'}</span>,</p>
+              <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">{'"Next.js"'}</span>, <span className="text-zinc-200">{'"Laravel"'}</span>, <span className="text-zinc-200">{'"Flutter"'}</span>],</p>
+              <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">{'"Pasuruan, Indonesia"'}</span>,</p>
+              <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-accent">{'"open to internship"'}</span>,</p>
               <p>{"}"}</p>
             </div>
           </motion.div>
@@ -687,12 +728,12 @@ export default function PortfolioClient() {
             className="flex flex-wrap justify-center gap-3"
           >
             <a href="#projects"
-              className="group px-7 py-3.5 bg-zinc-100 hover:bg-white text-black text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
+              className="group px-7 py-3.5 bg-accent-fill hover:bg-accent text-accent-ink text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-accent/10">
               Lihat Proyek
               <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
             <a href="/CV_M._Nur_Hidayat.pdf" download
-              className="px-7 py-3.5 border border-zinc-700 hover:border-zinc-600 text-zinc-100 hover:bg-zinc-900 bg-transparent text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
+              className="px-7 py-3.5 border border-line-strong hover:border-accent-line text-zinc-100 hover:bg-accent-soft bg-transparent text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
               <Download className="w-4 h-4" />
               Download CV
             </a>
@@ -713,12 +754,12 @@ export default function PortfolioClient() {
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-600">Scroll</span>
-          <div className="w-px h-7 bg-gradient-to-b from-white/30 to-transparent" />
+          <div className="w-px h-7 bg-gradient-to-b from-accent-line to-transparent" />
         </motion.div>
       </section>
 
       {/* ── About / Tentang ── */}
-      <section id="about" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
+      <section id="about" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
           <SectionHeading
             index="01"
@@ -730,7 +771,7 @@ export default function PortfolioClient() {
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
             {/* Narasi */}
-            <div className="lg:col-span-2 space-y-5 text-sm sm:text-base text-zinc-300 leading-relaxed">
+            <div className="lg:col-span-2 space-y-5 text-[15px] text-zinc-300 leading-[1.75]">
               <p>
                 Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
               </p>
@@ -741,7 +782,7 @@ export default function PortfolioClient() {
 
             {/* Timeline */}
             <div className="lg:col-span-3">
-              <ol className="relative border-l border-white/[0.08] ml-1">
+              <ol className="relative border-l border-line-strong ml-1">
                 {timelineItems.map((item, i) => (
                   <motion.li
                     key={i}
@@ -749,10 +790,10 @@ export default function PortfolioClient() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="mb-9 ml-6 last:mb-0"
+                    className="mb-9 ml-6 last:mb-0 group"
                   >
-                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[#0a0a0a] border border-zinc-700">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-base border border-line-strong group-hover:border-accent-line transition-colors">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                     </span>
                     <div className="flex items-center gap-2 mb-1.5">
                       {item.kind === "education" ? (
@@ -774,7 +815,7 @@ export default function PortfolioClient() {
       </section>
 
       {/* ── Projects ── */}
-      <section id="projects" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
+      <section id="projects" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
 
           {/* Header + Filter */}
@@ -792,7 +833,7 @@ export default function PortfolioClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex border border-white/[0.08] bg-white/[0.02] p-1 rounded-xl shrink-0"
+              className="flex border border-line-strong bg-white/[0.02] p-1 rounded-xl shrink-0"
             >
               {(["ALL", "WEB", "MOBILE"] as const).map((tab) => (
                 <button
@@ -803,14 +844,14 @@ export default function PortfolioClient() {
                   className={`
                     relative text-xs uppercase tracking-wider font-medium
                     px-4 py-2 rounded-lg transition-all duration-300
-                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
-                    ${activeTab === tab ? "text-zinc-100" : "text-zinc-400 hover:text-zinc-200"}
+                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
+                    ${activeTab === tab ? "text-accent" : "text-zinc-400 hover:text-zinc-200"}
                   `}
                 >
                   {activeTab === tab && (
                     <motion.span
                       layoutId="tab-pill"
-                      className="absolute inset-0 rounded-lg border border-zinc-700 bg-zinc-800"
+                      className="absolute inset-0 rounded-lg border border-accent-line bg-accent-soft"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
@@ -847,8 +888,8 @@ export default function PortfolioClient() {
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   className="
                     group relative flex flex-col
-                    border border-white/[0.07]
-                    bg-[#0f1115]/80 hover:border-zinc-700
+                    border border-line
+                    bg-raised/80 hover:border-accent-line
                     hover:-translate-y-1
                     transition-all duration-300
                     rounded-2xl overflow-hidden
@@ -856,14 +897,14 @@ export default function PortfolioClient() {
                   "
                 >
                   {/* Image */}
-                  <div className="relative w-full h-52 overflow-hidden bg-[#08090c] border-b border-white/[0.06] shrink-0">
+                  <div className="relative w-full h-56 overflow-hidden bg-sunken border-b border-line shrink-0">
                     <ProjectCardImage src={project.image} alt={`Screenshot ${project.title}`} category={project.category} />
                     <HoverOverlay label="Lihat Repository" />
                     {/* Watermark nomor */}
                     <span aria-hidden className="pointer-events-none select-none absolute top-2 right-4 z-10 font-display text-5xl font-bold leading-none text-white/[0.03]">
                       {project.number}
                     </span>
-                    <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-zinc-300 flex items-center gap-1.5">
+                    <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-line-strong text-[10px] font-mono text-zinc-300 flex items-center gap-1.5">
                       {project.category === "WEB" ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
                       {project.category}
                     </div>
@@ -873,14 +914,14 @@ export default function PortfolioClient() {
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div>
-                        <h3 className="font-display text-base font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors">
+                        <h3 className="font-display text-card-title font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-xs text-zinc-500 mt-0.5">{project.subtitle}</p>
+                        <p className="text-xs text-zinc-500 mt-1">{project.subtitle}</p>
                       </div>
                     </div>
 
-                    <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-[13px] text-zinc-400 leading-relaxed mb-4 line-clamp-2">
                       {project.description}
                     </p>
 
@@ -889,7 +930,7 @@ export default function PortfolioClient() {
                       <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
                         {project.metrics.map((m) => (
                           <span key={m} className="flex items-center gap-1.5 text-[11px] text-zinc-400">
-                            <Sparkles className="w-3 h-3 text-zinc-500 shrink-0" />{m}
+                            <Check className="w-3 h-3 text-accent shrink-0" />{m}
                           </span>
                         ))}
                       </div>
@@ -897,17 +938,17 @@ export default function PortfolioClient() {
 
                     <div className="flex flex-wrap gap-1.5 mb-5">
                       {project.tech.map((tech) => (
-                        <span key={tech} className="text-[10px] font-mono border border-white/[0.07] text-zinc-300 px-2 py-0.5 bg-white/[0.02] rounded-md">
+                        <span key={tech} className="text-[10px] font-mono border border-line text-zinc-300 px-2 py-0.5 bg-white/[0.02] rounded-md">
                           {tech}
                         </span>
                       ))}
                     </div>
 
-                    <div className="mt-auto flex items-center gap-2 pt-1 border-t border-white/[0.05]">
+                    <div className="mt-auto flex items-center gap-2 pt-1 border-t border-line">
                       <a
                         href={project.github} target="_blank" rel="noreferrer"
                         aria-label={`Buka repository ${project.title}`}
-                        className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] px-3 py-2.5 rounded-lg transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.06] border border-line px-3 py-2.5 rounded-lg transition-all"
                       >
                         <GithubIcon className="w-3.5 h-3.5" /> Repository
                       </a>
@@ -915,7 +956,7 @@ export default function PortfolioClient() {
                         <a
                           href={project.demo} target="_blank" rel="noreferrer"
                           aria-label={`Buka Live Demo ${project.title}`}
-                          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-black bg-zinc-100 hover:bg-white px-3 py-2.5 rounded-lg transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-accent-ink bg-accent-fill hover:bg-accent px-3 py-2.5 rounded-lg transition-all"
                         >
                           <ExternalLink className="w-3.5 h-3.5" /> Demo
                         </a>
@@ -930,7 +971,7 @@ export default function PortfolioClient() {
       </section>
 
           {/* ── Skills ── */}
-      <section id="skills" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
+      <section id="skills" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
 
           <SectionHeading
@@ -947,33 +988,37 @@ export default function PortfolioClient() {
                 key={index}
                 className="
                   relative flex flex-col py-7
-                  border border-white/[0.07] bg-[#0f1115]/60
+                  border border-line bg-raised/60
                   rounded-2xl overflow-hidden
                 "
               >
-                <div className="flex items-center gap-3 px-6 sm:px-8 mb-7">
-                  <Sparkles className="w-4 h-4 text-zinc-400" />
+                <div className="flex items-center gap-3 px-6 sm:px-8 mb-6">
+                  <span className="font-mono text-[11px] text-accent">{String(index + 1).padStart(2, "0")}</span>
+                  <div className="h-px w-6 bg-line-strong" />
                   <h3 className="font-display text-xs font-semibold uppercase tracking-wider text-zinc-300">
                     {category.title}
                   </h3>
+                  <span className="ml-auto font-mono text-[10px] text-zinc-600">
+                    {category.items.length}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 px-6 sm:px-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 px-6 sm:px-8">
                   {category.items.map((item, i) => {
                     const IconComponent = item.icon;
                     return (
                       <div
                         key={i}
                         className="
-                          flex flex-col items-center justify-center p-4
-                          bg-[#111318]/90 border border-white/[0.06]
-                          hover:border-violet-400/30 hover:bg-violet-400/[0.04]
-                          rounded-xl transition-all duration-300
+                          flex flex-col items-center justify-center p-5
+                          bg-sunken/60 border border-line
+                          hover:border-accent-line hover:bg-accent-soft
+                          rounded-xl transition-all duration-300 cursor-default
                           group
                         "
                       >
-                        <IconComponent className={`text-3xl sm:text-4xl ${item.color} mb-3 group-hover:scale-110 transition-transform duration-300`} />
-                        <span className="text-xs font-medium text-zinc-300 group-hover:text-zinc-100 text-center transition-colors">
+                        <IconComponent className="text-3xl sm:text-4xl text-zinc-500 group-hover:text-accent mb-3 group-hover:scale-110 transition-all duration-300" />
+                        <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-100 text-center transition-colors">
                           {item.name}
                         </span>
                       </div>
@@ -987,19 +1032,19 @@ export default function PortfolioClient() {
       </section>
 
       {/* ── Contact ── */}
-      <section id="contact" className="py-28 sm:py-32 px-6 border-t border-white/[0.05]">
+      <section id="contact" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-5xl mx-auto">
 
           <div className="text-center mb-14">
             <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="h-px w-10 bg-gradient-to-r from-transparent to-zinc-700" />
-              <span className="font-mono text-[10px] text-zinc-500 tracking-[0.25em] uppercase">04 / Contact</span>
-              <div className="h-px w-10 bg-gradient-to-l from-transparent to-zinc-700" />
+              <div className="h-px w-10 bg-gradient-to-r from-transparent to-accent-line" />
+              <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase">04 / Contact</span>
+              <div className="h-px w-10 bg-gradient-to-l from-transparent to-accent-line" />
             </div>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-[2.5rem] font-bold tracking-tight text-zinc-50 mb-4">
-              Mari <span className="text-zinc-300">Berkolaborasi</span>
+            <h2 className="font-display text-section font-bold tracking-tight text-zinc-50 mb-4">
+              Mari <span className="text-zinc-400">Berkolaborasi</span>
             </h2>
-            <p className="text-sm sm:text-base text-zinc-400 max-w-lg mx-auto leading-relaxed">
+            <p className="text-lead text-zinc-400 max-w-lg mx-auto leading-relaxed">
               Lagi cari kesempatan magang atau posisi Junior Developer. Terbuka juga untuk freelance atau kolaborasi project.
             </p>
           </div>
@@ -1043,19 +1088,20 @@ export default function PortfolioClient() {
                     rel={item.external ? "noreferrer" : undefined}
                     className="
                       flex items-center gap-4 p-4
-                      border border-white/[0.07] hover:border-zinc-700
-                      bg-[#0f1115]/70 hover:bg-zinc-900
+                      border border-line hover:border-accent-line
+                      bg-raised/70 hover:bg-accent-soft
                       rounded-xl transition-all group
-                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
+                      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
                     "
                   >
-                    <div className="p-3 rounded-lg bg-zinc-800 text-zinc-400 group-hover:bg-zinc-100 group-hover:text-black transition-colors shrink-0">
+                    <div className="p-3 rounded-lg bg-white/[0.05] text-zinc-400 group-hover:bg-accent-fill group-hover:text-accent-ink transition-colors shrink-0">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{item.label}</p>
                       <p className="text-sm font-medium text-zinc-200 truncate">{item.value}</p>
                     </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-accent ml-auto shrink-0 transition-colors" />
                   </a>
                 ))}
               </div>
@@ -1064,7 +1110,7 @@ export default function PortfolioClient() {
             {/* Right Form */}
             <form
               onSubmit={handleSubmit}
-              className="border border-white/[0.07] bg-[#0f1115]/70 p-6 sm:p-7 rounded-2xl space-y-5"
+              className="border border-line bg-raised/70 p-6 sm:p-7 rounded-2xl space-y-5"
             >
               <div>
                 <h3 className="font-display text-sm font-semibold text-zinc-200 uppercase tracking-wider">Kirim Pesan</h3>
@@ -1089,8 +1135,8 @@ export default function PortfolioClient() {
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder={field.placeholder}
                     className="
-                      w-full bg-[#08090c] border border-white/[0.07]
-                      focus:border-white/[0.2] focus:bg-white/[0.02]
+                      w-full bg-sunken border border-line
+                      focus:border-accent-line focus:bg-white/[0.02]
                       text-sm text-zinc-100 placeholder:text-zinc-600
                       rounded-lg p-3.5 outline-none transition-all
                     "
@@ -1108,8 +1154,8 @@ export default function PortfolioClient() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
                   className="
-                    w-full bg-[#08090c] border border-white/[0.07]
-                    focus:border-white/[0.2] focus:bg-white/[0.02]
+                    w-full bg-sunken border border-line
+                    focus:border-accent-line focus:bg-white/[0.02]
                     text-sm text-zinc-100 placeholder:text-zinc-600
                     rounded-lg p-3.5 outline-none transition-all resize-none
                   "
@@ -1120,15 +1166,15 @@ export default function PortfolioClient() {
                 type="submit"
                 disabled={isSubmitting}
                 className="
-                  w-full py-3.5 bg-zinc-100 hover:bg-white disabled:opacity-60
-                  text-black font-semibold text-xs uppercase tracking-wider
+                  w-full py-3.5 bg-accent-fill hover:bg-accent disabled:opacity-60
+                  text-accent-ink font-semibold text-xs uppercase tracking-wider
                   rounded-lg transition-all flex items-center justify-center gap-2
-                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2
+                  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
                 "
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin motion-reduce:animate-none" />
+                    <span className="w-4 h-4 border-2 border-accent-ink/30 border-t-accent-ink rounded-full animate-spin motion-reduce:animate-none" />
                     Membuka WhatsApp...
                   </>
                 ) : (
@@ -1144,12 +1190,13 @@ export default function PortfolioClient() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-white/[0.05] py-8">
+      <footer className="border-t border-line py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-zinc-500">
             © {new Date().getFullYear()} Mukhammad Nur Hidayat
           </p>
           <div className="flex items-center gap-2 text-xs text-zinc-600">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             <span>Built with</span>
             <span className="text-zinc-300">Next.js</span>
             <span>×</span>
@@ -1167,7 +1214,7 @@ export default function PortfolioClient() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Kembali ke atas"
-            className="fixed bottom-6 right-6 p-3 rounded-xl bg-zinc-100 hover:bg-white text-black transition-colors z-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-500 focus-visible:outline-offset-2"
+            className="fixed bottom-6 right-6 p-3 rounded-xl bg-accent-fill hover:bg-accent text-accent-ink transition-colors z-40 shadow-lg shadow-black/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>

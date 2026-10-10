@@ -13,18 +13,30 @@ const grotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ganti-dengan-domainmu.com"),
+  metadataBase: new URL("https://portofolio-phi-ten-33.vercel.app"),
   title: {
     default: "Mukhammad Nur Hidayat | Web & Mobile Developer",
     template: "%s | Nur Hidayat",
   },
   description:
-    "Portofolio Mukhammad Nur Hidayat, Full-Stack & Mobile Developer. Membangun aplikasi web dan mobile dengan Next.js, Laravel, dan Flutter.",
-  keywords: ["Nur Hidayat", "Web Developer", "Mobile Developer", "Next.js", "Laravel", "Flutter", "Portofolio"],
+    "Portofolio Mukhammad Nur Hidayat. Mahasiswa Teknik Informatika yang bikin aplikasi web & mobile pakai Next.js, Laravel, dan Flutter. Terbuka untuk magang dan freelance.",
+  keywords: [
+    "Mukhammad Nur Hidayat",
+    "Nur Hidayat",
+    "Web Developer",
+    "Mobile Developer",
+    "Next.js",
+    "Laravel",
+    "Flutter",
+    "Portofolio",
+    "Universitas Yudharta Pasuruan",
+  ],
+  authors: [{ name: "Mukhammad Nur Hidayat" }],
   openGraph: {
     title: "Mukhammad Nur Hidayat | Web & Mobile Developer",
-    description: "Portofolio Full-Stack & Mobile Developer, Next.js, Laravel, Flutter.",
-    url: "https://ganti-dengan-domainmu.com",
+    description:
+      "Portofolio Full-Stack & Mobile Developer. Next.js, Laravel, Flutter. Berbasis di Pasuruan, Indonesia.",
+    url: "/",
     siteName: "Nur Hidayat Portfolio",
     locale: "id_ID",
     type: "website",
@@ -32,7 +44,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mukhammad Nur Hidayat | Web & Mobile Developer",
-    description: "Portofolio Full-Stack & Mobile Developer, Next.js, Laravel, Flutter.",
+    description:
+      "Portofolio Full-Stack & Mobile Developer. Next.js, Laravel, Flutter.",
   },
   robots: {
     index: true,
