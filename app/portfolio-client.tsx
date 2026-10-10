@@ -161,36 +161,36 @@ const skillCategories = [
   {
     title: "Core Languages",
     items: [
-      { name: "HTML5", icon: SiHtml5 },
-      { name: "CSS3", icon: FaCss3Alt },
-      { name: "JavaScript", icon: SiJavascript },
-      { name: "TypeScript", icon: SiTypescript },
-      { name: "PHP", icon: SiPhp },
-      { name: "Java", icon: FaJava },
-      { name: "Dart", icon: SiDart },
+      { name: "HTML5", icon: SiHtml5, color: "text-orange-500" },
+      { name: "CSS3", icon: FaCss3Alt, color: "text-blue-500" },
+      { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
+      { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
+      { name: "PHP", icon: SiPhp, color: "text-indigo-400" },
+      { name: "Java", icon: FaJava, color: "text-red-500" },
+      { name: "Dart", icon: SiDart, color: "text-cyan-400" },
     ],
   },
   {
     title: "Frameworks & Libraries",
     items: [
-      { name: "Next.js", icon: SiNextdotjs },
-      { name: "React.js", icon: SiReact },
-      { name: "Laravel", icon: SiLaravel },
-      { name: "Livewire", icon: SiLivewire },
-      { name: "Flutter", icon: SiFlutter },
-      { name: "Tailwind CSS", icon: SiTailwindcss },
-      { name: "Prisma", icon: SiPrisma },
+      { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
+      { name: "React.js", icon: SiReact, color: "text-cyan-400" },
+      { name: "Laravel", icon: SiLaravel, color: "text-red-600" },
+      { name: "Livewire", icon: SiLivewire, color: "text-pink-400" },
+      { name: "Flutter", icon: SiFlutter, color: "text-blue-400" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-teal-400" },
+      { name: "Prisma", icon: SiPrisma, color: "text-white" },
     ],
   },
   {
     title: "Tools & Databases",
     items: [
-      { name: "MySQL", icon: SiMysql },
-      { name: "PostgreSQL", icon: SiPostgresql },
-      { name: "Supabase", icon: SiSupabase },
-      { name: "Firebase", icon: SiFirebase },
-      { name: "Git & GitHub", icon: SiGit },
-      { name: "Android Studio", icon: SiAndroidstudio },
+      { name: "MySQL", icon: SiMysql, color: "text-blue-400" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "text-blue-300" },
+      { name: "Supabase", icon: SiSupabase, color: "text-emerald-500" },
+      { name: "Firebase", icon: SiFirebase, color: "text-amber-500" },
+      { name: "Git & GitHub", icon: SiGit, color: "text-orange-600" },
+      { name: "Android Studio", icon: SiAndroidstudio, color: "text-green-500" },
     ],
   },
 ];
@@ -672,7 +672,7 @@ export default function PortfolioClient() {
                 height={160}
                 loading="eager"
                 fetchPriority="high"
-                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line grayscale hover:grayscale-0 hover:border-accent transition-all duration-500"
+                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line hover:border-accent transition-all duration-300"
               />
             </div>
           </motion.div>
@@ -1017,7 +1017,7 @@ export default function PortfolioClient() {
                           group
                         "
                       >
-                        <IconComponent className="text-3xl sm:text-4xl text-zinc-500 group-hover:text-accent mb-3 group-hover:scale-110 transition-all duration-300" />
+                        <IconComponent className={`text-3xl sm:text-4xl ${item.color} mb-3 group-hover:scale-110 transition-transform duration-300`} />
                         <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-100 text-center transition-colors">
                           {item.name}
                         </span>
