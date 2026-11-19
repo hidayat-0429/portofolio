@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Fraunces, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const badan = Inter_Tight({
+  variable: "--font-badan",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const grotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+const judul = Fraunces({
+  variable: "--font-judul",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["SOFT", "opsz"],
+  display: "swap",
 });
+
+// Tema dipasang sebelum paint supaya krem tidak berkedip jadi gelap.
+const temaAwal = `(function(){try{var t=localStorage.getItem("tema");if(t!=="gelap"&&t!=="terang"){t="terang"}document.documentElement.dataset.tema=t}catch(e){document.documentElement.dataset.tema="terang"}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portofolio-phi-ten-33.vercel.app"),
@@ -57,8 +64,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${grotesk.variable} h-full antialiased scroll-smooth`}
+      data-tema="terang"
+      suppressHydrationWarning
+      className={`${badan.variable} ${judul.variable} h-full antialiased scroll-smooth`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: temaAwal }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );

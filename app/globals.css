@@ -1,47 +1,134 @@
 @import "tailwindcss";
 
+/* ── Primitif warna "Senja Terakota" ────────────────────────────────────────
+   Satu sumber kebenaran per tema. Utility Tailwind hanya meneruskan var ini,
+   jadi ganti tema = ganti 1 atribut di <html>, tanpa menulis ulang komponen. */
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  color-scheme: light;
+  --b-base: #f6efe6;
+  --b-raised: #fffaf4;
+  --b-sunken: #ece1d2;
+  --b-line: rgba(42, 33, 28, 0.12);
+  --b-line-strong: rgba(42, 33, 28, 0.22);
+
+  --b-ink: #2a211c;
+  --b-ink-2: rgba(42, 33, 28, 0.72);
+  --b-ink-3: rgba(42, 33, 28, 0.52);
+
+  --b-utama: #b8442f;
+  /* Terakota murni kurang kontras untuk teks kecil di atas krem. */
+  --b-utama-deep: #a8402c;
+  --b-zaitun: #5c6b3f;
+  --b-soft: rgba(184, 68, 47, 0.09);
+  --b-hairline: rgba(184, 68, 47, 0.26);
+  --b-onutama: #fff6f1;
+
+  --b-senja-1: rgba(232, 148, 116, 0.5);
+  --b-senja-2: rgba(226, 160, 150, 0.42);
+  --b-senja-3: rgba(246, 239, 230, 0);
+  --b-bayang: rgba(42, 33, 28, 0.1);
+  --b-grain: rgba(42, 33, 28, 0.05);
+
+  /* Permukaan konsol: sengaja tetap gelap di kedua tema. */
+  --b-kode: #241a15;
+  --b-kode-line: rgba(243, 233, 221, 0.12);
+}
+
+[data-tema="gelap"] {
+  color-scheme: dark;
+  --b-base: #1b1512;
+  --b-raised: #261e1a;
+  --b-sunken: #150f0c;
+  --b-line: rgba(243, 233, 221, 0.12);
+  --b-line-strong: rgba(243, 233, 221, 0.22);
+
+  --b-ink: #f3e9dd;
+  --b-ink-2: rgba(243, 233, 221, 0.74);
+  --b-ink-3: rgba(243, 233, 221, 0.54);
+
+  /* Di gelap, terakota dinaikkan supaya tetap lolos AA di atas cokelat tua. */
+  --b-utama: #e58a70;
+  --b-utama-deep: #f0a489;
+  --b-zaitun: #9caa76;
+  --b-soft: rgba(229, 138, 112, 0.12);
+  --b-hairline: rgba(229, 138, 112, 0.3);
+  --b-onutama: #24150f;
+
+  --b-senja-1: rgba(122, 62, 44, 0.34);
+  --b-senja-2: rgba(96, 58, 62, 0.26);
+  --b-senja-3: rgba(27, 21, 18, 0);
+  --b-bayang: rgba(0, 0, 0, 0.45);
+  --b-grain: rgba(243, 233, 221, 0.045);
+
+  --b-kode: #120d0a;
+  --b-kode-line: rgba(243, 233, 221, 0.12);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-base: var(--b-base);
+  --color-raised: var(--b-raised);
+  --color-sunken: var(--b-sunken);
+  --color-line: var(--b-line);
+  --color-line-strong: var(--b-line-strong);
+
+  --color-ink: var(--b-ink);
+  --color-ink-2: var(--b-ink-2);
+  --color-ink-3: var(--b-ink-3);
+
+  --color-accent: var(--b-utama);
+  --color-accent-deep: var(--b-utama-deep);
+  --color-zaitun: var(--b-zaitun);
+  --color-accent-fill: var(--b-utama);
+  --color-accent-ink: var(--b-onutama);
+  --color-accent-soft: var(--b-soft);
+  --color-accent-line: var(--b-hairline);
+
+  --color-background: var(--b-base);
+  --color-foreground: var(--b-ink);
+
+  --color-kode: var(--b-kode);
+  --color-kode-line: var(--b-kode-line);
+
+  --font-sans: var(--font-badan), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
 }
 
 @theme {
-  /* Permukaan: satu sumber kebenaran, bukan hex acak per komponen */
-  --color-base: #0a0a0a;
-  --color-raised: #101216;
-  --color-sunken: #08090c;
-  --color-line: rgba(255, 255, 255, 0.07);
-  --color-line-strong: rgba(255, 255, 255, 0.13);
-
-  /* Aksen tunggal: emerald. Dipakai hemat, bukan di mana-mana. */
-  --color-accent: #34d399;
-  --color-accent-fill: #10b981;
-  --color-accent-ink: #052e16;
-  --color-accent-soft: rgba(52, 211, 153, 0.1);
-  --color-accent-line: rgba(52, 211, 153, 0.28);
-
-  /* Skala fluid: satu nilai untuk semua breakpoint */
-  --text-hero: clamp(2.5rem, 7.2vw, 4.75rem);
-  --text-section: clamp(1.6rem, 3.4vw, 2.5rem);
-  --text-card-title: clamp(1.05rem, 1.6vw, 1.35rem);
-  --text-lead: clamp(0.95rem, 1.4vw, 1.1rem);
+  --text-hero: clamp(2.6rem, 8.4vw, 5.5rem);
+  --text-section: clamp(1.75rem, 4vw, 3rem);
+  --text-card-title: clamp(1.1rem, 1.8vw, 1.45rem);
+  --text-lead: clamp(1rem, 1.5vw, 1.15rem);
+  --radius-kartu: 28px;
+  --radius-kartu-sm: 18px;
+  --radius-kontrol: 14px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
+  background: var(--b-base);
+  color: var(--b-ink);
+  font-family: var(--font-badan), sans-serif;
+  font-size: 17px;
+  font-weight: 450;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.font-display {
-  font-family: var(--font-grotesk), sans-serif;
+.font-judul {
+  font-family: var(--font-judul), Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variation-settings: "SOFT" 50, "opsz" 120;
+  line-height: 1.02;
+}
+
+/* Judul miring berwarna: ciri khas "Senja Terakota". */
+.font-judul-aksen {
+  font-family: var(--font-judul), Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 100, "opsz" 120;
+  color: var(--b-utama-deep);
 }
 
 html {
@@ -50,21 +137,68 @@ html {
 
 /* Navbar fixed: judul section jangan ketutup saat lompat lewat anchor */
 section[id] {
-  scroll-margin-top: 4.5rem;
+  scroll-margin-top: 6rem;
 }
 
 ::selection {
-  background: rgba(52, 211, 153, 0.25);
-  color: #ffffff;
+  background: var(--b-hairline);
+  color: var(--b-ink);
 }
 
-/* Kerangka latar: garis tipis + satu glow emerald, dipakai di hero */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+/* Tekstur grain halus — pengganti garis kisi dark-theme. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+}
+
+[data-tema="gelap"] .grain::after {
+  mix-blend-mode: screen;
+  /* Screen di atas cokelat tua membuat bintik jauh lebih terlihat daripada multiply. */
+  opacity: 0.055;
+}
+
+/* Gradasi senja di belakang hero. */
+.senja {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, var(--b-senja-1), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 85% 15%, var(--b-senja-2), transparent 62%);
+}
+
+/* Bayangan "kertas" untuk kartu & potret. */
+.kertas {
+  box-shadow:
+    0 1px 0 var(--b-line) inset,
+    0 18px 40px -24px var(--b-bayang),
+    0 2px 6px -3px var(--b-bayang);
+}
+
+.tepi-hangat {
+  box-shadow: 0 0 0 1px var(--b-hairline);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--b-utama);
+  color: var(--b-onutama);
+  border-radius: 0 0 var(--radius-kontrol) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--b-utama);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,7 @@
 ﻿"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -11,6 +12,7 @@ import {
   Menu,
   X,
   ArrowUp,
+  ArrowUpRight,
   Code2,
   MapPin,
   Send,
@@ -28,24 +30,10 @@ import {
   SiPrisma, SiLivewire,
 } from "react-icons/si";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+import { projects, type Project } from "./data/projects";
+import ThemeToggle from "./components/theme-toggle";
 
-interface Project {
-  number: string;
-  title: string;
-  subtitle: string;
-  category: "WEB" | "MOBILE";
-  type?: string;
-  featured?: boolean;
-  role?: string;
-  tech: string[];
-  description: string;
-  github: string;
-  secondaryGithub?: string;
-  demo?: string;
-  image: string;
-  metrics?: string[];
-}
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 interface TimelineItem {
   period: string;
@@ -54,79 +42,6 @@ interface TimelineItem {
   description: string;
   kind: "education" | "experience";
 }
-
-// ─── Data Proyek ─────────────────────────────────────────────────────────────
-
-const projects: Project[] = [
-  {
-    number: "01",
-    title: "Finance Notes",
-    subtitle: "Mobile App + Backend API",
-    category: "MOBILE",
-    type: "MOBILE / FULL-STACK",
-    featured: true,
-    role: "Full-Stack Developer",
-    tech: ["React Native", "Expo", "TypeScript", "Laravel", "Sanctum", "MySQL"],
-    description:
-       "Aplikasi catatan keuangan pribadi. Awalnya bikin buat sendiri karena males nyatet di notes. Ada autentikasi, CRUD transaksi lengkap, backend terpisah pakai Laravel + Sanctum.",
-    github: "https://github.com/hidayat-0429/catatan-keuangan",
-    secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
-    image: "/project-finance-app.webp",
-    metrics: ["Autentikasi pakai Sanctum", "CRUD transaksi lengkap", "Backend API terpisah"],
-  },
-  {
-    number: "02",
-    title: "Car Rental App",
-    subtitle: "Aplikasi Rental Mobil",
-    category: "WEB",
-    role: "Full-Stack Developer",
-    tech: ["Next.js", "Prisma", "NextAuth", "PostgreSQL"],
-    description:
-       "Web app rental mobil. Fiturnya standar: pesan mobil, kelola armada, login user. Pakai Next.js sama Prisma biar cepet development-nya.",
-    github: "https://github.com/hidayat-0429/car-rental",
-    image: "/project-car-rental.webp",
-    metrics: ["Login pakai NextAuth", "Kelola armada mobil"],
-  },
-  {
-    number: "03",
-    title: "Task Reminder App",
-    subtitle: "Pengingat Tugas Kuliah",
-    category: "MOBILE",
-    role: "Mobile Developer",
-    tech: ["Flutter", "Supabase", "Firebase FCM"],
-    description:
-        "App pengingat tugas kuliah. Data sinkron real-time pakai Supabase, ada push notification biar gak lupa deadline. Lumayan membantu waktu tugas lagi numpuk.",
-    github: "https://github.com/hidayat-0429/pengingat_kuliah",
-    image: "/project-task-reminder.webp",
-    metrics: ["Sinkronisasi real-time", "Push notification"],
-  },
-  {
-    number: "04",
-    title: "Desa Information Portal",
-    subtitle: "Portal Web Desa",
-    category: "WEB",
-    role: "Full-Stack Developer",
-    tech: ["Laravel", "Livewire", "Tailwind CSS"],
-    description:
-       "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, dan wisata di desa.",
-    github: "https://github.com/hidayat-0429/kkn-umkm",
-    image: "/project-desa.webp",
-    metrics: ["5 modul: profil, berita, UMKM, wisata, pengaduan"],
-  },
-  {
-    number: "05",
-    title: "Weather App",
-    subtitle: "Aplikasi Cuaca",
-    category: "MOBILE",
-    role: "Mobile Developer",
-    tech: ["Flutter", "Firebase FCM", "REST API"],
-    description:
-       "Aplikasi cuaca simple. Ngambil data dari API, deteksi lokasi otomatis, ada push notification juga. Project latihan awal pas belajar Flutter.",
-    github: "https://github.com/hidayat-0429/aplikasi_cuaca",
-    image: "/project-weather.webp",
-    metrics: ["Data cuaca real-time", "Geolokasi otomatis"],
-  },
-];
 
 // ─── Data Timeline (Pendidikan & Pengalaman) ─────────────────────────────────
 // TODO: sesuaikan periode & detail di bawah ini dengan data asli kamu.
@@ -173,13 +88,13 @@ const skillCategories = [
   {
     title: "Frameworks & Libraries",
     items: [
-      { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
+      { name: "Next.js", icon: SiNextdotjs, color: "text-ink" },
       { name: "React.js", icon: SiReact, color: "text-cyan-400" },
       { name: "Laravel", icon: SiLaravel, color: "text-red-600" },
       { name: "Livewire", icon: SiLivewire, color: "text-pink-400" },
       { name: "Flutter", icon: SiFlutter, color: "text-blue-400" },
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-teal-400" },
-      { name: "Prisma", icon: SiPrisma, color: "text-white" },
+      { name: "Prisma", icon: SiPrisma, color: "text-ink" },
     ],
   },
   {
@@ -198,13 +113,11 @@ const skillCategories = [
 // ─── Reusable: Section Heading ───────────────────────────────────────────────
 
 function SectionHeading({
-  index,
   eyebrow,
   title,
   highlight,
   description,
 }: {
-  index: string;
   eyebrow: string;
   title: string;
   highlight?: string;
@@ -217,23 +130,18 @@ function SectionHeading({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
     >
-      <div className="flex items-center gap-3 mb-4">
-        <span className="font-mono text-[11px] text-accent">{index}</span>
-        <div className="h-px w-12 bg-gradient-to-r from-accent-line to-transparent" />
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-500">
-          {eyebrow}
-        </p>
-      </div>
-      <h2 className="font-display text-section font-bold tracking-tight text-zinc-50 leading-tight">
-        {title}{" "}
+      <p className="font-judul italic text-zaitun text-[17px] mb-3">/ {eyebrow}</p>
+      <h2 className="font-judul text-section text-ink">
+        {title}
         {highlight && (
-          <span className="text-zinc-400">
-            {highlight}
-          </span>
+          <>
+            {" "}
+            <span className="font-judul-aksen">{highlight}</span>
+          </>
         )}
       </h2>
       {description && (
-        <p className="mt-4 text-lead text-zinc-400 max-w-lg leading-relaxed">
+        <p className="mt-5 text-lead text-ink-2 max-w-xl leading-relaxed">
           {description}
         </p>
       )}
@@ -269,11 +177,11 @@ function ProjectCardImage({
   if (hasError) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-raised to-sunken">
-        <div className="w-14 h-14 rounded-2xl border border-line-strong bg-white/[0.04] flex items-center justify-center mb-4">
-          <Code2 className="w-7 h-7 text-zinc-500" />
+        <div className="w-14 h-14 rounded-2xl border border-line-strong bg-ink/[0.04] flex items-center justify-center mb-4">
+          <Code2 className="w-7 h-7 text-ink-3" />
         </div>
-        <span className="text-xs font-mono text-zinc-500">{alt}</span>
-        <span className="text-[10px] text-zinc-600 mt-1">Preview unavailable</span>
+        <span className="text-xs font-mono text-ink-3">{alt}</span>
+        <span className="text-[10px] text-ink-3 mt-1">Preview unavailable</span>
       </div>
     );
   }
@@ -282,17 +190,17 @@ function ProjectCardImage({
     return (
       <div className="w-full h-full bg-sunken flex flex-col group-hover:scale-[1.02] transition-transform duration-700 ease-out">
         <div className="bg-raised px-3 py-2.5 flex items-center gap-1.5 border-b border-line">
-          <div className="w-2 h-2 rounded-full bg-red-500/70" />
-          <div className="w-2 h-2 rounded-full bg-yellow-500/70" />
-          <div className="w-2 h-2 rounded-full bg-green-500/70" />
-          <div className="ml-3 h-4 flex-1 rounded-md bg-white/[0.03] border border-white/[0.04]" />
+          <div className="w-2 h-2 rounded-full bg-accent/50" />
+          <div className="w-2 h-2 rounded-full bg-[#d9a441]/60" />
+          <div className="w-2 h-2 rounded-full bg-zaitun/60" />
+          <div className="ml-3 h-4 flex-1 rounded-md bg-ink/[0.04] border border-line" />
         </div>
         <div className="relative flex-1 overflow-hidden bg-sunken">
           <Image src={src} alt={alt} loading="lazy" fill sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover object-top"
               onError={() => setHasError(true)} />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
     );
@@ -312,17 +220,21 @@ function ProjectCardImage({
 
 // ─── Hover Overlay CTA ──────────────────────────────────────────────────────
 
-function HoverOverlay({ label = "Lihat Proyek" }: { label?: string }) {
+function HoverOverlay({ slug, label = "Lihat detail" }: { slug: string; label?: string }) {
   return (
-    <div className="
+    <Link
+      href={`/project/${slug}`}
+      aria-label={`${label}: lihat studi karya`}
+      className="
       absolute inset-0 z-20 flex items-center justify-center
-      bg-gradient-to-t from-black/80 via-black/40 to-black/30 backdrop-blur-[2px]
-      opacity-0 group-hover:opacity-100 transition-opacity duration-300
-    ">
-      <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-fill hover:bg-accent text-accent-ink text-xs font-semibold uppercase tracking-wider translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-        {label} <ExternalLink className="w-3.5 h-3.5" />
+      bg-[#2a211c]/70 backdrop-blur-[2px]
+      opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-300
+    "
+    >
+      <span className="flex items-center gap-2 px-5 py-2.5 rounded-kontrol bg-accent-fill text-accent-ink text-sm font-medium translate-y-2 group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-all duration-300">
+        {label} <ArrowUpRight className="w-4 h-4" />
       </span>
-    </div>
+    </Link>
   );
 }
 
@@ -340,22 +252,17 @@ function FeaturedProjectCard({ project }: { project: Project }) {
   whileHover={{ y: -4 }}
   className="
         group relative
-        border border-line
-        bg-gradient-to-b from-raised to-base
+        rounded-kartu overflow-hidden
+        border border-line bg-raised kertas
         hover:border-accent-line
-        rounded-2xl overflow-hidden
-        shadow-2xl shadow-black/30
         transition-colors duration-500
       "
     >
-      {/* Top accent line */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-line to-transparent" />
-
       {/* Watermark nomor */}
       <span aria-hidden className="
         pointer-events-none select-none absolute -top-6 right-4 lg:right-8 z-0
-        font-display text-[7rem] lg:text-[10rem] font-bold leading-none
-        text-white/[0.015]
+        font-judul text-[7rem] lg:text-[10rem] leading-none
+        text-ink/[0.05]
       ">
         {project.number}
       </span>
@@ -374,7 +281,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             overflow-hidden
           "
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.09),transparent_65%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,85,61,0.1),transparent_65%)] pointer-events-none" />
 
           {!hasError ? (
             <>
@@ -392,12 +299,12 @@ function FeaturedProjectCard({ project }: { project: Project }) {
                   />
                 </div>
               </div>
-              <HoverOverlay label="Lihat Repository" />
+              <HoverOverlay slug={project.slug} />
             </>
           ) : (
-            <div className="flex flex-col items-center justify-center text-zinc-600">
-              <div className="w-16 h-16 rounded-2xl border border-zinc-700 bg-zinc-800 flex items-center justify-center mb-4">
-                <Code2 className="w-8 h-8 text-zinc-500" />
+            <div className="flex flex-col items-center justify-center text-ink-3">
+              <div className="w-16 h-16 rounded-2xl border border-line bg-sunken flex items-center justify-center mb-4">
+                <Code2 className="w-8 h-8 text-ink-3" />
               </div>
               <span className="text-xs font-mono">{project.title}</span>
               <span className="text-[10px] mt-1">Preview unavailable</span>
@@ -411,53 +318,48 @@ function FeaturedProjectCard({ project }: { project: Project }) {
           <div className="space-y-5">
 
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="font-mono text-[11px] text-accent">{project.number}</span>
-              <div className="h-px w-5 bg-zinc-800" />
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.03] border border-line">
-                <Smartphone className="w-3 h-3 text-zinc-400" />
-                <span className="text-[10px] font-mono text-zinc-400 tracking-wider uppercase">
-                  {project.type ?? project.category}
-                </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-sunken border border-line px-3 py-1.5 text-[11px] text-ink-2">
+                <Smartphone className="w-3.5 h-3.5" />
+                {project.type ?? project.category}
               </span>
-              <span className="px-2.5 py-1 rounded-full bg-accent-soft border border-accent-line text-[10px] font-mono text-accent tracking-wider uppercase">
-                Featured
+              <span className="rounded-full bg-accent-soft border border-accent-line px-3 py-1.5 text-[11px] text-accent-deep">
+                Unggulan
               </span>
             </div>
 
             <div>
-              <h3 className="font-display text-[1.6rem] sm:text-[1.9rem] font-bold tracking-tight text-zinc-50 group-hover:text-white transition-colors duration-300">
-                {project.title}
+              <h3 className="font-judul text-[1.75rem] sm:text-[2.1rem] text-ink">
+                <Link href={`/project/${project.slug}`} className="hover:text-accent-deep transition-colors">
+                  {project.title}
+                </Link>
               </h3>
-              <p className="mt-1.5 text-sm text-zinc-400">{project.subtitle}</p>
+              <p className="mt-2 text-ink-3">{project.subtitle}</p>
             </div>
 
-            <p className="text-[15px] text-zinc-300 leading-relaxed">
+            <p className="text-[15px] text-ink-2 leading-relaxed">
               {project.description}
             </p>
 
-            {/* Metrics */}
             {project.metrics && (
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid gap-2.5 border-l-2 border-accent-line pl-5">
                 {project.metrics.map((m) => (
                   <div key={m} className="flex items-center gap-2.5">
-                    <Check className="w-3.5 h-3.5 text-accent shrink-0" />
-                    <span className="text-[13px] text-zinc-300">{m}</span>
+                    <Check className="w-4 h-4 text-accent-deep shrink-0" />
+                    <span className="text-[14px] text-ink-2">{m}</span>
                   </div>
                 ))}
               </div>
             )}
 
             {project.role && (
-              <div className="flex items-center gap-2.5">
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Role</span>
-                <div className="h-px w-4 bg-zinc-800" />
-                <span className="text-[11px] font-mono text-zinc-300">{project.role}</span>
-              </div>
+              <p className="text-sm text-ink-3">
+                Peran: <span className="text-ink-2">{project.role}</span>
+              </p>
             )}
 
             <div className="flex flex-wrap gap-2">
               {project.tech.map((tech) => (
-                <span key={tech} className="text-[11px] font-mono border border-line text-zinc-300 px-2.5 py-1 bg-white/[0.02] rounded-md">
+                <span key={tech} className="text-[11px] font-mono border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-full">
                   {tech}
                 </span>
               ))}
@@ -465,32 +367,38 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
           </div>
 
-          <div className="flex flex-wrap gap-2.5 pt-2 border-t border-line">
+          <div className="flex flex-wrap gap-2.5 pt-5 border-t border-line">
             <a
               href={project.github} target="_blank" rel="noreferrer"
               aria-label={`Buka repository Mobile App ${project.title}`}
-              className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-line px-4 py-2.5 rounded-lg transition-all"
+              className="flex items-center gap-2 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
             >
-              <GithubIcon className="w-3.5 h-3.5" /> Mobile App
+              <GithubIcon className="w-4 h-4" /> Mobile App
             </a>
             {project.secondaryGithub && (
               <a
                 href={project.secondaryGithub} target="_blank" rel="noreferrer"
                 aria-label={`Buka repository API ${project.title}`}
-                className="flex items-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.07] border border-line px-4 py-2.5 rounded-lg transition-all"
+                className="flex items-center gap-2 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
               >
-                <GithubIcon className="w-3.5 h-3.5" /> API Repository
+                <GithubIcon className="w-4 h-4" /> API Repository
               </a>
             )}
             {project.demo && (
               <a
                 href={project.demo} target="_blank" rel="noreferrer"
                 aria-label={`Buka Live Demo ${project.title}`}
-                className="flex items-center gap-2 text-xs font-semibold text-accent-ink bg-accent-fill hover:bg-accent px-4 py-2.5 rounded-lg transition-all"
+                className="flex items-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:brightness-110 px-4 py-2.5 rounded-kontrol transition-all"
               >
-                <ExternalLink className="w-3.5 h-3.5" /> Live Demo
+                <ExternalLink className="w-4 h-4" /> Live Demo
               </a>
             )}
+            <Link
+              href={`/project/${project.slug}`}
+              className="flex items-center gap-1.5 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
+            >
+              <ArrowUpRight className="w-4 h-4" /> Studi karya
+            </Link>
           </div>
 
         </div>
@@ -569,76 +477,82 @@ export default function PortfolioClient() {
 
   const navLinks = [
     { label: "Tentang", href: "#about" },
-    { label: "Proyek", href: "#projects" },
+    { label: "Karya", href: "#projects" },
     { label: "Keahlian", href: "#skills" },
     { label: "Kontak", href: "#contact" },
   ];
 
   return (
-    <main className="min-h-screen bg-base text-zinc-100 antialiased overflow-x-hidden scroll-smooth motion-reduce:scroll-auto">
+    <main className="min-h-screen bg-base text-ink antialiased overflow-x-hidden scroll-smooth motion-reduce:scroll-auto">
+
+      <a href="#hero" className="skip-link">Langsung ke isi</a>
 
       {/* ── Global Background ── */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-base" />
 
-      {/* ── Navbar ── */}
-      <nav className={`fixed top-0 w-full z-50 bg-base/85 backdrop-blur-md transition-all duration-300 ${
-        isScrolled ? "border-b border-line" : "border-b border-transparent"
-      }`}>
-        <div className="max-w-6xl mx-auto px-6 py-3.5 flex justify-between items-center">
-          <a href="#hero" className="group flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg border border-accent-line bg-accent-soft flex items-center justify-center text-accent group-hover:bg-accent-fill group-hover:text-accent-ink transition-all">
-              <Code2 className="w-4 h-4" />
-            </div>
-            <div className="leading-none">
+      {/* ── Navbar melayang: pil kaca ── */}
+      <nav className="fixed top-3 sm:top-5 inset-x-0 z-50 px-4">
+        <div className={`mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-full py-2 pl-2 pr-2 backdrop-blur-xl transition-all duration-300 ${
+          isScrolled ? "bg-raised/80 border border-line kertas" : "bg-raised/45 border border-transparent"
+        }`}>
+          <a href="#hero" className="flex items-center gap-3 pl-2 pr-3">
+            <span className="font-judul w-9 h-9 rounded-full bg-ink text-raised flex items-center justify-center text-[13px] leading-none">
+              NH
+            </span>
+            <span className="hidden sm:block leading-none">
               <span className="block text-sm font-semibold tracking-wide">Hidayat</span>
-              <span className="block text-[9px] uppercase tracking-[0.25em] text-zinc-500 mt-0.5">
+              <span className="block text-[9px] uppercase tracking-[0.25em] text-ink-3 mt-1">
                 Developer
               </span>
-            </div>
+            </span>
           </a>
 
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.slice(0, 3).map((link) => {
               const active = activeSection === link.href.slice(1);
               return (
                 <a key={link.href} href={link.href} aria-current={active ? "true" : undefined}
-                  className={`relative text-xs uppercase tracking-widest transition-colors ${
-                    active ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"
+                  className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
+                    active ? "text-ink" : "text-ink-2 hover:text-ink"
                   }`}>
                   {link.label}
-                  <span className={`absolute -bottom-[6px] left-1/2 -translate-x-1/2 h-[3px] w-[3px] rounded-full bg-accent transition-opacity duration-300 ${
+                  <span className={`absolute left-1/2 -translate-x-1/2 bottom-1 h-[3px] w-[3px] rounded-full bg-accent transition-opacity duration-300 ${
                     active ? "opacity-100" : "opacity-0"
                   }`} />
                 </a>
               );
             })}
+            <ThemeToggle />
             <a href="#contact"
-              className="text-xs uppercase tracking-widest border border-line-strong text-zinc-200 hover:border-accent-line hover:bg-accent-soft hover:text-accent px-4 py-2 rounded-lg transition-all">
+              className="ml-1 rounded-full bg-accent-fill px-5 py-2 text-sm font-medium text-accent-ink hover:brightness-110 transition-all">
               Kontak
             </a>
           </div>
 
-          <button aria-label="Toggle Menu" aria-expanded={isMobileMenuOpen}
-              className="md:hidden relative z-50 p-2 text-zinc-400 hover:text-white transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle compact />
+            <button aria-label="Buka menu" aria-expanded={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-line text-ink-2 hover:text-ink transition-colors">
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-line bg-base/95 backdrop-blur-md"
+            className="md:hidden mx-auto mt-2 max-w-5xl rounded-kartu-sm border border-line bg-raised/95 backdrop-blur-xl kertas overflow-hidden"
           >
-            <div className="flex flex-col px-6 py-4">
+            <div className="flex flex-col p-2">
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm uppercase tracking-widest text-zinc-400 hover:text-accent transition-colors py-3.5 border-b border-line last:border-0">
+                  className="rounded-xl px-4 py-3 text-sm text-ink-2 hover:text-accent-deep hover:bg-accent-soft transition-colors">
                   {link.label}
                 </a>
               ))}
@@ -648,112 +562,113 @@ export default function PortfolioClient() {
       </AnimatePresence>
       </nav>
 
-      {/* ── Hero ── */}
-      <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-24 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-grid pointer-events-none" />
-        <div className="absolute inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-base" />
+      {/* ── Hero: senja + potret berbingkai kertas ── */}
+      <section id="hero" className="relative min-h-screen overflow-hidden grain senja">
+        <div className="relative z-10 mx-auto max-w-6xl px-6 pt-32 sm:pt-40 pb-28 grid lg:grid-cols-12 gap-14 items-center">
 
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+          <div className="lg:col-span-7 flex flex-col items-start">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2.5 rounded-full border border-accent-line bg-accent-soft px-4 py-2 mb-8"
+            >
+              <span className="relative flex w-2 h-2">
+                <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping motion-reduce:hidden" />
+                <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
+              </span>
+              <span className="text-xs font-medium text-accent-deep">
+                Terbuka untuk magang &amp; freelance
+              </span>
+            </motion.div>
 
-          {/* Foto profil */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-judul text-hero text-ink mb-7"
+            >
+              Halo, saya Hidayat
+              <span className="font-judul-aksen block">web &amp; mobile developer</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
+              className="text-lead text-ink-2 leading-relaxed max-w-xl mb-9"
+            >
+              Bikin aplikasi web &amp; mobile. Suka ngoding dari backend sampai frontend.
+              Saat ini lagi fokus di Next.js, Laravel, sama Flutter.
+            </motion.p>
+
+            {/* Signature element: kartu identitas gaya "code object" */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
+              className="w-full max-w-md mb-10 text-left rounded-xl border border-kode-line bg-kode overflow-hidden shadow-2xl shadow-black/30"
+            >
+              <div className="flex items-center gap-2 px-4 py-2.5 border-b border-kode-line bg-white/[0.03]">
+                <Terminal className="w-3.5 h-3.5 text-[#e58a70]" />
+                <span className="text-[11px] font-mono text-zinc-400">profile.ts</span>
+              </div>
+              <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
+                <p><span className="text-white">const</span> <span className="text-zinc-300">developer</span> = {"{"}</p>
+                <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">{'"Full-Stack & Mobile Developer"'}</span>,</p>
+                <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">{'"Next.js"'}</span>, <span className="text-zinc-200">{'"Laravel"'}</span>, <span className="text-zinc-200">{'"Flutter"'}</span>],</p>
+                <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">{'"Pasuruan, Indonesia"'}</span>,</p>
+                <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-[#e58a70]">{'"open to internship"'}</span>,</p>
+                <p className="text-zinc-200">{"}"}</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}
+              className="flex flex-wrap gap-3"
+            >
+              <a href="#projects"
+                className="group inline-flex items-center gap-2 rounded-kontrol bg-accent-fill px-6 py-3 text-sm font-medium text-accent-ink hover:brightness-110 transition-all">
+                Lihat karya
+                <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+              <a href="/CV_M._Nur_Hidayat.pdf" download
+                className="inline-flex items-center gap-2 rounded-kontrol border border-line-strong px-6 py-3 text-sm font-medium text-ink hover:border-accent-line hover:bg-accent-soft transition-all">
+                <Download className="w-4 h-4" />
+                Unduh CV
+              </a>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.75 }}
+              className="mt-7 flex items-center gap-2 text-sm text-ink-3"
+            >
+              <MapPin className="w-4 h-4" />
+              Pasuruan, Indonesia
+            </motion.p>
+          </div>
+
+          {/* Potret: bingkai kertas putih 6px, radius 28px, miring 1,5 derajat */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mb-7"
+            initial={{ opacity: 0, y: 24, rotate: -1 }}
+            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-5 flex justify-center"
           >
             <div className="relative">
-              <div className="absolute -inset-1.5 rounded-full bg-accent/20 blur-lg pointer-events-none" />
-              <Image
-                src="/profile.jpg"
-                alt="Foto Mukhammad Nur Hidayat"
-                width={160}
-                height={160}
-                loading="eager"
-                fetchPriority="high"
-                className="relative w-24 h-24 rounded-full object-cover border-2 border-accent-line hover:border-accent transition-all duration-300"
-              />
+              <div className="absolute -inset-3 rounded-[34px] bg-accent-soft blur-xl pointer-events-none" />
+              <div className="relative rounded-kartu bg-raised p-1.5 kertas rotate-[1.5deg] hover:rotate-0 transition-transform duration-500">
+                <Image
+                  src="/profile.jpg"
+                  alt="Foto Mukhammad Nur Hidayat"
+                  width={384}
+                  height={471}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="w-[240px] sm:w-[300px] rounded-[22px] object-cover"
+                />
+              </div>
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-            className="px-4 py-2 rounded-full border border-accent-line bg-accent-soft mb-8 flex items-center gap-2.5"
-          >
-            <span className="relative flex w-2 h-2">
-              <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping motion-reduce:hidden" />
-              <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
-            </span>
-            <p className="text-[10px] sm:text-xs font-medium tracking-wider text-accent uppercase">
-              Available for Internship & Freelance
-            </p>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}
-            className="font-display text-hero font-extrabold tracking-tight leading-[1.05] mb-6 text-white"
-          >
-            Mukhammad Nur Hidayat
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-lead text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto mb-9"
-          >
-            Bikin aplikasi web & mobile. Suka ngoding dari backend sampai frontend. Saat ini lagi fokus di Next.js, Laravel, sama Flutter.
-          </motion.p>
-
-          {/* Signature element: kartu identitas gaya "code object", ganti generic tech pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.45 }}
-            className="w-full max-w-md mb-10 text-left rounded-xl border border-line bg-sunken/80 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/40"
-          >
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-line bg-white/[0.02]">
-              <Terminal className="w-3.5 h-3.5 text-accent" />
-              <span className="text-[11px] font-mono text-zinc-500">profile.ts</span>
-            </div>
-            <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
-              <p><span className="text-white">const</span> <span className="text-zinc-300">developer</span> = {"{"}</p>
-              <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">{'"Full-Stack & Mobile Developer"'}</span>,</p>
-              <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">{'"Next.js"'}</span>, <span className="text-zinc-200">{'"Laravel"'}</span>, <span className="text-zinc-200">{'"Flutter"'}</span>],</p>
-              <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">{'"Pasuruan, Indonesia"'}</span>,</p>
-              <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-accent">{'"open to internship"'}</span>,</p>
-              <p>{"}"}</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap justify-center gap-3"
-          >
-            <a href="#projects"
-              className="group px-7 py-3.5 bg-accent-fill hover:bg-accent text-accent-ink text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-accent/10">
-              Lihat Proyek
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
-            <a href="/CV_M._Nur_Hidayat.pdf" download
-              className="px-7 py-3.5 border border-line-strong hover:border-accent-line text-zinc-100 hover:bg-accent-soft bg-transparent text-xs sm:text-sm font-semibold tracking-wide uppercase rounded-xl transition-all flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Download CV
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.85 }}
-            className="mt-10 flex items-center gap-2 text-xs text-zinc-500"
-          >
-            <MapPin className="w-3.5 h-3.5 text-zinc-600" />
-            Pasuruan, Indonesia
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
-          className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-600">Scroll</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-ink-3">Gulir</span>
           <div className="w-px h-7 bg-gradient-to-b from-accent-line to-transparent" />
         </motion.div>
       </section>
@@ -762,16 +677,15 @@ export default function PortfolioClient() {
       <section id="about" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
           <SectionHeading
-            index="01"
-            eyebrow="About"
-            title="Tentang"
-            highlight="Saya"
-            description="Siapa saya, ngapain aja, dan gimana saya sampai di sini."
+            eyebrow="Tentang saya"
+            title="Kuliah informatika,"
+            highlight="bangun web & mobile"
+            description="Sebagian besar yang saya tahu datang dari project sendiri, bukan dari kelas."
           />
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
             {/* Narasi */}
-            <div className="lg:col-span-2 space-y-5 text-[15px] text-zinc-300 leading-[1.75]">
+            <div className="lg:col-span-2 space-y-5 text-[17px] text-ink-2 leading-[1.7]">
               <p>
                 Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
               </p>
@@ -792,20 +706,20 @@ export default function PortfolioClient() {
                     transition={{ duration: 0.5, delay: i * 0.08 }}
                     className="mb-9 ml-6 last:mb-0 group"
                   >
-                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-base border border-line-strong group-hover:border-accent-line transition-colors">
+                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-raised border border-line group-hover:border-accent-line transition-colors">
                       <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                     </span>
                     <div className="flex items-center gap-2 mb-1.5">
                       {item.kind === "education" ? (
-                        <GraduationCap className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                        <GraduationCap className="w-4 h-4 text-zaitun shrink-0" />
                       ) : (
-                        <Briefcase className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                        <Briefcase className="w-4 h-4 text-zaitun shrink-0" />
                       )}
-                      <span className="text-[11px] font-mono text-zinc-500">{item.period}</span>
+                      <span className="text-[13px] text-zaitun">{item.period}</span>
                     </div>
-                    <h3 className="text-sm font-semibold text-zinc-100">{item.title}</h3>
-                    <p className="text-xs text-zinc-500 mb-1.5">{item.place}</p>
-                    <p className="text-sm text-zinc-400 leading-relaxed max-w-md">{item.description}</p>
+                    <h3 className="font-judul text-[19px] text-ink">{item.title}</h3>
+                    <p className="text-sm text-ink-3 mb-2">{item.place}</p>
+                    <p className="text-[15px] text-ink-2 leading-relaxed max-w-md">{item.description}</p>
                   </motion.li>
                 ))}
               </ol>
@@ -821,9 +735,8 @@ export default function PortfolioClient() {
           {/* Header + Filter */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
             <SectionHeading
-              index="02"
-              eyebrow="Selected Works"
-              title="Proyek"
+              eyebrow="Karya pilihan"
+              title="Karya"
               highlight="Pilihan"
               description="Beberapa project web & mobile yang udah saya kerjain."
             />
@@ -833,25 +746,23 @@ export default function PortfolioClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex border border-line-strong bg-white/[0.02] p-1 rounded-xl shrink-0"
+              className="flex rounded-full border border-line bg-raised p-1 shrink-0 kertas"
             >
               {(["ALL", "WEB", "MOBILE"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  aria-label={`Filter project: ${tab}`}
+                  aria-label={`Saring karya: ${tab}`}
                   aria-pressed={activeTab === tab}
                   className={`
-                    relative text-xs uppercase tracking-wider font-medium
-                    px-4 py-2 rounded-lg transition-all duration-300
-                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
-                    ${activeTab === tab ? "text-accent" : "text-zinc-400 hover:text-zinc-200"}
+                    relative rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300
+                    ${activeTab === tab ? "text-accent-deep" : "text-ink-2 hover:text-ink"}
                   `}
                 >
                   {activeTab === tab && (
                     <motion.span
                       layoutId="tab-pill"
-                      className="absolute inset-0 rounded-lg border border-accent-line bg-accent-soft"
+                      className="absolute inset-0 rounded-full border border-accent-line bg-accent-soft"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
@@ -888,79 +799,82 @@ export default function PortfolioClient() {
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   className="
                     group relative flex flex-col
-                    border border-line
-                    bg-raised/80 hover:border-accent-line
-                    hover:-translate-y-1
+                    rounded-kartu overflow-hidden
+                    border border-line bg-raised kertas
+                    hover:border-accent-line hover:-translate-y-1
                     transition-all duration-300
-                    rounded-2xl overflow-hidden
-                    shadow-xl shadow-black/20
                   "
                 >
-                  {/* Image */}
-                  <div className="relative w-full h-56 overflow-hidden bg-sunken border-b border-line shrink-0">
+                  {/* Sampul 16:11 */}
+                  <div className="relative w-full aspect-[16/11] overflow-hidden bg-sunken border-b border-line shrink-0">
                     <ProjectCardImage src={project.image} alt={`Screenshot ${project.title}`} category={project.category} />
-                    <HoverOverlay label="Lihat Repository" />
-                    {/* Watermark nomor */}
-                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-4 z-10 font-display text-5xl font-bold leading-none text-white/[0.03]">
+                    <HoverOverlay slug={project.slug} />
+                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-5 z-10 font-judul text-5xl leading-none text-ink/[0.07]">
                       {project.number}
                     </span>
-                    <div className="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-line-strong text-[10px] font-mono text-zinc-300 flex items-center gap-1.5">
+                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full border border-line bg-raised/90 backdrop-blur px-3 py-1.5 text-[11px] text-ink-2">
                       {project.category === "WEB" ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
                       {project.category}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <div>
-                        <h3 className="font-display text-card-title font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors">
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="mb-2">
+                      <h3 className="font-judul text-card-title text-ink">
+                        <Link href={`/project/${project.slug}`} className="hover:text-accent-deep transition-colors">
                           {project.title}
-                        </h3>
-                        <p className="text-xs text-zinc-500 mt-1">{project.subtitle}</p>
-                      </div>
+                        </Link>
+                      </h3>
+                      <p className="text-sm text-ink-3 mt-1.5">{project.subtitle}</p>
                     </div>
 
-                    <p className="text-[13px] text-zinc-400 leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-[15px] text-ink-2 leading-relaxed mb-4 line-clamp-2">
                       {project.description}
                     </p>
 
-                    {/* Metrics */}
                     {project.metrics && (
-                      <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
+                      <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-5">
                         {project.metrics.map((m) => (
-                          <span key={m} className="flex items-center gap-1.5 text-[11px] text-zinc-400">
-                            <Check className="w-3 h-3 text-accent shrink-0" />{m}
+                          <span key={m} className="flex items-center gap-1.5 text-[13px] text-ink-2">
+                            <Check className="w-3.5 h-3.5 text-accent-deep shrink-0" />{m}
                           </span>
                         ))}
                       </div>
                     )}
 
-                    <div className="flex flex-wrap gap-1.5 mb-5">
+                    <div className="flex flex-wrap gap-1.5 mb-6">
                       {project.tech.map((tech) => (
-                        <span key={tech} className="text-[10px] font-mono border border-line text-zinc-300 px-2 py-0.5 bg-white/[0.02] rounded-md">
+                        <span key={tech} className="text-[11px] font-mono border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-full">
                           {tech}
                         </span>
                       ))}
                     </div>
 
-                    <div className="mt-auto flex items-center gap-2 pt-1 border-t border-line">
+                    <div className="mt-auto flex items-center gap-2 pt-4 border-t border-line">
                       <a
                         href={project.github} target="_blank" rel="noreferrer"
                         aria-label={`Buka repository ${project.title}`}
-                        className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.06] border border-line px-3 py-2.5 rounded-lg transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
                       >
-                        <GithubIcon className="w-3.5 h-3.5" /> Repository
+                        <GithubIcon className="w-4 h-4" /> Repository
                       </a>
                       {project.demo && (
                         <a
                           href={project.demo} target="_blank" rel="noreferrer"
                           aria-label={`Buka Live Demo ${project.title}`}
-                          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold text-accent-ink bg-accent-fill hover:bg-accent px-3 py-2.5 rounded-lg transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:brightness-110 px-4 py-2.5 rounded-kontrol transition-all"
                         >
-                          <ExternalLink className="w-3.5 h-3.5" /> Demo
+                          <ExternalLink className="w-4 h-4" /> Demo
                         </a>
                       )}
+                      <Link
+                        href={`/project/${project.slug}`}
+                        aria-label={`Buka studi karya ${project.title}`}
+                        className="flex items-center justify-center gap-1.5 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
+                      >
+                        <ArrowUpRight className="w-4 h-4" /> Detail
+                      </Link>
                     </div>
                   </div>
                 </motion.article>
@@ -975,8 +889,7 @@ export default function PortfolioClient() {
         <div className="max-w-6xl mx-auto">
 
           <SectionHeading
-            index="03"
-            eyebrow="Tech Stack"
+            eyebrow="Yang saya pakai"
             title="Keahlian"
             highlight="Teknis"
             description="Tools & teknologi yang biasa saya pakai."
@@ -987,18 +900,15 @@ export default function PortfolioClient() {
               <div
                 key={index}
                 className="
-                  relative flex flex-col py-7
-                  border border-line bg-raised/60
-                  rounded-2xl overflow-hidden
+                  relative flex flex-col py-7 rounded-kartu
+                  border border-line bg-raised kertas
                 "
               >
-                <div className="flex items-center gap-3 px-6 sm:px-8 mb-6">
-                  <span className="font-mono text-[11px] text-accent">{String(index + 1).padStart(2, "0")}</span>
-                  <div className="h-px w-6 bg-line-strong" />
-                  <h3 className="font-display text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                <div className="flex items-baseline gap-3 px-6 sm:px-8 mb-6">
+                  <h3 className="font-judul italic text-[19px] text-zaitun">
                     {category.title}
                   </h3>
-                  <span className="ml-auto font-mono text-[10px] text-zinc-600">
+                  <span className="ml-auto text-[13px] text-ink-3">
                     {category.items.length}
                   </span>
                 </div>
@@ -1010,15 +920,15 @@ export default function PortfolioClient() {
                       <div
                         key={i}
                         className="
-                          flex flex-col items-center justify-center p-5
-                          bg-sunken/60 border border-line
+                          flex flex-col items-center justify-center gap-3 p-5
+                          bg-sunken border border-line rounded-kartu-sm
                           hover:border-accent-line hover:bg-accent-soft
-                          rounded-xl transition-all duration-300 cursor-default
+                          transition-all duration-300 cursor-default
                           group
                         "
                       >
-                        <IconComponent className={`text-3xl sm:text-4xl ${item.color} mb-3 group-hover:scale-110 transition-transform duration-300`} />
-                        <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-100 text-center transition-colors">
+                        <IconComponent className={`text-3xl sm:text-4xl ${item.color} group-hover:scale-110 transition-transform duration-300`} />
+                        <span className="text-sm font-medium text-ink-2 group-hover:text-ink text-center transition-colors">
                           {item.name}
                         </span>
                       </div>
@@ -1032,37 +942,27 @@ export default function PortfolioClient() {
       </section>
 
       {/* ── Contact ── */}
-      <section id="contact" className="py-24 sm:py-28 px-6 border-t border-line">
-        <div className="max-w-5xl mx-auto">
+      <section id="contact" className="px-4 pb-4">
+        <div className="mx-auto max-w-6xl rounded-kartu senja grain border border-line overflow-hidden">
+          <div className="relative z-10 p-8 sm:p-12 lg:p-14">
 
-          <div className="text-center mb-14">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="h-px w-10 bg-gradient-to-r from-transparent to-accent-line" />
-              <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase">04 / Contact</span>
-              <div className="h-px w-10 bg-gradient-to-l from-transparent to-accent-line" />
-            </div>
-            <h2 className="font-display text-section font-bold tracking-tight text-zinc-50 mb-4">
-              Mari <span className="text-zinc-400">Berkolaborasi</span>
+            <p className="font-judul italic text-zaitun text-[17px] mb-3">/ Kontak</p>
+            <h2 className="font-judul text-section text-ink mb-5">
+              Punya ide? <span className="font-judul-aksen">Yuk ngobrol.</span>
             </h2>
-            <p className="text-lead text-zinc-400 max-w-lg mx-auto leading-relaxed">
-              Lagi cari kesempatan magang atau posisi Junior Developer. Terbuka juga untuk freelance atau kolaborasi project.
+            <p className="text-lead text-ink-2 max-w-xl leading-relaxed mb-12">
+              Lagi cari kesempatan magang atau posisi Junior Developer.
+              Terbuka juga untuk freelance dan kolaborasi project.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-
-            {/* Left Direct contacts */}
-            <div>
-              <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-4">
-                Kontak Langsung
-              </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
               <div className="space-y-3">
                 {[
                   {
                     href: "https://wa.me/6285816172367",
                     label: "WhatsApp",
-                    value: "Chat Langsung",
+                    value: "Chat langsung, paling cepat dibalas",
                     icon: <WhatsAppIcon className="w-5 h-5" />,
                     external: true,
                   },
@@ -1087,121 +987,127 @@ export default function PortfolioClient() {
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noreferrer" : undefined}
                     className="
-                      flex items-center gap-4 p-4
-                      border border-line hover:border-accent-line
-                      bg-raised/70 hover:bg-accent-soft
-                      rounded-xl transition-all group
-                      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
+                      flex items-center gap-4 p-4 rounded-kartu-sm
+                      border border-line bg-raised kertas
+                      hover:border-accent-line transition-all group
                     "
                   >
-                    <div className="p-3 rounded-lg bg-white/[0.05] text-zinc-400 group-hover:bg-accent-fill group-hover:text-accent-ink transition-colors shrink-0">
+                    <div className="p-3 rounded-full bg-sunken text-ink-2 group-hover:bg-accent-fill group-hover:text-accent-ink transition-colors shrink-0">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{item.label}</p>
-                      <p className="text-sm font-medium text-zinc-200 truncate">{item.value}</p>
+                      <p className="text-[13px] text-zaitun">{item.label}</p>
+                      <p className="text-[15px] text-ink truncate">{item.value}</p>
                     </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-accent ml-auto shrink-0 transition-colors" />
+                    <ExternalLink className="w-4 h-4 text-ink-3 group-hover:text-accent-deep ml-auto shrink-0 transition-colors" />
                   </a>
                 ))}
               </div>
-            </div>
 
-            {/* Right Form */}
-            <form
-              onSubmit={handleSubmit}
-              className="border border-line bg-raised/70 p-6 sm:p-7 rounded-2xl space-y-5"
-            >
-              <div>
-                <h3 className="font-display text-sm font-semibold text-zinc-200 uppercase tracking-wider">Kirim Pesan</h3>
-                <p className="text-xs text-zinc-500 mt-1">
-                  Isi form ini, nanti lanjut chat lewat WhatsApp.
-                </p>
-              </div>
+              <form
+                onSubmit={handleSubmit}
+                className="border border-line bg-raised kertas p-6 sm:p-7 rounded-kartu-sm space-y-5"
+              >
+                <div>
+                  <h3 className="font-judul text-[22px] text-ink">Kirim pesan</h3>
+                  <p className="text-sm text-ink-3 mt-1">
+                    Isi form ini, nanti lanjut chat lewat WhatsApp.
+                  </p>
+                </div>
 
-              {[
-                { id: "name", label: "Nama", type: "text", placeholder: "Nama Lengkap" },
-                { id: "email", label: "Email", type: "email", placeholder: "nama@email.com" },
-              ].map((field) => (
-                <div key={field.id}>
-                  <label htmlFor={field.id} className="block text-xs font-mono text-zinc-400 mb-2">
-                    {field.label}
-                  </label>
-                  <input
-                    id={field.id}
-                    type={field.type}
+                {[
+                  { id: "name", label: "Nama", type: "text", placeholder: "Nama Lengkap" },
+                  { id: "email", label: "Email", type: "email", placeholder: "nama@email.com" },
+                ].map((field) => (
+                  <div key={field.id}>
+                    <label htmlFor={field.id} className="block text-sm text-ink-2 mb-2">
+                      {field.label}
+                    </label>
+                    <input
+                      id={field.id}
+                      type={field.type}
+                      required
+                      value={formData[field.id as "name" | "email"]}
+                      onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
+                      placeholder={field.placeholder}
+                      className="
+                        w-full bg-sunken border border-line rounded-kontrol
+                        focus:border-accent-line text-[15px] text-ink placeholder:text-ink-3
+                        p-3.5 outline-none transition-colors
+                      "
+                    />
+                  </div>
+                ))}
+
+                <div>
+                  <label htmlFor="message" className="block text-sm text-ink-2 mb-2">Pesan</label>
+                  <textarea
+                    id="message"
+                    rows={5}
                     required
-                    value={formData[field.id as "name" | "email"]}
-                    onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
-                    placeholder={field.placeholder}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
                     className="
-                      w-full bg-sunken border border-line
-                      focus:border-accent-line focus:bg-white/[0.02]
-                      text-sm text-zinc-100 placeholder:text-zinc-600
-                      rounded-lg p-3.5 outline-none transition-all
+                      w-full bg-sunken border border-line rounded-kontrol
+                      focus:border-accent-line text-[15px] text-ink placeholder:text-ink-3
+                      p-3.5 outline-none transition-colors resize-none
                     "
                   />
                 </div>
-              ))}
 
-              <div>
-                <label htmlFor="message" className="block text-xs font-mono text-zinc-400 mb-2">Pesan</label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  required
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
                   className="
-                    w-full bg-sunken border border-line
-                    focus:border-accent-line focus:bg-white/[0.02]
-                    text-sm text-zinc-100 placeholder:text-zinc-600
-                    rounded-lg p-3.5 outline-none transition-all resize-none
+                    w-full py-3.5 rounded-kontrol bg-accent-fill disabled:opacity-60
+                    text-accent-ink text-[15px] font-medium
+                    hover:brightness-110 transition-all flex items-center justify-center gap-2
                   "
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="
-                  w-full py-3.5 bg-accent-fill hover:bg-accent disabled:opacity-60
-                  text-accent-ink font-semibold text-xs uppercase tracking-wider
-                  rounded-lg transition-all flex items-center justify-center gap-2
-                  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
-                "
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-accent-ink/30 border-t-accent-ink rounded-full animate-spin motion-reduce:animate-none" />
-                    Membuka WhatsApp...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Kirim ke WhatsApp
-                  </>
-                )}
-              </button>
-            </form>
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-accent-ink/30 border-t-accent-ink rounded-full animate-spin motion-reduce:animate-none" />
+                      Membuka WhatsApp...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Kirim ke WhatsApp
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-line py-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-zinc-500">
-            © {new Date().getFullYear()} Mukhammad Nur Hidayat
-          </p>
-          <div className="flex items-center gap-2 text-xs text-zinc-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span>Built with</span>
-            <span className="text-zinc-300">Next.js</span>
-            <span>×</span>
-            <span className="text-zinc-300">Tailwind</span>
+      {/* ── Footer: nama raksasa ── */}
+      <footer className="px-6 pt-16 pb-8 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-wrap gap-x-8 gap-y-3 mb-14">
+            {[
+              { label: "Beranda", href: "#hero" },
+              { label: "Karya", href: "#projects" },
+              { label: "Tentang", href: "#about" },
+              { label: "Keahlian", href: "#skills" },
+              { label: "Kontak", href: "#contact" },
+            ].map((link) => (
+              <a key={link.href} href={link.href}
+                className="text-[15px] text-ink-2 hover:text-accent-deep transition-colors">
+                {link.label}
+              </a>
+            ))}
           </div>
+
+          <p className="text-sm text-ink-3 mb-2">
+            © {new Date().getFullYear()} Mukhammad Nur Hidayat · Dibuat dengan Next.js &amp; Tailwind
+          </p>
+
+          <p aria-hidden className="font-judul text-[clamp(3rem,13vw,9rem)] leading-[0.85] text-accent/[0.18] select-none">
+            Hidayat
+          </p>
         </div>
       </footer>
 
@@ -1214,7 +1120,7 @@ export default function PortfolioClient() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Kembali ke atas"
-            className="fixed bottom-6 right-6 p-3 rounded-xl bg-accent-fill hover:bg-accent text-accent-ink transition-colors z-40 shadow-lg shadow-black/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-accent-fill text-accent-ink hover:brightness-110 transition-all z-40 kertas flex items-center justify-center"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
