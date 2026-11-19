@@ -8,6 +8,7 @@ import {
   ArrowUpRight,
   Check,
   ExternalLink,
+  GitBranch,
   Globe,
   Smartphone,
 } from "lucide-react";
@@ -53,19 +54,19 @@ export default async function ProjectPage({
 
   return (
     <main className="min-h-screen bg-base text-ink">
-      {/* Header sederhana: kembali ke daftar karya */}
+      {/* Header tetap: kembali ke daftar karya */}
       <header className="sticky top-3 z-50 px-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-full border border-line bg-raised/80 px-4 py-2.5 backdrop-blur kertas">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-kontrol border border-line bg-raised/85 px-4 py-2.5 backdrop-blur-xl panel">
           <Link
             href="/#projects"
-            className="flex items-center gap-2 text-sm font-medium text-ink-2 hover:text-accent-deep transition-colors"
+            className="flex items-center gap-2 font-meta text-[12px] text-ink-2 hover:text-accent transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Kembali ke karya</span>
             <span className="sm:hidden">Karya</span>
           </Link>
           <div className="flex items-center gap-3">
-            <span className="font-judul text-sm text-ink">Hidayat</span>
+            <span className="font-display text-sm text-ink">Hidayat</span>
             <ThemeToggle compact />
           </div>
         </div>
@@ -73,25 +74,25 @@ export default async function ProjectPage({
 
       <article className="mx-auto max-w-5xl px-6 pb-24 pt-14 sm:pt-20">
         {/* Judul */}
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-raised px-3 py-1.5 text-[11px] text-ink-2 kertas">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <span className="inline-flex items-center gap-1.5 rounded-kontrol border border-line bg-raised px-3 py-1.5 font-meta text-[10px] text-ink-2 panel">
             {project.category === "WEB" ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
             {project.type ?? project.category}
           </span>
           {project.featured && (
-            <span className="rounded-full border border-accent-line bg-accent-soft px-3 py-1.5 text-[11px] text-accent-deep">
+            <span className="rounded-kontrol bg-lime px-3 py-1.5 font-meta text-[10px] font-medium text-lime-ink">
               Unggulan
             </span>
           )}
           {project.role && (
-            <span className="text-[13px] text-ink-3">Peran: <span className="text-ink-2">{project.role}</span></span>
+            <span className="font-meta text-[11px] text-ink-3">Peran: <span className="text-ink-2">{project.role}</span></span>
           )}
         </div>
 
-        <h1 className="mt-5 font-judul text-[clamp(2.2rem,6vw,3.75rem)] text-ink">
+        <h1 className="mt-5 font-display text-[clamp(2.2rem,6vw,3.75rem)] text-ink">
           {project.title}
         </h1>
-        <p className="mt-3 font-judul-aksen text-[clamp(1.1rem,2.4vw,1.5rem)]">
+        <p className="mt-3 font-meta text-[13px] text-accent">
           {project.subtitle}
         </p>
 
@@ -100,9 +101,15 @@ export default async function ProjectPage({
         </p>
 
         {/* Pratinjau */}
-        <div className="mt-12 rounded-kartu border border-line bg-raised p-2.5 kertas">
+        <div className="mt-10 flex items-center gap-3 font-meta text-[11px] text-ink-3">
+          <GitBranch className="w-4 h-4 text-accent" />
+          <span>Rilis {project.number}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-lime" />
+          <span className="text-success">Shipped</span>
+        </div>
+        <div className="mt-4 rounded-kartu border border-line bg-raised p-2.5 panel">
           {project.category === "WEB" ? (
-            <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] bg-sunken">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-kartu-sm bg-sunken grid-paper">
               <Image
                 src={project.image}
                 alt={`Tampilan ${project.title}`}
@@ -114,7 +121,7 @@ export default async function ProjectPage({
               />
             </div>
           ) : (
-            <div className="relative mx-auto flex max-w-2xl items-center justify-center overflow-hidden rounded-[20px] bg-sunken px-6 py-10">
+            <div className="relative flex w-full items-center justify-center overflow-hidden rounded-kartu-sm bg-sunken grid-paper px-6 py-10">
               <div className="absolute h-72 w-72 rounded-full bg-accent/10 blur-[80px] pointer-events-none" />
               <div className="relative h-[420px] aspect-[9/19.5] overflow-hidden rounded-[2rem] border-[3px] border-zinc-800 bg-black shadow-2xl shadow-black/50">
                 <Image
@@ -124,7 +131,7 @@ export default async function ProjectPage({
                   sizes="220px"
                   className="object-cover object-top"
                   loading="eager"
-                fetchPriority="high"
+                  fetchPriority="high"
                 />
               </div>
             </div>
@@ -134,14 +141,15 @@ export default async function ProjectPage({
         {/* Sorotan + tautan */}
         <div className="mt-12 grid gap-8 md:grid-cols-5">
           <section className="md:col-span-3">
-            <h2 className="font-judul italic text-[19px] text-zaitun">Yang sudah dibangun</h2>
+            <h2 className="font-meta text-[13px] text-accent">Yang sudah dibangun</h2>
+            <div className="mt-3 h-px w-16 bg-accent" />
             <ul className="mt-5 grid gap-3">
               {(project.metrics ?? []).map((m) => (
                 <li
                   key={m}
-                  className="flex items-start gap-3 rounded-kartu-sm border border-line bg-raised px-4 py-3.5 kertas"
+                  className="flex items-start gap-3 rounded-kartu-sm border border-line bg-raised px-4 py-3.5 panel"
                 >
-                  <Check className="mt-0.5 w-4 h-4 shrink-0 text-accent-deep" />
+                  <Check className="mt-0.5 w-4 h-4 shrink-0 text-accent" />
                   <span className="text-[15px] text-ink-2">{m}</span>
                 </li>
               ))}
@@ -152,13 +160,13 @@ export default async function ProjectPage({
           </section>
 
           <aside className="md:col-span-2 space-y-6">
-            <div className="rounded-kartu-sm border border-line bg-raised p-5 kertas">
-              <h2 className="font-judul italic text-[19px] text-zaitun">Stack</h2>
+            <div className="rounded-kartu-sm border border-line bg-raised p-5 panel">
+              <h2 className="font-meta text-[13px] text-accent">Stack</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[11px] font-mono border border-line text-ink-2 bg-sunken rounded-full px-2.5 py-1"
+                    className="font-meta text-[10px] border border-line text-ink-2 bg-sunken rounded-kontrol px-2.5 py-1"
                   >
                     {tech}
                   </span>
@@ -166,8 +174,8 @@ export default async function ProjectPage({
               </div>
             </div>
 
-            <div className="rounded-kartu-sm border border-line bg-raised p-5 kertas">
-              <h2 className="font-judul italic text-[19px] text-zaitun">Tautan</h2>
+            <div className="rounded-kartu-sm border border-line bg-raised p-5 panel">
+              <h2 className="font-meta text-[13px] text-accent">Tautan</h2>
               <div className="mt-4 grid gap-2.5">
                 <a
                   href={project.github}
@@ -192,7 +200,7 @@ export default async function ProjectPage({
                     href={project.demo}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between gap-2 rounded-kontrol bg-accent-fill px-4 py-2.5 text-sm font-medium text-accent-ink hover:brightness-110 transition-all"
+                    className="flex items-center justify-between gap-2 rounded-kontrol bg-accent-fill px-4 py-2.5 text-sm font-medium text-accent-ink hover:bg-accent-deep transition-colors"
                   >
                     Live Demo <ExternalLink className="w-4 h-4" />
                   </a>
@@ -202,7 +210,7 @@ export default async function ProjectPage({
 
             <Link
               href="/#contact"
-              className="flex items-center justify-center gap-2 rounded-kontrol border border-line-strong px-4 py-2.5 text-sm font-medium text-ink hover:border-accent-line hover:bg-accent-soft transition-colors"
+              className="flex items-center justify-center gap-2 rounded-kontrol border border-line-strong px-4 py-2.5 text-sm font-medium text-ink hover:border-accent hover:bg-accent-soft transition-colors"
             >
               Tanya soal project ini
             </Link>
@@ -214,10 +222,10 @@ export default async function ProjectPage({
           {sebelum ? (
             <Link
               href={`/project/${sebelum.slug}`}
-              className="group rounded-kartu-sm border border-line bg-raised p-5 hover:border-accent-line transition-colors kertas"
+              className="group rounded-kartu-sm border border-line bg-raised p-5 hover:border-accent-line transition-colors panel"
             >
-              <span className="text-[11px] uppercase tracking-widest text-ink-3">Sebelumnya</span>
-              <p className="mt-2 font-judul text-[19px] text-ink group-hover:text-accent-deep transition-colors">
+              <span className="font-meta text-[10px] text-ink-3">Sebelumnya</span>
+              <p className="mt-2 font-display text-[19px] normal-case text-ink group-hover:text-accent transition-colors">
                 {sebelum.title}
               </p>
             </Link>
@@ -225,10 +233,10 @@ export default async function ProjectPage({
           {sesudah && (
             <Link
               href={`/project/${sesudah.slug}`}
-              className="group rounded-kartu-sm border border-line bg-raised p-5 text-right hover:border-accent-line transition-colors kertas"
+              className="group rounded-kartu-sm border border-line bg-raised p-5 text-right hover:border-accent-line transition-colors panel"
             >
-              <span className="text-[11px] uppercase tracking-widest text-ink-3">Selanjutnya</span>
-              <p className="mt-2 font-judul text-[19px] text-ink group-hover:text-accent-deep transition-colors">
+              <span className="font-meta text-[10px] text-ink-3">Selanjutnya</span>
+              <p className="mt-2 font-display text-[19px] normal-case text-ink group-hover:text-accent transition-colors">
                 {sesudah.title} <ArrowRight className="inline w-4 h-4" />
               </p>
             </Link>

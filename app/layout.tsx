@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter_Tight } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Inter_Tight } from "next/font/google";
+import { TemaBoot } from "./components/tema-boot";
 import "./globals.css";
 
 const badan = Inter_Tight({
@@ -8,15 +9,20 @@ const badan = Inter_Tight({
   display: "swap",
 });
 
-const judul = Fraunces({
-  variable: "--font-judul",
+const display = Archivo({
+  variable: "--font-display",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["SOFT", "opsz"],
+  axes: ["wdth"],
   display: "swap",
 });
 
-// Tema dipasang sebelum paint supaya krem tidak berkedip jadi gelap.
+const meta = IBM_Plex_Mono({
+  variable: "--font-meta",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 const temaAwal = `(function(){try{var t=localStorage.getItem("tema");if(t!=="gelap"&&t!=="terang"){t="terang"}document.documentElement.dataset.tema=t}catch(e){document.documentElement.dataset.tema="terang"}})();`;
 
 export const metadata: Metadata = {
@@ -66,12 +72,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="id"
       data-tema="terang"
       suppressHydrationWarning
-      className={`${badan.variable} ${judul.variable} h-full antialiased scroll-smooth`}
+      className={`${badan.variable} ${display.variable} ${meta.variable} h-full antialiased scroll-smooth`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: temaAwal }} />
+        <TemaBoot kode={temaAwal} />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+      </body>
     </html>
   );
 }

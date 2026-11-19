@@ -1,8 +1,8 @@
-﻿"use client";
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import {
   Mail,
   ExternalLink,
@@ -20,6 +20,7 @@ import {
   Briefcase,
   Terminal,
   Check,
+  GitBranch,
 } from "lucide-react";
 
 import { FaJava, FaCss3Alt } from "react-icons/fa";
@@ -44,7 +45,6 @@ interface TimelineItem {
 }
 
 // ─── Data Timeline (Pendidikan & Pengalaman) ─────────────────────────────────
-// TODO: sesuaikan periode & detail di bawah ini dengan data asli kamu.
 
 const timelineItems: TimelineItem[] = [
   {
@@ -110,14 +110,21 @@ const skillCategories = [
   },
 ];
 
+const tickerItems = [
+  "Next.js", "Laravel", "Flutter", "React Native", "Supabase",
+  "Prisma", "Tailwind", "Terbuka untuk magang", "Freelance friendly",
+];
+
 // ─── Reusable: Section Heading ───────────────────────────────────────────────
 
 function SectionHeading({
+  index,
   eyebrow,
   title,
   highlight,
   description,
 }: {
+  index: string;
   eyebrow: string;
   title: string;
   highlight?: string;
@@ -130,16 +137,17 @@ function SectionHeading({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
     >
-      <p className="font-judul italic text-zaitun text-[17px] mb-3">/ {eyebrow}</p>
-      <h2 className="font-judul text-section text-ink">
+      <p className="font-meta text-[12px] text-accent mb-4">{index} / {eyebrow}</p>
+      <h2 className="font-display text-section text-ink">
         {title}
         {highlight && (
           <>
             {" "}
-            <span className="font-judul-aksen">{highlight}</span>
+            <span className="text-accent">{highlight}</span>
           </>
         )}
       </h2>
+      <div className="mt-5 h-px w-24 bg-accent" />
       {description && (
         <p className="mt-5 text-lead text-ink-2 max-w-xl leading-relaxed">
           {description}
@@ -167,6 +175,57 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+// ─── Signature: build log yang mengetik sendiri ──────────────────────────────
+
+const LOG_LINES = [
+  { text: "$ npm run ship", cls: "text-[#e9eef8]" },
+  { text: "✓ web     next.js 16 + prisma", cls: "text-lime" },
+  { text: "✓ api     laravel + sanctum", cls: "text-lime" },
+  { text: "✓ mobile  flutter / react native", cls: "text-lime" },
+  { text: "→ status  open to internship", cls: "text-amber" },
+];
+
+function BuildLog() {
+  const [revealed, setRevealed] = useState(0);
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t = setInterval(() => {
+      setRevealed((n) => {
+        if (reduce || n >= LOG_LINES.length) {
+          clearInterval(t);
+          return reduce ? LOG_LINES.length : n;
+        }
+        return n + 1;
+      });
+    }, reduce ? 0 : 420);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.65 }}
+      className="w-full max-w-md mt-9 text-left rounded-kartu-sm border border-kode-line bg-kode overflow-hidden panel"
+    >
+      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-kode-line bg-white/[0.03]">
+        <span className="w-2 h-2 rounded-full bg-danger/80" />
+        <span className="w-2 h-2 rounded-full bg-amber/80" />
+        <span className="w-2 h-2 rounded-full bg-lime/80" />
+        <Terminal className="w-3.5 h-3.5 text-lime ml-2" />
+        <span className="text-[11px] font-mono text-[#9aa7c7]">build.log — ~/hidayat</span>
+      </div>
+      <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed min-h-[140px]">
+        {LOG_LINES.slice(0, revealed).map((line) => (
+          <p key={line.text} className={line.cls}>{line.text}</p>
+        ))}
+        <span className="blink text-lime">▍</span>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Project Image ──────────────────────────────────────────────────────────
 
 function ProjectCardImage({
@@ -177,7 +236,7 @@ function ProjectCardImage({
   if (hasError) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-raised to-sunken">
-        <div className="w-14 h-14 rounded-2xl border border-line-strong bg-ink/[0.04] flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-kartu-sm border border-line-strong bg-ink/[0.04] flex items-center justify-center mb-4">
           <Code2 className="w-7 h-7 text-ink-3" />
         </div>
         <span className="text-xs font-mono text-ink-3">{alt}</span>
@@ -190,16 +249,15 @@ function ProjectCardImage({
     return (
       <div className="w-full h-full bg-sunken flex flex-col group-hover:scale-[1.02] transition-transform duration-700 ease-out">
         <div className="bg-raised px-3 py-2.5 flex items-center gap-1.5 border-b border-line">
-          <div className="w-2 h-2 rounded-full bg-accent/50" />
-          <div className="w-2 h-2 rounded-full bg-[#d9a441]/60" />
-          <div className="w-2 h-2 rounded-full bg-zaitun/60" />
+          <div className="w-2 h-2 rounded-full bg-danger/70" />
+          <div className="w-2 h-2 rounded-full bg-amber/70" />
+          <div className="w-2 h-2 rounded-full bg-lime/80" />
           <div className="ml-3 h-4 flex-1 rounded-md bg-ink/[0.04] border border-line" />
         </div>
         <div className="relative flex-1 overflow-hidden bg-sunken">
           <Image src={src} alt={alt} loading="lazy" fill sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover object-top"
               onError={() => setHasError(true)} />
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
@@ -207,8 +265,8 @@ function ProjectCardImage({
   }
 
   return (
-    <div className="relative w-full h-full bg-sunken flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
-      <div className="absolute w-40 h-64 rounded-full bg-accent/[0.07] blur-[55px] pointer-events-none" />
+    <div className="relative w-full h-full bg-sunken grid-paper flex items-end justify-center p-4 group-hover:scale-[1.02] transition-transform duration-700 ease-out overflow-hidden">
+      <div className="absolute w-40 h-64 rounded-full bg-accent/10 blur-[55px] pointer-events-none" />
       <div className="relative h-full max-h-64 lg:max-h-[420px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 bg-black">
         <Image src={src} alt={alt} loading="lazy" fill sizes="220px"
           className="object-cover object-top"
@@ -227,11 +285,11 @@ function HoverOverlay({ slug, label = "Lihat detail" }: { slug: string; label?: 
       aria-label={`${label}: lihat studi karya`}
       className="
       absolute inset-0 z-20 flex items-center justify-center
-      bg-[#2a211c]/70 backdrop-blur-[2px]
+      bg-[#0a1020]/75 backdrop-blur-[2px]
       opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-300
     "
     >
-      <span className="flex items-center gap-2 px-5 py-2.5 rounded-kontrol bg-accent-fill text-accent-ink text-sm font-medium translate-y-2 group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-all duration-300">
+      <span className="flex items-center gap-2 px-5 py-2.5 rounded-kontrol bg-lime text-lime-ink text-sm font-semibold translate-y-2 group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-all duration-300">
         {label} <ArrowUpRight className="w-4 h-4" />
       </span>
     </Link>
@@ -245,23 +303,32 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
   return (
     <motion.article
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-60px" }}
-  transition={{ duration: 0.6 }}
-  whileHover={{ y: -4 }}
-  className="
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6 }}
+      whileHover={{ y: -4 }}
+      className="
         group relative
         rounded-kartu overflow-hidden
-        border border-line bg-raised kertas
+        border border-line bg-raised panel
         hover:border-accent-line
         transition-colors duration-500
       "
     >
+      {/* Strip rilis */}
+      <div className="relative z-10 flex items-center gap-3 px-6 sm:px-8 py-3 border-b border-line bg-sunken/70">
+        <GitBranch className="w-4 h-4 text-accent" />
+        <span className="font-meta text-[11px] text-ink-2">Rilis {project.number}</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-lime" />
+        <span className="font-meta text-[11px] text-success">Shipped</span>
+        <span className="ml-auto font-meta text-[11px] text-ink-3">v1.0</span>
+      </div>
+
       {/* Watermark nomor */}
       <span aria-hidden className="
-        pointer-events-none select-none absolute -top-6 right-4 lg:right-8 z-0
-        font-judul text-[7rem] lg:text-[10rem] leading-none
+        pointer-events-none select-none absolute -top-2 right-4 lg:right-8 z-0
+        font-display text-[7rem] lg:text-[10rem] leading-none
         text-ink/[0.05]
       ">
         {project.number}
@@ -274,19 +341,17 @@ function FeaturedProjectCard({ project }: { project: Project }) {
           className="
             relative lg:w-[52%]
             h-80 sm:h-96 lg:h-auto lg:min-h-[520px]
-            bg-sunken
+            bg-sunken grid-paper
             border-b lg:border-b-0 lg:border-r border-line
             flex items-center justify-center
             p-6 sm:p-10
             overflow-hidden
           "
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,85,61,0.1),transparent_65%)] pointer-events-none" />
-
           {!hasError ? (
             <>
               <div className="relative h-full w-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-[1.02]">
-                <div className="absolute w-64 h-[460px] rounded-full bg-accent/[0.05] blur-[90px] pointer-events-none" />
+                <div className="absolute w-64 h-[460px] rounded-full bg-accent/10 blur-[90px] pointer-events-none" />
                 <div className="relative h-full max-h-72 lg:max-h-[500px] aspect-[9/19.5] border-[3px] border-zinc-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-black/70 bg-black">
                   <div className="absolute top-0 inset-x-0 mx-auto w-[40%] h-2.5 bg-zinc-800 rounded-b-md z-10" />
                   <Image
@@ -303,7 +368,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center text-ink-3">
-              <div className="w-16 h-16 rounded-2xl border border-line bg-sunken flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-kartu-sm border border-line bg-sunken flex items-center justify-center mb-4">
                 <Code2 className="w-8 h-8 text-ink-3" />
               </div>
               <span className="text-xs font-mono">{project.title}</span>
@@ -317,23 +382,23 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 
           <div className="space-y-5">
 
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-sunken border border-line px-3 py-1.5 text-[11px] text-ink-2">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 rounded-kontrol bg-sunken border border-line px-3 py-1.5 font-meta text-[10px] text-ink-2">
                 <Smartphone className="w-3.5 h-3.5" />
                 {project.type ?? project.category}
               </span>
-              <span className="rounded-full bg-accent-soft border border-accent-line px-3 py-1.5 text-[11px] text-accent-deep">
+              <span className="rounded-kontrol bg-lime px-3 py-1.5 font-meta text-[10px] font-medium text-lime-ink">
                 Unggulan
               </span>
             </div>
 
             <div>
-              <h3 className="font-judul text-[1.75rem] sm:text-[2.1rem] text-ink">
-                <Link href={`/project/${project.slug}`} className="hover:text-accent-deep transition-colors">
+              <h3 className="font-display text-[1.9rem] sm:text-[2.3rem] text-ink">
+                <Link href={`/project/${project.slug}`} className="hover:text-accent transition-colors">
                   {project.title}
                 </Link>
               </h3>
-              <p className="mt-2 text-ink-3">{project.subtitle}</p>
+              <p className="mt-2.5 font-meta text-[12px] text-ink-3">{project.subtitle}</p>
             </div>
 
             <p className="text-[15px] text-ink-2 leading-relaxed">
@@ -341,10 +406,10 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             </p>
 
             {project.metrics && (
-              <div className="grid gap-2.5 border-l-2 border-accent-line pl-5">
+              <div className="grid gap-2.5 border-l-2 border-accent pl-5">
                 {project.metrics.map((m) => (
                   <div key={m} className="flex items-center gap-2.5">
-                    <Check className="w-4 h-4 text-accent-deep shrink-0" />
+                    <Check className="w-4 h-4 text-accent shrink-0" />
                     <span className="text-[14px] text-ink-2">{m}</span>
                   </div>
                 ))}
@@ -352,14 +417,14 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             )}
 
             {project.role && (
-              <p className="text-sm text-ink-3">
+              <p className="font-meta text-[11px] text-ink-3">
                 Peran: <span className="text-ink-2">{project.role}</span>
               </p>
             )}
 
             <div className="flex flex-wrap gap-2">
               {project.tech.map((tech) => (
-                <span key={tech} className="text-[11px] font-mono border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-full">
+                <span key={tech} className="font-meta text-[10px] border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-kontrol">
                   {tech}
                 </span>
               ))}
@@ -388,14 +453,14 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <a
                 href={project.demo} target="_blank" rel="noreferrer"
                 aria-label={`Buka Live Demo ${project.title}`}
-                className="flex items-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:brightness-110 px-4 py-2.5 rounded-kontrol transition-all"
+                className="flex items-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:bg-accent-deep px-4 py-2.5 rounded-kontrol transition-all"
               >
                 <ExternalLink className="w-4 h-4" /> Live Demo
               </a>
             )}
             <Link
               href={`/project/${project.slug}`}
-              className="flex items-center gap-1.5 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
+              className="flex items-center gap-1.5 text-sm font-semibold text-lime-ink bg-lime hover:brightness-105 px-4 py-2.5 rounded-kontrol transition-all"
             >
               <ArrowUpRight className="w-4 h-4" /> Studi karya
             </Link>
@@ -414,16 +479,26 @@ export default function PortfolioClient() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  const yPotret = useTransform(scrollY, [0, 800], [0, 80]);
+  const yMesh = useTransform(scrollY, [0, 800], [0, -70]);
 
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
       setIsScrolled(window.scrollY > 10);
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      setProgress(max > 0 ? Math.min(1, doc.scrollTop / max) : 0);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -443,6 +518,14 @@ export default function PortfolioClient() {
     }
     return () => observer.disconnect();
   }, []);
+
+  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const el = heroRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
 
   const filteredProjects =
     activeTab === "ALL"
@@ -487,22 +570,19 @@ export default function PortfolioClient() {
 
       <a href="#hero" className="skip-link">Langsung ke isi</a>
 
-      {/* ── Global Background ── */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-base" />
-
-      {/* ── Navbar melayang: pil kaca ── */}
-      <nav className="fixed top-3 sm:top-5 inset-x-0 z-50 px-4">
-        <div className={`mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-full py-2 pl-2 pr-2 backdrop-blur-xl transition-all duration-300 ${
-          isScrolled ? "bg-raised/80 border border-line kertas" : "bg-raised/45 border border-transparent"
-        }`}>
-          <a href="#hero" className="flex items-center gap-3 pl-2 pr-3">
-            <span className="font-judul w-9 h-9 rounded-full bg-ink text-raised flex items-center justify-center text-[13px] leading-none">
+      {/* ── Navbar tetap + progress baca ── */}
+      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-base/85 backdrop-blur-xl border-b border-line" : "bg-transparent border-b border-transparent"
+      }`}>
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-6">
+          <a href="#hero" className="flex items-center gap-3">
+            <span className="font-display w-9 h-9 rounded-kontrol bg-accent text-accent-ink flex items-center justify-center text-[13px] leading-none">
               NH
             </span>
             <span className="hidden sm:block leading-none">
               <span className="block text-sm font-semibold tracking-wide">Hidayat</span>
-              <span className="block text-[9px] uppercase tracking-[0.25em] text-ink-3 mt-1">
-                Developer
+              <span className="block font-meta text-[9px] text-ink-3 mt-1">
+                Web &amp; Mobile
               </span>
             </span>
           </a>
@@ -512,11 +592,11 @@ export default function PortfolioClient() {
               const active = activeSection === link.href.slice(1);
               return (
                 <a key={link.href} href={link.href} aria-current={active ? "true" : undefined}
-                  className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
-                    active ? "text-ink" : "text-ink-2 hover:text-ink"
+                  className={`relative rounded-kontrol px-3.5 py-2 font-meta text-[12px] transition-colors ${
+                    active ? "text-accent" : "text-ink-2 hover:text-ink"
                   }`}>
                   {link.label}
-                  <span className={`absolute left-1/2 -translate-x-1/2 bottom-1 h-[3px] w-[3px] rounded-full bg-accent transition-opacity duration-300 ${
+                  <span className={`absolute left-3.5 right-3.5 bottom-0.5 h-[2px] bg-accent transition-opacity duration-300 ${
                     active ? "opacity-100" : "opacity-0"
                   }`} />
                 </a>
@@ -524,132 +604,141 @@ export default function PortfolioClient() {
             })}
             <ThemeToggle />
             <a href="#contact"
-              className="ml-1 rounded-full bg-accent-fill px-5 py-2 text-sm font-medium text-accent-ink hover:brightness-110 transition-all">
+              className="ml-1 rounded-kontrol bg-accent px-4 py-2 font-meta text-[12px] text-accent-ink hover:bg-accent-deep transition-colors">
               Kontak
             </a>
           </div>
 
-          <div className="flex items-center gap-1 md:hidden">
+          <div className="flex items-center gap-1.5 md:hidden">
             <ThemeToggle compact />
             <button aria-label="Buka menu" aria-expanded={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-line text-ink-2 hover:text-ink transition-colors">
+              className="w-9 h-9 flex items-center justify-center rounded-kontrol border border-line text-ink-2 hover:text-ink transition-colors">
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
+        {/* Progress baca */}
+        <div aria-hidden className="absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-lime via-amber to-accent transition-[width] duration-150"
+          style={{ width: `${progress * 100}%` }} />
+
         <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden mx-auto mt-2 max-w-5xl rounded-kartu-sm border border-line bg-raised/95 backdrop-blur-xl kertas overflow-hidden"
-          >
-            <div className="flex flex-col p-2">
-              {navLinks.map((link) => (
-                <a key={link.href} href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm text-ink-2 hover:text-accent-deep hover:bg-accent-soft transition-colors">
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden mx-4 mt-1 rounded-kartu-sm border border-line bg-raised/95 backdrop-blur-xl panel overflow-hidden"
+            >
+              <div className="flex flex-col p-2">
+                {navLinks.map((link) => (
+                  <a key={link.href} href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="rounded-kontrol px-4 py-3 font-meta text-[12px] text-ink-2 hover:text-accent hover:bg-accent-soft transition-colors">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* ── Hero: senja + potret berbingkai kertas ── */}
-      <section id="hero" className="relative min-h-screen overflow-hidden grain senja">
-        <div className="relative z-10 mx-auto max-w-6xl px-6 pt-32 sm:pt-40 pb-28 grid lg:grid-cols-12 gap-14 items-center">
+      {/* ── Hero: kertas teknis + spotlight + log build ── */}
+      <section
+        id="hero"
+        ref={heroRef}
+        onPointerMove={onPointerMove}
+        className="relative min-h-screen overflow-hidden grid-paper spot"
+      >
+        {/* Blob mesh parallax */}
+        <motion.div
+          aria-hidden
+          style={{
+            y: yMesh,
+            background:
+              "radial-gradient(circle at 35% 35%, var(--b-glow-1), transparent 60%), radial-gradient(circle at 70% 65%, var(--b-soft), transparent 65%)",
+          }}
+          className="pointer-events-none absolute -top-32 -right-40 w-[560px] h-[560px] rounded-full blur-[90px]"
+        />
+
+        <div className="relative z-10 mx-auto max-w-6xl px-6 pt-28 sm:pt-32 pb-24 grid lg:grid-cols-12 gap-14 items-center">
 
           <div className="lg:col-span-7 flex flex-col items-start">
             <motion.div
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2.5 rounded-full border border-accent-line bg-accent-soft px-4 py-2 mb-8"
+              className="flex flex-wrap items-center gap-3 mb-8"
             >
-              <span className="relative flex w-2 h-2">
-                <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-60 animate-ping motion-reduce:hidden" />
-                <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
-              </span>
-              <span className="text-xs font-medium text-accent-deep">
-                Terbuka untuk magang &amp; freelance
+              <span className="font-meta text-[11px] text-ink-3">Portofolio — edisi 2026.11</span>
+              <span className="inline-flex items-center gap-2 rounded-kontrol bg-lime px-3 py-1.5">
+                <span className="relative flex w-2 h-2">
+                  <span className="absolute inline-flex w-full h-full rounded-full bg-lime-ink opacity-50 animate-ping motion-reduce:hidden" />
+                  <span className="relative inline-flex w-2 h-2 rounded-full bg-lime-ink" />
+                </span>
+                <span className="font-meta text-[10px] font-medium text-lime-ink">Open to internship</span>
               </span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-judul text-hero text-ink mb-7"
+              className="font-display text-hero text-ink mb-7"
             >
-              Halo, saya Hidayat
-              <span className="font-judul-aksen block">web &amp; mobile developer</span>
+              <span className="block">Hidayat</span>
+              <span className="block text-accent">Web &amp; Mobile</span>
+              <span className="block outline-name text-[clamp(2.2rem,5.5vw,4.6rem)]">Developer</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-              className="text-lead text-ink-2 leading-relaxed max-w-xl mb-9"
+              className="text-lead text-ink-2 leading-relaxed max-w-xl mb-8"
             >
               Bikin aplikasi web &amp; mobile. Suka ngoding dari backend sampai frontend.
               Saat ini lagi fokus di Next.js, Laravel, sama Flutter.
             </motion.p>
 
-            {/* Signature element: kartu identitas gaya "code object" */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
-              className="w-full max-w-md mb-10 text-left rounded-xl border border-kode-line bg-kode overflow-hidden shadow-2xl shadow-black/30"
-            >
-              <div className="flex items-center gap-2 px-4 py-2.5 border-b border-kode-line bg-white/[0.03]">
-                <Terminal className="w-3.5 h-3.5 text-[#e58a70]" />
-                <span className="text-[11px] font-mono text-zinc-400">profile.ts</span>
-              </div>
-              <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed">
-                <p><span className="text-white">const</span> <span className="text-zinc-300">developer</span> = {"{"}</p>
-                <p className="pl-4"><span className="text-zinc-400">role</span>: <span className="text-zinc-200">{'"Full-Stack & Mobile Developer"'}</span>,</p>
-                <p className="pl-4"><span className="text-zinc-400">stack</span>: [<span className="text-zinc-200">{'"Next.js"'}</span>, <span className="text-zinc-200">{'"Laravel"'}</span>, <span className="text-zinc-200">{'"Flutter"'}</span>],</p>
-                <p className="pl-4"><span className="text-zinc-400">base</span>: <span className="text-zinc-200">{'"Pasuruan, Indonesia"'}</span>,</p>
-                <p className="pl-4"><span className="text-zinc-400">status</span>: <span className="text-[#e58a70]">{'"open to internship"'}</span>,</p>
-                <p className="text-zinc-200">{"}"}</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-3"
             >
               <a href="#projects"
-                className="group inline-flex items-center gap-2 rounded-kontrol bg-accent-fill px-6 py-3 text-sm font-medium text-accent-ink hover:brightness-110 transition-all">
+                className="group inline-flex items-center gap-2 rounded-kontrol bg-accent px-6 py-3 text-sm font-semibold text-accent-ink hover:bg-accent-deep transition-colors">
                 Lihat karya
-                <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
               <a href="/CV_M._Nur_Hidayat.pdf" download
-                className="inline-flex items-center gap-2 rounded-kontrol border border-line-strong px-6 py-3 text-sm font-medium text-ink hover:border-accent-line hover:bg-accent-soft transition-all">
+                className="inline-flex items-center gap-2 rounded-kontrol border border-line-strong px-6 py-3 text-sm font-medium text-ink hover:border-accent hover:bg-accent-soft transition-all">
                 <Download className="w-4 h-4" />
                 Unduh CV
               </a>
             </motion.div>
 
             <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.75 }}
-              className="mt-7 flex items-center gap-2 text-sm text-ink-3"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-6 flex items-center gap-2 font-meta text-[11px] text-ink-3"
             >
               <MapPin className="w-4 h-4" />
-              Pasuruan, Indonesia
+              Pasuruan, Indonesia — UTC+7
             </motion.p>
+
+            <BuildLog />
           </div>
 
-          {/* Potret: bingkai kertas putih 6px, radius 28px, miring 1,5 derajat */}
+          {/* Potret: bingkai teknis dengan tick sudut */}
           <motion.div
-            initial={{ opacity: 0, y: 24, rotate: -1 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ y: yPotret }}
             className="lg:col-span-5 flex justify-center"
           >
             <div className="relative">
-              <div className="absolute -inset-3 rounded-[34px] bg-accent-soft blur-xl pointer-events-none" />
-              <div className="relative rounded-kartu bg-raised p-1.5 kertas rotate-[1.5deg] hover:rotate-0 transition-transform duration-500">
+              <span aria-hidden className="absolute -top-2.5 -left-2.5 w-5 h-5 border-t-2 border-l-2 border-accent" />
+              <span aria-hidden className="absolute -top-2.5 -right-2.5 w-5 h-5 border-t-2 border-r-2 border-accent" />
+              <span aria-hidden className="absolute -bottom-2.5 -left-2.5 w-5 h-5 border-b-2 border-l-2 border-accent" />
+              <span aria-hidden className="absolute -bottom-2.5 -right-2.5 w-5 h-5 border-b-2 border-r-2 border-accent" />
+              <div className="relative rounded-kartu bg-raised p-2 border border-line panel">
                 <Image
                   src="/profile.jpg"
                   alt="Foto Mukhammad Nur Hidayat"
@@ -657,8 +746,12 @@ export default function PortfolioClient() {
                   height={471}
                   loading="eager"
                   fetchPriority="high"
-                  className="w-[240px] sm:w-[300px] rounded-[22px] object-cover"
+                  className="w-[240px] sm:w-[300px] rounded-kartu-sm object-cover"
                 />
+              </div>
+              <div className="mt-3 flex items-center justify-between px-1 font-meta text-[10px] text-ink-3">
+                <span>Fig.01 — M. N. Hidayat</span>
+                <span className="text-accent">2026</span>
               </div>
             </div>
           </motion.div>
@@ -668,15 +761,32 @@ export default function PortfolioClient() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-ink-3">Gulir</span>
-          <div className="w-px h-7 bg-gradient-to-b from-accent-line to-transparent" />
+          <span className="font-meta text-[10px] text-ink-3">Gulir</span>
+          <div className="w-px h-7 bg-gradient-to-b from-accent to-transparent" />
         </motion.div>
       </section>
+
+      {/* ── Marquee stack ── */}
+      <div aria-hidden className="overflow-hidden border-y border-line bg-accent py-3 text-accent-ink">
+        <div className="marquee-track flex w-max items-center gap-8">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex items-center gap-8">
+              {tickerItems.map((item) => (
+                <React.Fragment key={item}>
+                  <span className="font-meta text-[13px] whitespace-nowrap">{item}</span>
+                  <span className="text-lime text-[10px]">◆</span>
+                </React.Fragment>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ── About / Tentang ── */}
       <section id="about" className="py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
           <SectionHeading
+            index="01"
             eyebrow="Tentang saya"
             title="Kuliah informatika,"
             highlight="bangun web & mobile"
@@ -684,19 +794,34 @@ export default function PortfolioClient() {
           />
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
-            {/* Narasi */}
-            <div className="lg:col-span-2 space-y-5 text-[17px] text-ink-2 leading-[1.7]">
-              <p>
-                Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
-              </p>
-              <p>
-                Biasanya ngerjain project dari A-Z: bikin database, API, sampai tampilan UI-nya. Stack favorit sekarang Next.js, Laravel, sama Flutter. Masih belajar banyak hal, tapi udah cukup nyaman bikin aplikasi dari nol sampai jadi.
-              </p>
+            {/* Narasi + statistik, sticky di desktop */}
+            <div className="lg:col-span-2 lg:sticky lg:top-24 self-start space-y-8">
+              <div className="space-y-5 text-[17px] text-ink-2 leading-[1.7]">
+                <p>
+                  Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
+                </p>
+                <p>
+                  Biasanya ngerjain project dari A-Z: bikin database, API, sampai tampilan UI-nya. Stack favorit sekarang Next.js, Laravel, sama Flutter. Masih belajar banyak hal, tapi udah cukup nyaman bikin aplikasi dari nol sampai jadi.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { value: "05", label: "Rilis karya" },
+                  { value: "03", label: "Stack utama" },
+                  { value: "2023", label: "Mulai ngoding" },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-kartu-sm border border-line bg-raised panel p-4">
+                    <p className="font-display text-[1.9rem] text-accent leading-none">{s.value}</p>
+                    <p className="mt-2 font-meta text-[10px] text-ink-3">{s.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Timeline */}
             <div className="lg:col-span-3">
-              <ol className="relative border-l border-line-strong ml-1">
+              <ol className="relative border-l-2 border-line ml-1">
                 {timelineItems.map((item, i) => (
                   <motion.li
                     key={i}
@@ -704,21 +829,19 @@ export default function PortfolioClient() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="mb-9 ml-6 last:mb-0 group"
+                    className="mb-9 ml-6 last:mb-0 group relative"
                   >
-                    <span className="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-raised border border-line group-hover:border-accent-line transition-colors">
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                    </span>
+                    <span className="absolute -left-[31px] top-1.5 w-3 h-3 bg-accent group-hover:bg-lime transition-colors" />
                     <div className="flex items-center gap-2 mb-1.5">
                       {item.kind === "education" ? (
-                        <GraduationCap className="w-4 h-4 text-zaitun shrink-0" />
+                        <GraduationCap className="w-4 h-4 text-accent shrink-0" />
                       ) : (
-                        <Briefcase className="w-4 h-4 text-zaitun shrink-0" />
+                        <Briefcase className="w-4 h-4 text-accent shrink-0" />
                       )}
-                      <span className="text-[13px] text-zaitun">{item.period}</span>
+                      <span className="font-meta text-[12px] text-accent">{item.period}</span>
                     </div>
-                    <h3 className="font-judul text-[19px] text-ink">{item.title}</h3>
-                    <p className="text-sm text-ink-3 mb-2">{item.place}</p>
+                    <h3 className="font-display text-[19px] normal-case text-ink">{item.title}</h3>
+                    <p className="text-sm text-ink-3 mb-2 mt-1">{item.place}</p>
                     <p className="text-[15px] text-ink-2 leading-relaxed max-w-md">{item.description}</p>
                   </motion.li>
                 ))}
@@ -729,12 +852,13 @@ export default function PortfolioClient() {
       </section>
 
       {/* ── Projects ── */}
-      <section id="projects" className="py-24 sm:py-28 px-6 border-t border-line">
+      <section id="projects" className="hue-b py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
 
           {/* Header + Filter */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
             <SectionHeading
+              index="02"
               eyebrow="Karya pilihan"
               title="Karya"
               highlight="Pilihan"
@@ -746,7 +870,7 @@ export default function PortfolioClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex rounded-full border border-line bg-raised p-1 shrink-0 kertas"
+              className="inline-flex rounded-kontrol border border-line bg-raised p-1 shrink-0 panel self-start sm:self-auto"
             >
               {(["ALL", "WEB", "MOBILE"] as const).map((tab) => (
                 <button
@@ -755,14 +879,14 @@ export default function PortfolioClient() {
                   aria-label={`Saring karya: ${tab}`}
                   aria-pressed={activeTab === tab}
                   className={`
-                    relative rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300
-                    ${activeTab === tab ? "text-accent-deep" : "text-ink-2 hover:text-ink"}
+                    relative rounded-[6px] px-5 py-2 font-meta text-[12px] transition-colors duration-300
+                    ${activeTab === tab ? "text-accent-ink" : "text-ink-2 hover:text-ink"}
                   `}
                 >
                   {activeTab === tab && (
                     <motion.span
                       layoutId="tab-pill"
-                      className="absolute inset-0 rounded-full border border-accent-line bg-accent-soft"
+                      className="absolute inset-0 rounded-[6px] bg-accent"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
@@ -800,7 +924,7 @@ export default function PortfolioClient() {
                   className="
                     group relative flex flex-col
                     rounded-kartu overflow-hidden
-                    border border-line bg-raised kertas
+                    border border-line bg-raised panel
                     hover:border-accent-line hover:-translate-y-1
                     transition-all duration-300
                   "
@@ -809,10 +933,10 @@ export default function PortfolioClient() {
                   <div className="relative w-full aspect-[16/11] overflow-hidden bg-sunken border-b border-line shrink-0">
                     <ProjectCardImage src={project.image} alt={`Screenshot ${project.title}`} category={project.category} />
                     <HoverOverlay slug={project.slug} />
-                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-5 z-10 font-judul text-5xl leading-none text-ink/[0.07]">
+                    <span aria-hidden className="pointer-events-none select-none absolute top-2 right-5 z-10 font-display text-5xl leading-none text-ink/[0.08]">
                       {project.number}
                     </span>
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full border border-line bg-raised/90 backdrop-blur px-3 py-1.5 text-[11px] text-ink-2">
+                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-kontrol border border-line bg-raised/90 backdrop-blur px-3 py-1.5 font-meta text-[10px] text-ink-2">
                       {project.category === "WEB" ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
                       {project.category}
                     </div>
@@ -820,13 +944,13 @@ export default function PortfolioClient() {
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-1">
-                    <div className="mb-2">
-                      <h3 className="font-judul text-card-title text-ink">
-                        <Link href={`/project/${project.slug}`} className="hover:text-accent-deep transition-colors">
+                    <div className="mb-3">
+                      <h3 className="font-display text-card-title normal-case text-ink">
+                        <Link href={`/project/${project.slug}`} className="hover:text-accent transition-colors">
                           {project.title}
                         </Link>
                       </h3>
-                      <p className="text-sm text-ink-3 mt-1.5">{project.subtitle}</p>
+                      <p className="font-meta text-[11px] text-ink-3 mt-2">{project.subtitle}</p>
                     </div>
 
                     <p className="text-[15px] text-ink-2 leading-relaxed mb-4 line-clamp-2">
@@ -837,7 +961,7 @@ export default function PortfolioClient() {
                       <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-5">
                         {project.metrics.map((m) => (
                           <span key={m} className="flex items-center gap-1.5 text-[13px] text-ink-2">
-                            <Check className="w-3.5 h-3.5 text-accent-deep shrink-0" />{m}
+                            <Check className="w-3.5 h-3.5 text-accent shrink-0" />{m}
                           </span>
                         ))}
                       </div>
@@ -845,7 +969,7 @@ export default function PortfolioClient() {
 
                     <div className="flex flex-wrap gap-1.5 mb-6">
                       {project.tech.map((tech) => (
-                        <span key={tech} className="text-[11px] font-mono border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-full">
+                        <span key={tech} className="font-meta text-[10px] border border-line text-ink-2 px-2.5 py-1 bg-sunken rounded-kontrol">
                           {tech}
                         </span>
                       ))}
@@ -863,7 +987,7 @@ export default function PortfolioClient() {
                         <a
                           href={project.demo} target="_blank" rel="noreferrer"
                           aria-label={`Buka Live Demo ${project.title}`}
-                          className="flex-1 flex items-center justify-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:brightness-110 px-4 py-2.5 rounded-kontrol transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 text-sm font-medium text-accent-ink bg-accent-fill hover:bg-accent-deep px-4 py-2.5 rounded-kontrol transition-all"
                         >
                           <ExternalLink className="w-4 h-4" /> Demo
                         </a>
@@ -871,7 +995,7 @@ export default function PortfolioClient() {
                       <Link
                         href={`/project/${project.slug}`}
                         aria-label={`Buka studi karya ${project.title}`}
-                        className="flex items-center justify-center gap-1.5 text-sm font-medium text-ink bg-sunken hover:bg-accent-soft hover:text-accent-deep border border-line px-4 py-2.5 rounded-kontrol transition-all"
+                        className="flex items-center justify-center gap-1.5 text-sm font-semibold text-lime-ink bg-lime hover:brightness-105 px-4 py-2.5 rounded-kontrol transition-all"
                       >
                         <ArrowUpRight className="w-4 h-4" /> Detail
                       </Link>
@@ -884,14 +1008,15 @@ export default function PortfolioClient() {
         </div>
       </section>
 
-          {/* ── Skills ── */}
-      <section id="skills" className="py-24 sm:py-28 px-6 border-t border-line">
+      {/* ── Skills ── */}
+      <section id="skills" className="hue-c py-24 sm:py-28 px-6 border-t border-line">
         <div className="max-w-6xl mx-auto">
 
           <SectionHeading
+            index="03"
             eyebrow="Yang saya pakai"
-            title="Keahlian"
-            highlight="Teknis"
+            title="Stack &"
+            highlight="Tools"
             description="Tools & teknologi yang biasa saya pakai."
           />
 
@@ -899,17 +1024,14 @@ export default function PortfolioClient() {
             {skillCategories.map((category, index) => (
               <div
                 key={index}
-                className="
-                  relative flex flex-col py-7 rounded-kartu
-                  border border-line bg-raised kertas
-                "
+                className="relative flex flex-col py-7 rounded-kartu border border-line bg-raised panel"
               >
                 <div className="flex items-baseline gap-3 px-6 sm:px-8 mb-6">
-                  <h3 className="font-judul italic text-[19px] text-zaitun">
+                  <h3 className="font-meta text-[13px] text-accent">
                     {category.title}
                   </h3>
-                  <span className="ml-auto text-[13px] text-ink-3">
-                    {category.items.length}
+                  <span className="ml-auto font-meta text-[11px] text-ink-3 border border-line rounded-kontrol px-2 py-0.5">
+                    {category.items.length} item
                   </span>
                 </div>
 
@@ -922,7 +1044,7 @@ export default function PortfolioClient() {
                         className="
                           flex flex-col items-center justify-center gap-3 p-5
                           bg-sunken border border-line rounded-kartu-sm
-                          hover:border-accent-line hover:bg-accent-soft
+                          hover:border-accent hover:-translate-y-0.5
                           transition-all duration-300 cursor-default
                           group
                         "
@@ -941,150 +1063,158 @@ export default function PortfolioClient() {
         </div>
       </section>
 
-      {/* ── Contact ── */}
-      <section id="contact" className="px-4 pb-4">
-        <div className="mx-auto max-w-6xl rounded-kartu senja grain border border-line overflow-hidden">
-          <div className="relative z-10 p-8 sm:p-12 lg:p-14">
+      {/* ── Contact: bidang mesh dominan ── */}
+      <section id="contact" className="mesh-field relative overflow-hidden border-t border-line px-6 py-24 sm:py-28">
+        <div className="relative z-10 max-w-6xl mx-auto">
 
-            <p className="font-judul italic text-zaitun text-[17px] mb-3">/ Kontak</p>
-            <h2 className="font-judul text-section text-ink mb-5">
-              Punya ide? <span className="font-judul-aksen">Yuk ngobrol.</span>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-flex items-center gap-2 rounded-kontrol border border-white/15 bg-[#0a1020]/70 px-3 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-lime" />
+              <span className="font-meta text-[11px] text-lime">04 / Kontak</span>
+            </span>
+            <h2 className="mt-5 font-display text-section text-white">
+              Punya ide? <span className="text-lime">Yuk ngobrol.</span>
             </h2>
-            <p className="text-lead text-ink-2 max-w-xl leading-relaxed mb-12">
+            <p className="mt-5 text-lead text-white/90 max-w-xl leading-relaxed mb-12">
               Lagi cari kesempatan magang atau posisi Junior Developer.
               Terbuka juga untuk freelance dan kolaborasi project.
             </p>
+          </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
-              <div className="space-y-3">
-                {[
-                  {
-                    href: "https://wa.me/6285816172367",
-                    label: "WhatsApp",
-                    value: "Chat langsung, paling cepat dibalas",
-                    icon: <WhatsAppIcon className="w-5 h-5" />,
-                    external: true,
-                  },
-                  {
-                    href: "mailto:dayatiza774@gmail.com",
-                    label: "Email",
-                    value: "dayatiza774@gmail.com",
-                    icon: <Mail className="w-5 h-5" />,
-                    external: false,
-                  },
-                  {
-                    href: "https://github.com/hidayat-0429",
-                    label: "GitHub",
-                    value: "github.com/hidayat-0429",
-                    icon: <GithubIcon className="w-5 h-5" />,
-                    external: true,
-                  },
-                ].map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noreferrer" : undefined}
-                    className="
-                      flex items-center gap-4 p-4 rounded-kartu-sm
-                      border border-line bg-raised kertas
-                      hover:border-accent-line transition-all group
-                    "
-                  >
-                    <div className="p-3 rounded-full bg-sunken text-ink-2 group-hover:bg-accent-fill group-hover:text-accent-ink transition-colors shrink-0">
-                      {item.icon}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[13px] text-zaitun">{item.label}</p>
-                      <p className="text-[15px] text-ink truncate">{item.value}</p>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-ink-3 group-hover:text-accent-deep ml-auto shrink-0 transition-colors" />
-                  </a>
-                ))}
+            <div className="space-y-3">
+              {[
+                {
+                  href: "https://wa.me/6285816172367",
+                  label: "WhatsApp",
+                  value: "Chat langsung, paling cepat dibalas",
+                  icon: <WhatsAppIcon className="w-5 h-5" />,
+                  external: true,
+                },
+                {
+                  href: "mailto:dayatiza774@gmail.com",
+                  label: "Email",
+                  value: "dayatiza774@gmail.com",
+                  icon: <Mail className="w-5 h-5" />,
+                  external: false,
+                },
+                {
+                  href: "https://github.com/hidayat-0429",
+                  label: "GitHub",
+                  value: "github.com/hidayat-0429",
+                  icon: <GithubIcon className="w-5 h-5" />,
+                  external: true,
+                },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noreferrer" : undefined}
+                  className="
+                    flex items-center gap-4 p-4 rounded-kartu-sm
+                    border border-white/20 bg-white/10 backdrop-blur
+                    hover:bg-white/15 hover:border-lime transition-all group
+                  "
+                >
+                  <div className="p-3 rounded-kontrol bg-lime text-lime-ink shrink-0">
+                    {item.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-meta text-[11px] text-white">{item.label}</p>
+                    <p className="text-[15px] text-white truncate">{item.value}</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-white/70 group-hover:text-lime ml-auto shrink-0 transition-colors" />
+                </a>
+              ))}
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              className="border border-line bg-raised text-ink panel p-6 sm:p-7 rounded-kartu space-y-5"
+            >
+              <div>
+                <h3 className="font-display text-[22px] normal-case text-ink">Kirim pesan</h3>
+                <p className="text-sm text-ink-3 mt-1.5">
+                  Isi form ini, nanti lanjut chat lewat WhatsApp.
+                </p>
               </div>
 
-              <form
-                onSubmit={handleSubmit}
-                className="border border-line bg-raised kertas p-6 sm:p-7 rounded-kartu-sm space-y-5"
-              >
-                <div>
-                  <h3 className="font-judul text-[22px] text-ink">Kirim pesan</h3>
-                  <p className="text-sm text-ink-3 mt-1">
-                    Isi form ini, nanti lanjut chat lewat WhatsApp.
-                  </p>
-                </div>
-
-                {[
-                  { id: "name", label: "Nama", type: "text", placeholder: "Nama Lengkap" },
-                  { id: "email", label: "Email", type: "email", placeholder: "nama@email.com" },
-                ].map((field) => (
-                  <div key={field.id}>
-                    <label htmlFor={field.id} className="block text-sm text-ink-2 mb-2">
-                      {field.label}
-                    </label>
-                    <input
-                      id={field.id}
-                      type={field.type}
-                      required
-                      value={formData[field.id as "name" | "email"]}
-                      onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
-                      placeholder={field.placeholder}
-                      className="
-                        w-full bg-sunken border border-line rounded-kontrol
-                        focus:border-accent-line text-[15px] text-ink placeholder:text-ink-3
-                        p-3.5 outline-none transition-colors
-                      "
-                    />
-                  </div>
-                ))}
-
-                <div>
-                  <label htmlFor="message" className="block text-sm text-ink-2 mb-2">Pesan</label>
-                  <textarea
-                    id="message"
-                    rows={5}
+              {[
+                { id: "name", label: "Nama", type: "text", placeholder: "Nama Lengkap" },
+                { id: "email", label: "Email", type: "email", placeholder: "nama@email.com" },
+              ].map((field) => (
+                <div key={field.id}>
+                  <label htmlFor={field.id} className="block font-meta text-[11px] text-ink-2 mb-2">
+                    {field.label}
+                  </label>
+                  <input
+                    id={field.id}
+                    type={field.type}
                     required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
+                    value={formData[field.id as "name" | "email"]}
+                    onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
+                    placeholder={field.placeholder}
                     className="
                       w-full bg-sunken border border-line rounded-kontrol
-                      focus:border-accent-line text-[15px] text-ink placeholder:text-ink-3
-                      p-3.5 outline-none transition-colors resize-none
+                      focus:border-accent text-[15px] text-ink placeholder:text-ink-3
+                      p-3.5 outline-none transition-colors
                     "
                   />
                 </div>
+              ))}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
+              <div>
+                <label htmlFor="message" className="block font-meta text-[11px] text-ink-2 mb-2">Pesan</label>
+                <textarea
+                  id="message"
+                  rows={5}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Halo Hidayat, saya tertarik mendiskusikan..."
                   className="
-                    w-full py-3.5 rounded-kontrol bg-accent-fill disabled:opacity-60
-                    text-accent-ink text-[15px] font-medium
-                    hover:brightness-110 transition-all flex items-center justify-center gap-2
+                    w-full bg-sunken border border-line rounded-kontrol
+                    focus:border-accent text-[15px] text-ink placeholder:text-ink-3
+                    p-3.5 outline-none transition-colors resize-none
                   "
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-accent-ink/30 border-t-accent-ink rounded-full animate-spin motion-reduce:animate-none" />
-                      Membuka WhatsApp...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      Kirim ke WhatsApp
-                    </>
-                  )}
-                </button>
-              </form>
-            </div>
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="
+                  w-full py-3.5 rounded-kontrol bg-lime disabled:opacity-60
+                  text-lime-ink text-[15px] font-semibold
+                  hover:brightness-105 transition-all flex items-center justify-center gap-2
+                "
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-lime-ink/30 border-t-lime-ink rounded-full animate-spin motion-reduce:animate-none" />
+                    Membuka WhatsApp...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Kirim ke WhatsApp
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </section>
 
-      {/* ── Footer: nama raksasa ── */}
-      <footer className="px-6 pt-16 pb-8 overflow-hidden">
+      {/* ── Footer: nama raksasa outline ── */}
+      <footer className="bg-[var(--b-field-3)] px-6 pt-16 pb-8 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-wrap gap-x-8 gap-y-3 mb-14">
             {[
@@ -1095,17 +1225,17 @@ export default function PortfolioClient() {
               { label: "Kontak", href: "#contact" },
             ].map((link) => (
               <a key={link.href} href={link.href}
-                className="text-[15px] text-ink-2 hover:text-accent-deep transition-colors">
+                className="font-meta text-[12px] text-white/70 hover:text-lime transition-colors">
                 {link.label}
               </a>
             ))}
           </div>
 
-          <p className="text-sm text-ink-3 mb-2">
+          <p className="text-sm text-white/60 mb-2">
             © {new Date().getFullYear()} Mukhammad Nur Hidayat · Dibuat dengan Next.js &amp; Tailwind
           </p>
 
-          <p aria-hidden className="font-judul text-[clamp(3rem,13vw,9rem)] leading-[0.85] text-accent/[0.18] select-none">
+          <p aria-hidden className="font-display text-[clamp(3rem,13vw,9rem)] leading-[0.85] outline-lime select-none">
             Hidayat
           </p>
         </div>
@@ -1120,7 +1250,7 @@ export default function PortfolioClient() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Kembali ke atas"
-            className="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-accent-fill text-accent-ink hover:brightness-110 transition-all z-40 kertas flex items-center justify-center"
+            className="fixed bottom-6 right-6 w-11 h-11 rounded-kontrol bg-accent text-accent-ink hover:bg-accent-deep transition-colors z-40 panel flex items-center justify-center"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
