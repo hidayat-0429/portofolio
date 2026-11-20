@@ -734,25 +734,28 @@ export default function PortfolioClient() {
             style={{ y: yPotret }}
             className="lg:col-span-5 flex justify-center"
           >
-            <div className="relative">
+            <div className="relative w-full max-w-sm">
               <span aria-hidden className="absolute -top-2.5 -left-2.5 w-5 h-5 border-t-2 border-l-2 border-accent" />
               <span aria-hidden className="absolute -top-2.5 -right-2.5 w-5 h-5 border-t-2 border-r-2 border-accent" />
               <span aria-hidden className="absolute -bottom-2.5 -left-2.5 w-5 h-5 border-b-2 border-l-2 border-accent" />
               <span aria-hidden className="absolute -bottom-2.5 -right-2.5 w-5 h-5 border-b-2 border-r-2 border-accent" />
-              <div className="relative rounded-kartu bg-raised p-2 border border-line panel">
-                <Image
-                  src="/profile.jpg"
-                  alt="Foto Mukhammad Nur Hidayat"
-                  width={384}
-                  height={471}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="w-[240px] sm:w-[300px] rounded-kartu-sm object-cover"
-                />
-              </div>
-              <div className="mt-3 flex items-center justify-between px-1 font-meta text-[10px] text-ink-3">
-                <span>Fig.01 — M. N. Hidayat</span>
-                <span className="text-accent">2026</span>
+              <div className="rounded-kartu bg-raised border border-line panel overflow-hidden">
+                <div className="flex items-center justify-between border-b border-line bg-sunken px-4 py-3">
+                  <span className="font-meta text-[11px] text-ink-2">Fig.01 — Spesifikasi</span>
+                  <span className="font-meta text-[10px] text-accent">2026.11</span>
+                </div>
+                <dl className="grid grid-cols-[76px_1fr] gap-x-3 gap-y-2.5 px-4 py-4 font-meta text-[12px]">
+                  <dt className="pt-0.5 text-[10px] uppercase tracking-wider text-ink-3">Nama</dt>
+                  <dd className="text-ink">Mukhammad Nur Hidayat</dd>
+                  <dt className="pt-0.5 text-[10px] uppercase tracking-wider text-ink-3">Fokus</dt>
+                  <dd className="text-ink">Web &amp; Mobile</dd>
+                  <dt className="pt-0.5 text-[10px] uppercase tracking-wider text-ink-3">Stack</dt>
+                  <dd className="text-ink">Next.js · Laravel · Flutter</dd>
+                  <dt className="pt-0.5 text-[10px] uppercase tracking-wider text-ink-3">Lokasi</dt>
+                  <dd className="text-ink">Pasuruan, ID — UTC+7</dd>
+                  <dt className="pt-0.5 text-[10px] uppercase tracking-wider text-ink-3">Status</dt>
+                  <dd className="text-success">open to internship</dd>
+                </dl>
               </div>
             </div>
           </motion.div>
