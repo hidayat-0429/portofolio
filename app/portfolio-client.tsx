@@ -798,8 +798,28 @@ export default function PortfolioClient() {
           />
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
-            {/* Narasi + statistik, sticky di desktop */}
-            <div className="lg:col-span-2 lg:sticky lg:top-24 self-start space-y-8">
+            {/* Narasi + statistik */}
+            <div className="lg:col-span-2 space-y-8">
+              <div className="relative max-w-[240px]">
+                <span aria-hidden className="absolute -top-2.5 -left-2.5 w-5 h-5 border-t-2 border-l-2 border-accent" />
+                <span aria-hidden className="absolute -top-2.5 -right-2.5 w-5 h-5 border-t-2 border-r-2 border-accent" />
+                <span aria-hidden className="absolute -bottom-2.5 -left-2.5 w-5 h-5 border-b-2 border-l-2 border-accent" />
+                <span aria-hidden className="absolute -bottom-2.5 -right-2.5 w-5 h-5 border-b-2 border-r-2 border-accent" />
+                <div className="rounded-kartu bg-raised p-2 border border-line panel">
+                  <Image
+                    src="/foto-kkn.webp"
+                    alt="Mukhammad Nur Hidayat saat KKN 2026"
+                    width={220}
+                    height={500}
+                    className="w-full rounded-kartu-sm"
+                  />
+                </div>
+                <div className="mt-3 flex items-center justify-between px-1 font-meta text-[10px] text-ink-3">
+                  <span>Fig.02 — M. N. Hidayat</span>
+                  <span className="text-accent">KKN 2026</span>
+                </div>
+              </div>
+
               <div className="space-y-5 text-[17px] text-ink-2 leading-[1.7]">
                 <p>
                   Mahasiswa Teknik Informatika yang lebih suka ngoding daripada belajar teori. Project-project yang saya kerjakan biasanya berangkat dari masalah nyata, mulai dari aplikasi catatan keuangan buat sendiri, sampai portal desa waktu KKN.
