@@ -109,13 +109,14 @@ export default async function ProjectPage({
         </div>
         <div className="mt-4 rounded-kartu border border-line bg-raised p-2.5 panel">
           {project.category === "WEB" ? (
-            <div className="relative aspect-[16/10] overflow-hidden rounded-kartu-sm bg-sunken grid-paper">
+            <div className="relative overflow-hidden rounded-kartu-sm bg-sunken grid-paper">
               <Image
                 src={project.image}
                 alt={`Tampilan ${project.title}`}
-                fill
+                width={project.imageW}
+                height={project.imageH}
                 sizes="(min-width: 1024px) 900px, 100vw"
-                className="object-cover object-top"
+                className="block h-auto w-full"
                 loading="eager"
                 fetchPriority="high"
               />

@@ -207,7 +207,7 @@ function BuildLog() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.65 }}
-      className="w-full max-w-md mt-9 text-left rounded-kartu-sm border border-kode-line bg-kode overflow-hidden panel"
+      className="w-full max-w-md mt-6 text-left rounded-kartu-sm border border-kode-line bg-kode overflow-hidden panel"
     >
       <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-kode-line bg-white/[0.03]">
         <span className="w-2 h-2 rounded-full bg-danger/80" />
@@ -216,7 +216,7 @@ function BuildLog() {
         <Terminal className="w-3.5 h-3.5 text-lime ml-2" />
         <span className="text-[11px] font-mono text-[#9aa7c7]">build.log — ~/hidayat</span>
       </div>
-      <div className="px-4 py-4 font-mono text-[12.5px] sm:text-[13px] leading-relaxed min-h-[140px]">
+      <div className="px-4 py-3 font-mono text-[12.5px] sm:text-[13px] leading-snug min-h-[120px]">
         {LOG_LINES.slice(0, revealed).map((line) => (
           <p key={line.text} className={line.cls}>{line.text}</p>
         ))}
@@ -664,12 +664,12 @@ export default function PortfolioClient() {
           className="pointer-events-none absolute -top-32 -right-40 w-[560px] h-[560px] rounded-full blur-[90px]"
         />
 
-        <div className="relative z-10 mx-auto max-w-6xl px-6 pt-28 sm:pt-32 pb-24 grid lg:grid-cols-12 gap-14 items-center">
+        <div className="relative z-10 mx-auto max-w-6xl px-6 pt-24 sm:pt-28 pb-20 grid lg:grid-cols-12 gap-14 items-center">
 
           <div className="lg:col-span-7 flex flex-col items-start">
             <motion.div
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-              className="flex flex-wrap items-center gap-3 mb-8"
+              className="flex flex-wrap items-center gap-3 mb-5"
             >
               <span className="font-meta text-[11px] text-ink-3">Portofolio — edisi 2026.11</span>
               <span className="inline-flex items-center gap-2 rounded-kontrol bg-lime px-3 py-1.5">
@@ -683,7 +683,7 @@ export default function PortfolioClient() {
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display text-hero text-ink mb-7"
+              className="font-display text-hero text-ink mb-5"
             >
               <span className="block">Hidayat</span>
               <span className="block text-accent">Web &amp; Mobile</span>
@@ -692,7 +692,7 @@ export default function PortfolioClient() {
 
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-              className="text-lead text-ink-2 leading-relaxed max-w-xl mb-8"
+              className="text-lead text-ink-2 leading-relaxed max-w-xl mb-6"
             >
               Bikin aplikasi web &amp; mobile. Suka ngoding dari backend sampai frontend.
               Saat ini lagi fokus di Next.js, Laravel, sama Flutter.

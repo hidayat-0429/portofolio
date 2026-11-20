@@ -15,6 +15,8 @@ export interface Project {
   secondaryGithub?: string;
   demo?: string;
   image: string;
+  imageW: number;
+  imageH: number;
   metrics?: string[];
 }
 
@@ -34,6 +36,8 @@ export const projects: Project[] = [
     github: "https://github.com/hidayat-0429/catatan-keuangan",
     secondaryGithub: "https://github.com/hidayat-0429/catatan-keuangan-api",
     image: "/project-finance-app.webp",
+    imageW: 444,
+    imageH: 987,
     metrics: ["Autentikasi pakai Sanctum", "CRUD transaksi lengkap", "Backend API terpisah"],
   },
   {
@@ -48,6 +52,8 @@ export const projects: Project[] = [
       "Web app rental mobil. Fiturnya standar: pesan mobil, kelola armada, login user. Pakai Next.js sama Prisma biar cepet development-nya.",
     github: "https://github.com/hidayat-0429/car-rental",
     image: "/project-car-rental.webp",
+    imageW: 1920,
+    imageH: 909,
     metrics: ["Login pakai NextAuth", "Kelola armada mobil"],
   },
   {
@@ -62,6 +68,8 @@ export const projects: Project[] = [
       "App pengingat tugas kuliah. Data sinkron real-time pakai Supabase, ada push notification biar gak lupa deadline. Lumayan membantu waktu tugas lagi numpuk.",
     github: "https://github.com/hidayat-0429/pengingat_kuliah",
     image: "/project-task-reminder.webp",
+    imageW: 448,
+    imageH: 909,
     metrics: ["Sinkronisasi real-time", "Push notification"],
   },
   {
@@ -76,6 +84,8 @@ export const projects: Project[] = [
       "Portal desa yang dibikin waktu program KKN. Buat ngelola profil desa, berita, UMKM, dan wisata di desa.",
     github: "https://github.com/hidayat-0429/kkn-umkm",
     image: "/project-desa.webp",
+    imageW: 1920,
+    imageH: 901,
     metrics: ["5 modul: profil, berita, UMKM, wisata, pengaduan"],
   },
   {
@@ -90,6 +100,8 @@ export const projects: Project[] = [
       "Aplikasi cuaca simple. Ngambil data dari API, deteksi lokasi otomatis, ada push notification juga. Project latihan awal pas belajar Flutter.",
     github: "https://github.com/hidayat-0429/aplikasi_cuaca",
     image: "/project-weather.webp",
+    imageW: 440,
+    imageH: 904,
     metrics: ["Data cuaca real-time", "Geolokasi otomatis"],
   },
 ];
