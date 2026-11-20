@@ -580,7 +580,7 @@ export default function PortfolioClient() {
               NH
             </span>
             <span className="hidden sm:block leading-none">
-              <span className="block text-sm font-semibold tracking-wide">Hidayat</span>
+              <span className="block text-sm font-semibold tracking-wide">Mukhammad Nur Hidayat</span>
               <span className="block font-meta text-[9px] text-ink-3 mt-1">
                 Web &amp; Mobile
               </span>
@@ -683,11 +683,12 @@ export default function PortfolioClient() {
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display text-hero text-ink mb-5"
+              className="font-display text-[clamp(2rem,4.6vw,4rem)] text-ink mb-5"
             >
-              <span className="block">Hidayat</span>
-              <span className="block text-accent">Web &amp; Mobile</span>
-              <span className="block outline-name text-[clamp(2.2rem,5.5vw,4.6rem)]">Developer</span>
+              <span className="block">Mukhammad</span>
+              <span className="block text-accent">Nur Hidayat</span>
+              <span className="block">Web &amp; Mobile</span>
+              <span className="block outline-name text-[clamp(1.8rem,4vw,3.4rem)]">Developer</span>
             </motion.h1>
 
             <motion.p
