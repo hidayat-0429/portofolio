@@ -807,16 +807,16 @@ export default function PortfolioClient() {
                 <span aria-hidden className="absolute -bottom-2.5 -right-2.5 w-5 h-5 border-b-2 border-r-2 border-accent" />
                 <div className="rounded-kartu bg-raised p-2 border border-line panel">
                   <Image
-                    src="/foto-kkn.webp"
-                    alt="Mukhammad Nur Hidayat saat KKN 2026"
-                    width={220}
-                    height={500}
+                    src="/profile.jpg"
+                    alt="Foto Mukhammad Nur Hidayat"
+                    width={384}
+                    height={471}
                     className="w-full rounded-kartu-sm"
                   />
                 </div>
                 <div className="mt-3 flex items-center justify-between px-1 font-meta text-[10px] text-ink-3">
                   <span>Fig.02 — M. N. Hidayat</span>
-                  <span className="text-accent">KKN 2026</span>
+                  <span className="text-accent">2026</span>
                 </div>
               </div>
 
