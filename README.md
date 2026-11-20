@@ -2,7 +2,7 @@
 
 Situs portofolio satu halaman untuk M. Nur Hidayat — perkenalan diri, keahlian, project unggulan, dan jalur kontak. Dibangun dengan animasi Framer Motion dan desain responsif.
 
-**Live demo:** https://portofolio-phi-ten-33.vercel.app
+**Live demo:** https://dayatportofolio-beta.vercel.app
 
 ## ✨ Fitur
 

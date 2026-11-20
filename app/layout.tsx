@@ -26,7 +26,7 @@ const meta = IBM_Plex_Mono({
 const temaAwal = `(function(){try{var t=localStorage.getItem("tema");if(t!=="gelap"&&t!=="terang"){t="terang"}document.documentElement.dataset.tema=t}catch(e){document.documentElement.dataset.tema="terang"}})();`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portofolio-phi-ten-33.vercel.app"),
+  metadataBase: new URL("https://dayatportofolio-beta.vercel.app"),
   title: {
     default: "Mukhammad Nur Hidayat | Web & Mobile Developer",
     template: "%s | Nur Hidayat",
